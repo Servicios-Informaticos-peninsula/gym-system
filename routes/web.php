@@ -15,13 +15,17 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 //Auth::routes();
-Auth::routes(['register' => true,
+Auth::routes(['register' => false,
+'login' => true,
     'password/confirm' => false,
     'password/reset' => false,
 ]);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
