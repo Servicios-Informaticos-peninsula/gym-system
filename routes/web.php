@@ -20,12 +20,23 @@ Route::get('/', function () {
 
 //Auth::routes();
 Auth::routes(['register' => false,
-'login' => true,
+    'login' => true,
     'password/confirm' => false,
     'password/reset' => false,
 ]);
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-});
+    /**Rutas del home */
+    Route::controller('HomeController')->group(function () {
+        Route::get('/punto/venta', 'index')->name('sales.point');
+        Route::get('/home', 'home')->name('home');
+    });
 
+    Route::controller('ProviderController')->prefix('proveedores/')->group(function () {
+        Route::get('lista', 'index')->name('provider.index');
+        Route::get('crear', 'create')->name('provider.create');
+        Route::post('registro', 'store')->name('provider.store');
+        Route::get('actualizar','edit')->name('provider.edit');
+        Route::put('modificar','update')->name('provider.update');
+        Route::delete('eliminar','destroy')->name('provider.destroy');
+    });
+});
