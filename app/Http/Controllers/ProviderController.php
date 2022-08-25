@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProviderRequest;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        return redirect()->route('provider.index');
+        return view('provider.index');
     }
 
     /**
@@ -22,10 +23,6 @@ class ProviderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,9 +30,29 @@ class ProviderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProviderRequest $request)
     {
-        //
+        try {
+            $provider = new Provider();
+            $provider->name = $request->name;
+            if(is_null( $request->number_phone)){
+                $provider->number_phone = 0000000000;
+            }else{
+                $provider->number_phone = $request->number_phone;
+            }
+
+            if(is_null($request->rfc)){
+                $provider->rfc = "S/N";
+            }else{
+                $provider->rfc = $request->rfc;
+            }
+            $provider->save();
+            return back()->with('success', '¡Se agrego el proveedor de forma exitosa!');
+
+        } catch (\Throwable $th) {
+            //dd($th);
+            return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
+        }
     }
 
     /**

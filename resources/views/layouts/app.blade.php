@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="{{ url('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/app.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{asset('assets/vendors/iconly/bold.css')}}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">    <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
 
 
 </head>
@@ -41,11 +42,13 @@
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    {{-- {% block js %}{% endblock %} --}}
+
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
-    <script src="{{ asset('assets/vendors/apexcharts/apexcharts.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendors/apexcharts/apexcharts.js') }}"></script> --}}
+    <script src="//cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    {{-- <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script> --}}
     </div>
     @yield('scripts')
 </body>
