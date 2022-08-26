@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->foreignId('product_units_id')->constrained();
             $table->text('description');
+            $table->foreignId('providers_id')->constrained();
             $table->timestamps();
         });
     }

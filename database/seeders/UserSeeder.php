@@ -22,5 +22,11 @@ class UserSeeder extends Seeder
             'phone' => '9999708319',
             'password' => Hash::make('123456'),
         ]);
+        User::create([
+            'name' => 'Administrador',
+            'email' => 'administrador@domain.com',
+            'phone' => '0000000000',
+            'password' => Hash::make('123456'),
+        ]);
     }
 }

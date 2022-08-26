@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('biometric_entry')->nullable();
+            $table->string('path_perfil')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
