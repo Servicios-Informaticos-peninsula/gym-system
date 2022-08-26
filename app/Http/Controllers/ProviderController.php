@@ -93,7 +93,7 @@ class ProviderController extends Controller
             $provider->number_phone = $request->number_phone;
             $provider->rfc = $request->rfc;
             $provider->update();
-            return back()->with('success', '¡Se agrego el proveedor de forma exitosa!');
+            return back()->with('updated', '¡Se modifico el proveedor de forma exitosa!');
 
         } catch (\Throwable $th) {
             //dd($th);
@@ -107,8 +107,17 @@ class ProviderController extends Controller
      * @param  \App\Models\Provider  $provider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Provider $provider)
+    public function destroy(Provider $provider, $id)
     {
-        //
+        try {
+            $provider = Provider::find($id);
+
+            $provider->delete();
+
+            return back()->with('deleted', 'Se elimino correctamente el registro', $id);
+        } catch (\Throwable $th) {
+            $exception = $th->getMessage();
+            return back()->with(['error' => 'No se pudo eliminar el registro, por favor, contacta a un administrado del sistema.', 'code' => $exception]);
+        }
     }
 }

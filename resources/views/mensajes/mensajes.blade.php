@@ -10,7 +10,7 @@
 @elseif (Session::has('updated'))
     <script>
         swal.fire({
-            icon: 'success',
+            icon: 'info',
             title: 'Éxito',
             text: "{{ Session::get('updated') }}",
             confirmButtonText: 'Aceptar'
@@ -19,7 +19,7 @@
 @elseif (Session::has('deleted'))
     <script>
         swal.fire({
-            icon: 'success',
+            icon: 'question',
             title: 'Eliminado',
             text: "{{ Session::get('deleted') }}",
             confirmButtonText: 'Cerrar'

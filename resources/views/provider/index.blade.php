@@ -47,17 +47,17 @@
                                                     <td class="text-bold-500">{{$row->rfc}}</td>
                                                     <td class="text-bold-500">  <div class="row">
                                                         <div class="col-md-6">
-                                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProveedor" title="Editar Proveedor">
+                                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProveedor-{{$row->id}}" title="Editar Proveedor">
 
 
                                                                 <i class="bi bi-pencil"></i></a>
                                                         </div>
                                                         @include('provider.modales.edit')
                                                         <div class="col-md-6">
-                                                            <form action="" method="post">
+                                                            <form action="{{route('provider.destroy',$row->id)}}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-icon btn-success"><i class="bi bi-trash"></i>
+                                                                <button type="submit" class="btn btn-icon btn-danger" title="Eliminar Proveedor"><i class="bi bi-trash"></i>
                                                                 </button>
                                                             </form>
                                                         </div>
