@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::controller('ProviderController')->prefix('proveedores/')->group(function () {
         Route::get('lista',  'index')->name('provider.index');
         Route::post('registro',  'store')->name('provider.store');
-        Route::put('modificar', 'update')->name('provider.update');
-        Route::delete('eliminar', 'destroy')->name('provider.destroy');
+        Route::put('modificar/{id}', 'update')->name('provider.update');
+        Route::delete('eliminar/{id}', 'destroy')->name('provider.destroy');
     });
 });

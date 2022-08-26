@@ -15,7 +15,8 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        return view('provider.index');
+        $proveedores = Provider::orderBy('id', 'asc')->paginate(10);
+        return view('provider.index', compact('proveedores'));
     }
 
     /**
@@ -35,15 +36,15 @@ class ProviderController extends Controller
         try {
             $provider = new Provider();
             $provider->name = $request->name;
-            if(is_null( $request->number_phone)){
+            if (is_null($request->number_phone)) {
                 $provider->number_phone = 0000000000;
-            }else{
+            } else {
                 $provider->number_phone = $request->number_phone;
             }
 
-            if(is_null($request->rfc)){
+            if (is_null($request->rfc)) {
                 $provider->rfc = "S/N";
-            }else{
+            } else {
                 $provider->rfc = $request->rfc;
             }
             $provider->save();
@@ -84,9 +85,20 @@ class ProviderController extends Controller
      * @param  \App\Models\Provider  $provider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Provider $provider)
+    public function update(ProviderRequest $request, $id)
     {
-        //
+        try {
+            $provider = Provider::findOrFail($id);
+            $provider->name = $request->name;
+            $provider->number_phone = $request->number_phone;
+            $provider->rfc = $request->rfc;
+            $provider->update();
+            return back()->with('success', '¡Se agrego el proveedor de forma exitosa!');
+
+        } catch (\Throwable $th) {
+            //dd($th);
+            return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
+        }
     }
 
     /**
