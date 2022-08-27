@@ -40,4 +40,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::put('modificar/{id}', 'update')->name('provider.update');
         Route::delete('eliminar/{id}', 'destroy')->name('provider.destroy');
     });
+
+    Route::controller('UserController')->prefix('clientes/')->group(function () {
+        Route::get('lista',  'index')->name('user.index');
+        Route::post('registro',  'store')->name('user.store');
+        Route::put('modificar/{id}', 'update')->name('user.update');
+        Route::delete('eliminar/{id}', 'destroy')->name('user.destroy');
+    });
 });

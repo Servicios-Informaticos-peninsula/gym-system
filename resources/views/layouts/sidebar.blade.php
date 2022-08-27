@@ -289,7 +289,7 @@
                 </li>
 
                 <li class="sidebar-item  ">
-                    <a href="application-checkout.html" class="sidebar-link">
+                    <a href="{{route('user.index')}}" class="sidebar-link">
                         <i class="bi bi-person-bounding-box"></i>
                         <span>Clientes</span>
                     </a>
