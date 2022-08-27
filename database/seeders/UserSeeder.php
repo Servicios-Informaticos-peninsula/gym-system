@@ -17,18 +17,19 @@ class UserSeeder extends Seeder
     {
         /* Super-Admin */
         User::create([
-            'name' => 'Pedro Sánchez Cárdenas',
+            'name' => 'TI',
             'code_user' => '0001',
             'email' => 'it@domain.com',
             'phone' => '9999708319',
             'password' => Hash::make('123456'),
-        ]);
+        ])->assignRole(1);
+
         User::create([
             'name' => 'Administrador',
             'code_user' => '0002',
             'email' => 'administrador@domain.com',
             'phone' => '0000000000',
             'password' => Hash::make('123456'),
-        ]);
+        ])->assignRole(2);
     }
 }
