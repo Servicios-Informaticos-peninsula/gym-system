@@ -12,7 +12,7 @@
                     @csrf
 
                     <div>
-                        <label>Nombre Proveedor</label>
+                        <label>Nombre tipo membresia</label>
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text">

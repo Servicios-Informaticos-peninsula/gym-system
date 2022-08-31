@@ -13,7 +13,7 @@
                     @method('PUT')
 
                     <div class="col-12">
-                        <label class="float-start">Nombre Proveedor</label>
+                        <label class="float-start">Nombre tipo Membresia</label>
 
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
