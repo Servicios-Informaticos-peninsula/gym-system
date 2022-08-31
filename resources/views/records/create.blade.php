@@ -16,8 +16,30 @@
             <div class="card py-3">
 
                 <form action="">
-                    <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
 
+                    <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
+                        <div class="border-bottom px-3">
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <strong>Nombre Cliente:</strong>
+                                </div>
+                                <div class="col-md-5">
+                                    <select id='search_user' class="form-control">
+                                        <option value="">Seleccione una Opcion</option>
+                                        @foreach ($user as $row)
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <input type="text"  id="user_id" hidden readonly>
+                        <hr>
                         {{-- identificacion --}}
                         <div class="border-bottom px-3">
                             <a data-bs-toggle="collapse" href="#collapseIdentificacion" role="button" aria-expanded="false"
@@ -60,18 +82,18 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                                id="born" >
                                         </div>
                                     </div>
                                 </div>
-
+<input type="date" id="date_now">
                                 <div class="col-md">
                                     <label>Edad</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="age" type="number"
-                                                id="age" min="1">
+                                                id="age" min="1" onclick="calcular_edad()">
                                         </div>
 
                                     </div>
@@ -101,7 +123,17 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="phone" type="number" autocomplete="off">
+                                            <input class="form-control" name="phone" id="phone" type="number" autocomplete="off">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <label>correo electronico</label>
+                                    <div class="form-group mb-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
+                                            <input class="form-control" name="email" id="email" type="text" autocomplete="off">
                                         </div>
 
                                     </div>
@@ -114,10 +146,10 @@
                         <hr>
                         {{-- antecedentes --}}
                         <div class="border-bottom px-3">
-                            <a id="antecedentes" data-bs-toggle="collapse" href="#collapseAntecedentes" role="button" aria-expanded="false"
-                                aria-controls="collapseAntecedentes">
-                                <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
+                            <a id="antecedentes" data-bs-toggle="collapse" href="#collapseAntecedentes" role="button"
+                                aria-expanded="false" aria-controls="collapseAntecedentes">
+                                <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
                                     </svg> Antecedentes Personales en General <i class="bi bi-chevron-compact-down"></i>
@@ -250,7 +282,8 @@
                                                             <td><input type="checkbox" name="desmayos"></td>
                                                             <td><input type="checkbox" name="mareos"></td>
                                                             <td><input type="checkbox" name="perdida_conocimiento"></td>
-                                                            <td><input type="checkbox" name="hospitalizacion" id="hospitalizacion"></td>
+                                                            <td><input type="checkbox" name="hospitalizacion"
+                                                                    id="hospitalizacion"></td>
 
                                                         </tbody>
                                                     </table>
@@ -311,7 +344,8 @@
                                                             <td><input type="checkbox" name="abortos"></td>
                                                             <td><input type="checkbox" name="apendice"></td>
                                                             <td><input type="checkbox" name="vesicula"></td>
-                                                            <td><input type="checkbox" name="otro" id="otro"></td>
+                                                            <td><input type="checkbox" name="otro" id="otro">
+                                                            </td>
 
                                                         </tbody>
                                                     </table>
@@ -350,7 +384,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-text "><i
                                                                 class="ni ni-zoom-split-in"></i></span>
-                                                        <textarea class="form-control" autocomplete="off" name="especifique" id="especifique"></textarea>
+                                                        <textarea class="form-control" autocomplete="off" name="especifique_text" id="especifique_text"></textarea>
                                                     </div>
 
                                                 </div>
@@ -455,8 +489,8 @@
                         <hr>
                         {{-- habitos --}}
                         <div class="border-bottom px-3">
-                            <a id="habitos" data-bs-toggle="collapse" href="#collapsePsico" role="button" aria-expanded="false"
-                                aria-controls="collapsePsico">
+                            <a id="habitos" data-bs-toggle="collapse" href="#collapsePsico" role="button"
+                                aria-expanded="false" aria-controls="collapsePsico">
                                 <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                         height="16" fill="currentColor" class="bi bi-bar-chart-steps"
                                         viewBox="0 0 16 16">
@@ -610,8 +644,8 @@
                         <hr>
                         {{-- peso --}}
                         <div class="border-bottom px-3">
-                            <a id="peso" data-bs-toggle="collapse" href="#collapsePeso" role="button" aria-expanded="false"
-                                aria-controls="collapsePsico">
+                            <a id="peso" data-bs-toggle="collapse" href="#collapsePeso" role="button"
+                                aria-expanded="false" aria-controls="collapsePsico">
                                 <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                         height="16" fill="currentColor" class="bi bi-clipboard-pulse"
                                         viewBox="0 0 16 16">
@@ -818,9 +852,12 @@
 
 
     </div>
-
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js_modulos/expedientes.js') }}"></script>
+<script>
+    let get_user = '{{route('record.getuser')}}'
+    console.log(get_user);
+</script>
+    <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
 @endsection

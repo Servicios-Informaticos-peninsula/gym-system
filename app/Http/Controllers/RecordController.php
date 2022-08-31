@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RecordController extends Controller
@@ -13,9 +14,15 @@ class RecordController extends Controller
      */
     public function index()
     {
+
         return view('records.index');
     }
+public function getuser(Request $request){
 
+$user = User::where('id',$request->user_id)
+->first();
+return $user;
+}
     /**
      * Show the form for creating a new resource.
      *
@@ -23,7 +30,8 @@ class RecordController extends Controller
      */
     public function create()
     {
-        return view('records.create');
+        $user = User::orderBy('id','asc')->get();
+        return view('records.create',compact('user'));
     }
 
     /**
