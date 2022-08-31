@@ -294,6 +294,12 @@
                         <span>Clientes</span>
                     </a>
                 </li>
+                <li class="sidebar-item  ">
+                    <a href="{{route('record.index')}}" class="sidebar-link">
+                        <i class="bi bi-list-check"></i>
+                        <span>Expedientes</span>
+                    </a>
+                </li>
 
                 {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
