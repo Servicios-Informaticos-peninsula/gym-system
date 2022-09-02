@@ -81,30 +81,47 @@ $(function ($) {
     });
 
     /**Restar fechas */
-    $("#date_now").datetimepicker({
-        format: "DD/MM/YYYY",
-        locale: "es",
-        icons: {
-            time: "far fa-clock",
-            date: "far fa-calendar-alt",
-            up: "fa fa-chevron-up",
-            down: "fa fa-chevron-down",
-            previous: "fa fa-chevron-left",
-            next: "fa fa-chevron-right",
-            today: "fa fa-screenshot",
-            clear: "fa fa-trash",
-            close: "fa fa-remove",
-        },
-    });
-    $("#date_now").val(moment().format("DD/MM/YYYY"));
+    // $("#date_now").datetimepicker({
+    //     format: "DD/MM/YYYY",
+    //     locale: "es",
+    //     icons: {
+    //         time: "far fa-clock",
+    //         date: "far fa-calendar-alt",
+    //         up: "fa fa-chevron-up",
+    //         down: "fa fa-chevron-down",
+    //         previous: "fa fa-chevron-left",
+    //         next: "fa fa-chevron-right",
+    //         today: "fa fa-screenshot",
+    //         clear: "fa fa-trash",
+    //         close: "fa fa-remove",
+    //     },
+    // });
+    // $("#born").datetimepicker({
+    //     format: "DD/MM/YYYY",
+    //     locale: "es",
+    //     icons: {
+    //         time: "far fa-clock",
+    //         date: "far fa-calendar-alt",
+    //         up: "fa fa-chevron-up",
+    //         down: "fa fa-chevron-down",
+    //         previous: "fa fa-chevron-left",
+    //         next: "fa fa-chevron-right",
+    //         today: "fa fa-screenshot",
+    //         clear: "fa fa-trash",
+    //         close: "fa fa-remove",
+    //     },
+    // });
+    // $("#date_now").val(moment().format("DD/MM/YYYY"));
+
+
 });
 
 
 function getdatos_select(e) {
     let a = document.getElementById("search_user").value;
-    $("#user_id").val(a);
-    let user_id = $("#user_id").val();
-
+   $("#users_id").val(a);
+    let user_id = $("#users_id").val();
+console.log(user_id,"..",a);
 
     $.ajax({
         url: get_user,
@@ -161,11 +178,12 @@ function getdatos_select(e) {
 }
 
 function calcular_edad() {
-    let date_now = new Date();
-    let date_born = $("#born").val();
-    let a =Date.parse(date_born);
+      let date_now = $("#date_now").val();
+      let date_born = $("#born").val();
+      let a=Math.abs(date_now.getTime()-date_born.getTime());
 
-    let calculo = date_now-a;
-    console.log(calculo, date_now, a);
+
+
+     console.log(a);
 }
 

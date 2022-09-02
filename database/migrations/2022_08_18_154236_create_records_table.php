@@ -15,62 +15,64 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date_interview');
+            $table->dateTime('date_interview')->nullable();
             //Enfermedades cronicas//
-            $table->string('hipertension');
-            $table->string('asma');
-            $table->string('epilepsia');
-            $table->string('ciatica');
-            $table->string('diabetes');
-            $table->string('lumbagia');
-            $table->string('arritmia');
+            $table->string('hipertension')->nullable();
+            $table->string('asma')->nullable();
+            $table->string('epilepsia')->nullable();
+            $table->string('ciatica')->nullable();
+            $table->string('diabetes')->nullable();
+            $table->string('lumbagia')->nullable();
+            $table->string('arritmia')->nullable();
             /**Enfermedades Mentales */
-            $table->string('ansiedad');
-            $table->string('depresion');
-            $table->string('depre_postparto');
-            $table->string('estres_cronico');
-            $table->string('estres_postraumatico');
+            $table->string('ansiedad')->nullable();
+            $table->string('depresion')->nullable();
+            $table->string('depre_postparto')->nullable();
+            $table->string('estres_cronico')->nullable();
+            $table->string('estres_postraumatico')->nullable();
             /**ETS */
-            $table->string('papiloma_humano');
-            $table->string('herpes');
-            $table->string('sifilis');
-            $table->string('gonorrea');
-            $table->string('sida');
-            $table->string('clamidia');
+            $table->string('papiloma_humano')->nullable();
+            $table->string('herpes')->nullable();
+            $table->string('sifilis')->nullable();
+            $table->string('gonorrea')->nullable();
+            $table->string('sida')->nullable();
+            $table->string('clamidia')->nullable();
             /**Condiciones Fisicas */
-            $table->string('desmayos');
-            $table->string('mareos');
-            $table->string('perdida_conocimiento');
-            $table->string('hospitalizacion');
+            $table->string('desmayos')->nullable();
+            $table->string('mareos')->nullable();
+            $table->string('perdida_conocimiento')->nullable();
+            $table->string('hospitalizacion')->nullable();
             /**Hospitalizaciones */
-            $table->string('causa');
-            $table->date('fecha_hospitalizacion');
+            $table->string('causa')->nullable();
+            $table->date('fecha_hospitalizacion')->nullable();
             /**cirugias */
-            $table->string('cesarea');
-            $table->string('abortos');
-            $table->string('apendice');
-            $table->string('vesicula');
-            $table->string('otro');
-            $table->date('fecha_cirugia');
-            $table->string('causa_cirugia');
+            $table->string('cesarea')->nullable();
+            $table->string('abortos')->nullable();
+            $table->string('apendice')->nullable();
+            $table->string('vesicula')->nullable();
+            $table->string('otro')->nullable();
+            $table->date('fecha_cirugia')->nullable();
+            $table->string('causa_cirugia')->nullable();
+            $table->string('especifique_text')->nullable();
             /**Sintomas adicionales */
-            $table->string('alergias');
-            $table->string('cefaleas');
-            $table->string('vision_borrosa');
-            $table->string('cancer');
-            $table->string('ausencia_organos');
-            $table->string('embarazos');
-            $table->string('aborto');
-            $table->string('metodo_anticonceptivo');
-            $table->string('craneocefalico');
-            $table->string('cervicales');
+            $table->string('alergias')->nullable();
+            $table->string('cefaleas')->nullable();
+            $table->string('vision_borrosa')->nullable();
+            $table->string('cancer')->nullable();
+            $table->string('ausencia_organos')->nullable();
+            $table->string('embarazos')->nullable();
+            $table->string('aborto')->nullable();
+            $table->string('metodo_anticonceptivo')->nullable();
+            $table->string('craneocefalico')->nullable();
+            $table->string('cervicales')->nullable();
 
             /**Medicamentos */
-            $table->string('medicamentos');
+            $table->string('medicamentos')->nullable();
+            $table->string('numero_control')->nullable();
             /**foraneas */
-            $table->foreignId('record_photos_id')->constrained();
+            $table->foreignId('record_photos_id')->nullable()->constrained();
             $table->foreignId('users_id')->constrained();
-            $table->foreignId('exercises_id')->constrained();
+            $table->foreignId('exercises_id')->nullable()->constrained();
 
             $table->timestamps();
 

@@ -21,7 +21,7 @@ class CreateWeightControlsTable extends Migration
             $table->float('grasa');
             $table->float('musculo');
             $table->float('KCAL');
-            $table->float('edad');
+            $table->float('eda_blo');
             $table->float('visceral');
             $table->float('busto');
             $table->float('cintura');

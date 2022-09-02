@@ -15,8 +15,8 @@
         <div class="card-body">
             <div class="card py-3">
 
-                <form action="">
-
+                <form action="{{ route('record.store') }}" method="POST">
+                    @csrf
                     <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
                         <div class="border-bottom px-3">
                             <div class="row">
@@ -38,7 +38,7 @@
                             </div>
 
                         </div>
-                        <input type="text"  id="user_id" hidden readonly>
+                        <input type="text" id="users_id" name="users_id" hidden readonly>
                         <hr>
                         {{-- identificacion --}}
                         <div class="border-bottom px-3">
@@ -82,11 +82,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born" >
+                                                id="born">
                                         </div>
                                     </div>
                                 </div>
-<input type="date" id="date_now">
+                                <input type="text" id="date_now" name="date_now" value="<?php echo date('Y-m-d'); ?>" hidden
+                                    readonly>
                                 <div class="col-md">
                                     <label>Edad</label>
                                     <div class="form-group mb-4">
@@ -123,7 +124,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="phone" id="phone" type="number" autocomplete="off">
+                                            <input class="form-control" name="phone" id="phone" type="number"
+                                                autocomplete="off">
                                         </div>
 
                                     </div>
@@ -133,7 +135,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="email" id="email" type="text" autocomplete="off">
+                                            <input class="form-control" name="email" id="email" type="text"
+                                                autocomplete="off">
                                         </div>
 
                                     </div>
@@ -212,11 +215,11 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="ansiedad"></td>
-                                                            <td><input type="checkbox" name="depresion"></td>
-                                                            <td><input type="checkbox" name="depre_postparto"></td>
-                                                            <td><input type="checkbox" name="estres_cronico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
+                                                            <td><input type="checkbox" name="ansiedad" id="ansiedad"></td>
+                                                            <td><input type="checkbox" name="depresion" id="depresion"></td>
+                                                            <td><input type="checkbox" name="depre_postparto" id="depre_postparto"></td>
+                                                            <td><input type="checkbox" name="estres_cronico" id="estres_cronico"></td>
+                                                            <td><input type="checkbox" name="estres_postraumatico" id="estres_postraumatico"></td>
 
                                                         </tbody>
                                                     </table>
@@ -246,12 +249,12 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="papiloma_humano"></td>
-                                                            <td><input type="checkbox" name="herpes"></td>
-                                                            <td><input type="checkbox" name="sifilis"></td>
-                                                            <td><input type="checkbox" name="gonorrea"></td>
-                                                            <td><input type="checkbox" name="sida"></td>
-                                                            <td><input type="checkbox" name="clamidia"></td>
+                                                            <td><input type="checkbox" name="papiloma_humano" id="papiloma_humano"></td>
+                                                            <td><input type="checkbox" name="herpes" id="herpes"></td>
+                                                            <td><input type="checkbox" name="sifilis" id="sifilis"></td>
+                                                            <td><input type="checkbox" name="gonorrea" id="gonorrea"></td>
+                                                            <td><input type="checkbox" name="sida" id="sida"></td>
+                                                            <td><input type="checkbox" name="clamidia" id="clamidia"></td>
 
                                                         </tbody>
                                                     </table>
@@ -279,9 +282,9 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="desmayos"></td>
-                                                            <td><input type="checkbox" name="mareos"></td>
-                                                            <td><input type="checkbox" name="perdida_conocimiento"></td>
+                                                            <td><input type="checkbox" name="desmayos" id="desmayos"></td>
+                                                            <td><input type="checkbox" name="mareos" id="mareos"></td>
+                                                            <td><input type="checkbox" name="perdida_conocimiento" id="perdida_conocimiento"></td>
                                                             <td><input type="checkbox" name="hospitalizacion"
                                                                     id="hospitalizacion"></td>
 
@@ -340,10 +343,10 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="cesarea"></td>
-                                                            <td><input type="checkbox" name="abortos"></td>
-                                                            <td><input type="checkbox" name="apendice"></td>
-                                                            <td><input type="checkbox" name="vesicula"></td>
+                                                            <td><input type="checkbox" name="cesarea" id="cesarea"></td>
+                                                            <td><input type="checkbox" name="abortos" id="abortos"></td>
+                                                            <td><input type="checkbox" name="apendice" id="apendice"></td>
+                                                            <td><input type="checkbox" name="vesicula" id="vesicula"></td>
                                                             <td><input type="checkbox" name="otro" id="otro">
                                                             </td>
 
@@ -394,7 +397,7 @@
 
                                     </div>
                                 </div>
-                                <div class="border-bottom px-3">
+                                {{-- <div class="border-bottom px-3">
                                     <label for="">Ha presentado o presenta alguna de las siguientes condiciones
                                         físicas: </label>
                                     <div class="modal-body">
@@ -428,7 +431,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="border-bottom px-3">
                                     <label for="">Síntomas Adicionales </label>
                                     <div class="modal-body">
@@ -450,16 +453,16 @@
                                                             <th>Traumatismos cervicales</th>
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="alergias"></td>
-                                                            <td><input type="checkbox" name="cefaleas"></td>
-                                                            <td><input type="checkbox" name="vision_borrosa"></td>
-                                                            <td><input type="checkbox" name="cancer"></td>
-                                                            <td><input type="checkbox" name="ausencia_organos"></td>
-                                                            <td><input type="checkbox" name="embarazos"></td>
-                                                            <td><input type="checkbox" name="aborto"></td>
-                                                            <td><input type="checkbox" name="metodo_anticonceptivo"></td>
-                                                            <td><input type="checkbox" name="craneocefalicos"></td>
-                                                            <td><input type="checkbox" name="cervicales"></td>
+                                                            <td><input type="checkbox" name="alergias" id="alergias"></td>
+                                                            <td><input type="checkbox" name="cefaleas" id="cefaleas"></td>
+                                                            <td><input type="checkbox" name="vision_borrosa" id="vision_borrosa"></td>
+                                                            <td><input type="checkbox" name="cancer" id="cancer"></td>
+                                                            <td><input type="checkbox" name="ausencia_organos" id="ausencia_organos"></td>
+                                                            <td><input type="checkbox" name="embarazos" id="embarazos"></td>
+                                                            <td><input type="checkbox" name="aborto" id="aborto"></td>
+                                                            <td><input type="checkbox" name="metodo_anticonceptivo" id="metodo_anticonceptivo"></td>
+                                                            <td><input type="checkbox" name="craneocefalicos" id="craneocefalicos"></td>
+                                                            <td><input type="checkbox" name="cervicales" id="cervicales"></td>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -531,8 +534,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number" name="born"
-                                                id="born" min="1">
+                                            <input class="form-control" autocomplete="off" type="number"
+                                                name="evacuaciones" id="evacuaciones" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -547,8 +550,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number" name="born"
-                                                id="born" min="1">
+                                            <input class="form-control" autocomplete="off" type="number"
+                                                name="micciones_dia" id="micciones_dia" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -557,8 +560,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number" name="born"
-                                                id="born" min="1">
+                                            <input class="form-control" autocomplete="off" type="number"
+                                                name="micciones_noche" id="micciones_noche" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -575,7 +578,7 @@
                                             <span
                                                 class="input-group-text @error('room.type') border border-danger text-danger @enderror"><i
                                                     class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="name" id="name" type="text"
+                                            <input class="form-control" name="tabaco" id="tabaco" type="text"
                                                 autocomplete="off">
                                         </div>
 
@@ -586,7 +589,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="phone" type="number"
+                                            <input class="form-control" name="alcohol" type="number" id="alcohol"
                                                 autocomplete="off">
                                         </div>
 
@@ -618,16 +621,16 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="ansiedad"></td>
-                                                            <td><input type="checkbox" name="depresion"></td>
-                                                            <td><input type="checkbox" name="depre_postparto"></td>
-                                                            <td><input type="checkbox" name="estres_cronico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico"></td>
+                                                            <td><input type="checkbox" name="marihuana" id="marihuana"></td>
+                                                            <td><input type="checkbox" name="opiaceos" id="opiaceos"></td>
+                                                            <td><input type="checkbox" name="cocaina" id="cocaina"></td>
+                                                            <td><input type="checkbox" name="heroina" id="heroina"></td>
+                                                            <td><input type="checkbox" name="pastillas" id="pastillas"></td>
+                                                            <td><input type="checkbox" name="crack" id="crack"></td>
+                                                            <td><input type="checkbox" name="cristal" id="cristal"></td>
+                                                            <td><input type="checkbox" name="resistol" id="resistol"></td>
+                                                            <td><input type="checkbox" name="gasolina" id="gasolina"></td>
+                                                            <td><input type="checkbox" name="cristal" id="cristal"></td>
 
                                                         </tbody>
                                                     </table>
@@ -657,25 +660,26 @@
                         </div>
                         <div class="collapse modal-body" id="collapsePeso" data-parent="#listaAcordion">
                             <div class="row">
-                                <div class="col-md">
+                                {{-- fecha entrevista --}}
+                                {{-- <div class="col-md">
                                     <label>Fecha Entrevista</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="datetime-local" name="fecha_visita"
-                                                id="fecha_visita">
+                                            <input class="form-control" type="date" name="fecha_visita"
+                                                id="fecha_visita" value="<?php echo date('Y-m-d HH:mm'); ?>">
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md">
                                     <label>Peso</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="text"
-                                                name="ocupation" id="ocupation">
+                                            <input class="form-control" autocomplete="off" type="text" name="peso"
+                                                id="peso">
                                         </div>
 
                                     </div>
@@ -686,8 +690,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                            <input class="form-control" autocomplete="off" type="number" name="IMC"
+                                                id="IMC">
                                         </div>
                                     </div>
                                 </div>
@@ -697,8 +701,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" name="age" type="number"
-                                                id="age" min="1">
+                                            <input class="form-control" autocomplete="off" name="grasa" type="number"
+                                                id="grasa" min="1">
                                         </div>
 
                                     </div>
@@ -710,8 +714,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="datetime-local" name="fecha_visita"
-                                                id="fecha_visita">
+                                            <input class="form-control" type="number" name="musculo" id="musculo">
                                         </div>
 
                                     </div>
@@ -722,8 +725,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="text"
-                                                name="ocupation" id="ocupation">
+                                            <input class="form-control" autocomplete="off" type="text" name="KCAL"
+                                                id="KCAL">
                                         </div>
 
                                     </div>
@@ -734,8 +737,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                            <input class="form-control" autocomplete="off" type="number"
+                                                name="edad_blo" id="edad_blo">
                                         </div>
                                     </div>
                                 </div>
@@ -745,8 +748,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" name="age" type="number"
-                                                id="age" min="1">
+                                            <input class="form-control" autocomplete="off" name="visceral"
+                                                type="number" id="visceral" min="1">
                                         </div>
 
                                     </div>
@@ -758,8 +761,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="datetime-local" name="fecha_visita"
-                                                id="fecha_visita">
+                                            <input class="form-control" type="number" name="busto" id="busto">
                                         </div>
 
                                     </div>
@@ -770,8 +772,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="text"
-                                                name="ocupation" id="ocupation">
+                                            <input class="form-control" autocomplete="off" type="text" name="cintura"
+                                                id="cintura">
                                         </div>
 
                                     </div>
@@ -782,8 +784,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                            <input class="form-control" autocomplete="off" type="number" name="cadera"
+                                                id="cadera">
                                         </div>
                                     </div>
                                 </div>
@@ -793,8 +795,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" name="age" type="number"
-                                                id="age" min="1">
+                                            <input class="form-control" autocomplete="off" name="brazo_der"
+                                                type="number" id="brazo_der" min="1">
                                         </div>
 
                                     </div>
@@ -806,8 +808,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="datetime-local" name="fecha_visita"
-                                                id="fecha_visita">
+                                            <input class="form-control" type="number" name="brazo_izq" id="brazo_izq">
                                         </div>
 
                                     </div>
@@ -819,7 +820,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text"
-                                                name="ocupation" id="ocupation">
+                                                name="pierna_der" id="pierna_der">
                                         </div>
 
                                     </div>
@@ -830,8 +831,8 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                            <input class="form-control" autocomplete="off" type="number"
+                                                name="pierna_izq" id="pierna_izq">
                                         </div>
                                     </div>
                                 </div>
@@ -844,9 +845,10 @@
                             <button type="submit" class="btn btn-success"><strong>GUARDAR</strong></button>
                         </div>
                     </div>
-            </div>
+                </form>
+                </div>
 
-            </form>
+
         </div>
     </div>
 
@@ -855,9 +857,9 @@
 @endsection
 
 @section('scripts')
-<script>
-    let get_user = '{{route('record.getuser')}}'
-    console.log(get_user);
-</script>
+    <script>
+        let get_user = '{{ route('record.getuser') }}'
+        console.log(get_user);
+    </script>
     <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
 @endsection
