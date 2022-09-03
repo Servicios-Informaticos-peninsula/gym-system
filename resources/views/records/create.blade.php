@@ -1,13 +1,13 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app') --}}
 
-@section('content')
-    @include('mensajes.mensajes')
+{{-- @section('content')
+    @include('mensajes.mensajes') --}}
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="capa_create_record">
 
         <header class="card px-2 py-4">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="h2">Expediente Cliente</h3>
+                <h3 class="h2">Creacion Expediente Cliente</h3>
 
             </div>
 
@@ -28,7 +28,7 @@
                                     <select id='search_user' class="form-control">
                                         <option value="">Seleccione una Opcion</option>
                                         @foreach ($user as $row)
-                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                            <option value="{{ $row->id }}">{{ $row->code_user }}</option>
                                         @endforeach
 
                                     </select>
@@ -215,11 +215,16 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="ansiedad" id="ansiedad"></td>
-                                                            <td><input type="checkbox" name="depresion" id="depresion"></td>
-                                                            <td><input type="checkbox" name="depre_postparto" id="depre_postparto"></td>
-                                                            <td><input type="checkbox" name="estres_cronico" id="estres_cronico"></td>
-                                                            <td><input type="checkbox" name="estres_postraumatico" id="estres_postraumatico"></td>
+                                                            <td><input type="checkbox" name="ansiedad" id="ansiedad">
+                                                            </td>
+                                                            <td><input type="checkbox" name="depresion" id="depresion">
+                                                            </td>
+                                                            <td><input type="checkbox" name="depre_postparto"
+                                                                    id="depre_postparto"></td>
+                                                            <td><input type="checkbox" name="estres_cronico"
+                                                                    id="estres_cronico"></td>
+                                                            <td><input type="checkbox" name="estres_postraumatico"
+                                                                    id="estres_postraumatico"></td>
 
                                                         </tbody>
                                                     </table>
@@ -249,12 +254,18 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="papiloma_humano" id="papiloma_humano"></td>
-                                                            <td><input type="checkbox" name="herpes" id="herpes"></td>
-                                                            <td><input type="checkbox" name="sifilis" id="sifilis"></td>
-                                                            <td><input type="checkbox" name="gonorrea" id="gonorrea"></td>
-                                                            <td><input type="checkbox" name="sida" id="sida"></td>
-                                                            <td><input type="checkbox" name="clamidia" id="clamidia"></td>
+                                                            <td><input type="checkbox" name="papiloma_humano"
+                                                                    id="papiloma_humano"></td>
+                                                            <td><input type="checkbox" name="herpes" id="herpes">
+                                                            </td>
+                                                            <td><input type="checkbox" name="sifilis" id="sifilis">
+                                                            </td>
+                                                            <td><input type="checkbox" name="gonorrea" id="gonorrea">
+                                                            </td>
+                                                            <td><input type="checkbox" name="sida" id="sida">
+                                                            </td>
+                                                            <td><input type="checkbox" name="clamidia" id="clamidia">
+                                                            </td>
 
                                                         </tbody>
                                                     </table>
@@ -282,9 +293,12 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="desmayos" id="desmayos"></td>
-                                                            <td><input type="checkbox" name="mareos" id="mareos"></td>
-                                                            <td><input type="checkbox" name="perdida_conocimiento" id="perdida_conocimiento"></td>
+                                                            <td><input type="checkbox" name="desmayos" id="desmayos">
+                                                            </td>
+                                                            <td><input type="checkbox" name="mareos" id="mareos">
+                                                            </td>
+                                                            <td><input type="checkbox" name="perdida_conocimiento"
+                                                                    id="perdida_conocimiento"></td>
                                                             <td><input type="checkbox" name="hospitalizacion"
                                                                     id="hospitalizacion"></td>
 
@@ -343,10 +357,14 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="cesarea" id="cesarea"></td>
-                                                            <td><input type="checkbox" name="abortos" id="abortos"></td>
-                                                            <td><input type="checkbox" name="apendice" id="apendice"></td>
-                                                            <td><input type="checkbox" name="vesicula" id="vesicula"></td>
+                                                            <td><input type="checkbox" name="cesarea" id="cesarea">
+                                                            </td>
+                                                            <td><input type="checkbox" name="abortos" id="abortos">
+                                                            </td>
+                                                            <td><input type="checkbox" name="apendice" id="apendice">
+                                                            </td>
+                                                            <td><input type="checkbox" name="vesicula" id="vesicula">
+                                                            </td>
                                                             <td><input type="checkbox" name="otro" id="otro">
                                                             </td>
 
@@ -453,16 +471,26 @@
                                                             <th>Traumatismos cervicales</th>
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="alergias" id="alergias"></td>
-                                                            <td><input type="checkbox" name="cefaleas" id="cefaleas"></td>
-                                                            <td><input type="checkbox" name="vision_borrosa" id="vision_borrosa"></td>
-                                                            <td><input type="checkbox" name="cancer" id="cancer"></td>
-                                                            <td><input type="checkbox" name="ausencia_organos" id="ausencia_organos"></td>
-                                                            <td><input type="checkbox" name="embarazos" id="embarazos"></td>
-                                                            <td><input type="checkbox" name="aborto" id="aborto"></td>
-                                                            <td><input type="checkbox" name="metodo_anticonceptivo" id="metodo_anticonceptivo"></td>
-                                                            <td><input type="checkbox" name="craneocefalicos" id="craneocefalicos"></td>
-                                                            <td><input type="checkbox" name="cervicales" id="cervicales"></td>
+                                                            <td><input type="checkbox" name="alergias" id="alergias">
+                                                            </td>
+                                                            <td><input type="checkbox" name="cefaleas" id="cefaleas">
+                                                            </td>
+                                                            <td><input type="checkbox" name="vision_borrosa"
+                                                                    id="vision_borrosa"></td>
+                                                            <td><input type="checkbox" name="cancer" id="cancer">
+                                                            </td>
+                                                            <td><input type="checkbox" name="ausencia_organos"
+                                                                    id="ausencia_organos"></td>
+                                                            <td><input type="checkbox" name="embarazos" id="embarazos">
+                                                            </td>
+                                                            <td><input type="checkbox" name="aborto" id="aborto">
+                                                            </td>
+                                                            <td><input type="checkbox" name="metodo_anticonceptivo"
+                                                                    id="metodo_anticonceptivo"></td>
+                                                            <td><input type="checkbox" name="craneocefalicos"
+                                                                    id="craneocefalicos"></td>
+                                                            <td><input type="checkbox" name="cervicales" id="cervicales">
+                                                            </td>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -621,16 +649,26 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="marihuana" id="marihuana"></td>
-                                                            <td><input type="checkbox" name="opiaceos" id="opiaceos"></td>
-                                                            <td><input type="checkbox" name="cocaina" id="cocaina"></td>
-                                                            <td><input type="checkbox" name="heroina" id="heroina"></td>
-                                                            <td><input type="checkbox" name="pastillas" id="pastillas"></td>
-                                                            <td><input type="checkbox" name="crack" id="crack"></td>
-                                                            <td><input type="checkbox" name="cristal" id="cristal"></td>
-                                                            <td><input type="checkbox" name="resistol" id="resistol"></td>
-                                                            <td><input type="checkbox" name="gasolina" id="gasolina"></td>
-                                                            <td><input type="checkbox" name="cristal" id="cristal"></td>
+                                                            <td><input type="checkbox" name="marihuana" id="marihuana">
+                                                            </td>
+                                                            <td><input type="checkbox" name="opiaceos" id="opiaceos">
+                                                            </td>
+                                                            <td><input type="checkbox" name="cocaina" id="cocaina">
+                                                            </td>
+                                                            <td><input type="checkbox" name="heroina" id="heroina">
+                                                            </td>
+                                                            <td><input type="checkbox" name="pastillas" id="pastillas">
+                                                            </td>
+                                                            <td><input type="checkbox" name="crack" id="crack">
+                                                            </td>
+                                                            <td><input type="checkbox" name="cristal" id="cristal">
+                                                            </td>
+                                                            <td><input type="checkbox" name="resistol" id="resistol">
+                                                            </td>
+                                                            <td><input type="checkbox" name="gasolina" id="gasolina">
+                                                            </td>
+                                                            <td><input type="checkbox" name="cristal" id="cristal">
+                                                            </td>
 
                                                         </tbody>
                                                     </table>
@@ -831,7 +869,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number"
+                                            <input class="form-control" autocomplete="off" type="text"
                                                 name="pierna_izq" id="pierna_izq">
                                         </div>
                                     </div>
@@ -846,7 +884,7 @@
                         </div>
                     </div>
                 </form>
-                </div>
+            </div>
 
 
         </div>
@@ -854,12 +892,5 @@
 
 
     </div>
-@endsection
+{{-- @endsection --}}
 
-@section('scripts')
-    <script>
-        let get_user = '{{ route('record.getuser') }}'
-        console.log(get_user);
-    </script>
-    <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
-@endsection

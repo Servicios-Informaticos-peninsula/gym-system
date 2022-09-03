@@ -17,10 +17,11 @@ class RecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = User::orderBy('id', 'asc')->get();
 
-        return view('records.index');
+        return view('records.index', compact('user'));
     }
     public function getuser(Request $request)
     {
@@ -28,6 +29,29 @@ class RecordController extends Controller
         $user = User::where('id', $request->user_id)
             ->first();
         return $user;
+    }
+    public function getUserCode(Request $request)
+    {
+        $lstDatos = User::where('name', $request->name)
+
+            ->get();
+        return $lstDatos;
+
+    }
+    public function getList(Request $request)
+    {
+
+
+
+            $list_expediente = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
+                ->join('users', 'records.users_id', '=', 'users.id')
+                ->select('records.numero_control', 'records.id', 'users.name', 'users.code_user')
+                ->orderBy('users.code_user', 'desc')
+
+                ->get();
+                return $list_expediente;
+
+
     }
     /**
      * Show the form for creating a new resource.
@@ -49,8 +73,9 @@ class RecordController extends Controller
     public function store(Request $request)
     {
         $carbon = Carbon::now();
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
+
             $user = User::where('id', $request->users_id)->update(array(
                 'name' => $request->name,
                 'email' => $request->email,
@@ -117,47 +142,48 @@ class RecordController extends Controller
             $record->users_id = $request->users_id;
             $record->save();
 
-           PsychobiologicalHabits::created([
-                'numero_comidas' => $request->numero_comidas,
-                'horas_descanso' => $request->horas_descanso,
-                'micciones_dia' => $request->micciones_dia,
-                'micciones_noche' => $request->micciones_noche,
-                'evacuaciones' => $request->evacuaciones,
-                'tabaco' => $request->tabaco,
-                'alcohol' => $request->alcohol,
-                'marihuana' => $request->has('marihuana'),
-                'opiaceos' => $request->has('opiaceos'),
-                'cocaina' => $request->has('cocaina'),
-                'heroina' => $request->has('heroina'),
-                'pastillas' => $request->has('pastillas'),
-                'crack' => $request->has('crack'),
-                'resistol' => $request->has('resistol'),
-                'gasolina' => $request->has('gasolina'),
-                'thiner' => $request->has('thiner'),
-                'cristal' => $request->has('cristal'),
-                'records_id' => $record->id,
-            ]);
-            WeightControl::created([
-                'fecha_visita' => $carbon,
-                'peso' => $request->peso,
-                'IMC' => $request->IMC,
-                'grasa' => $request->grasa,
-                'musculo' => $request->musculo,
-                'KCAL' => $request->KCAL,
-                'edad_blo' => $request->edad_blo,
-                'visceral' => $request->visceral,
-                'busto' => $request->busto,
-                'cintura' => $request->cintura,
-                'cadera' => $request->cadera,
-                'brazo_der' => $request->brazo_der,
-                'brazo_izq' => $request->brazo_izq,
-                'pierna_der' => $request->pierna_der,
-                'records_id' => $record->id,
+            $psyco = new PsychobiologicalHabits();
+            $psyco->numero_comidas = $request->numero_comidas;
+            $psyco->horas_descanso = $request->horas_descanso;
+            $psyco->micciones_dia = $request->micciones_dia;
+            $psyco->micciones_noche = $request->micciones_noche;
+            $psyco->evacuaciones = $request->evacuaciones;
+            $psyco->tabaco = $request->tabaco;
+            $psyco->alcohol = $request->alcohol;
+            $psyco->marihuana = $request->has('marihuana');
+            $psyco->opiaceos = $request->has('opiaceos');
+            $psyco->cocaina = $request->has('cocaina');
+            $psyco->heroina = $request->has('heroina');
+            $psyco->pastillas = $request->has('pastillas');
+            $psyco->crack = $request->has('crack');
+            $psyco->resistol = $request->has('resistol');
+            $psyco->gasolina = $request->has('gasolina');
+            $psyco->thiner = $request->has('thiner');
+            $psyco->cristal = $request->has('cristal');
+            $psyco->records_id = $record->id;
+            $psyco->save();
 
-            ]);
-
-            DB::commit();
+            $weight = new WeightControl();
+            $weight->fecha_visita = $carbon;
+            $weight->peso = $request->peso;
+            $weight->IMC = $request->IMC;
+            $weight->grasa = $request->grasa;
+            $weight->musculo = $request->musculo;
+            $weight->KCAL = $request->KCAL;
+            $weight->edad_blo = $request->edad_blo;
+            $weight->visceral = $request->visceral;
+            $weight->busto = $request->busto;
+            $weight->cintura = $request->cintura;
+            $weight->cadera = $request->cadera;
+            $weight->brazo_der = $request->brazo_der;
+            $weight->brazo_izq = $request->brazo_izq;
+            $weight->pierna_der = $request->pierna_der;
+            $weight->pierna_izq = $request->pierna_izq;
+            $weight->records_id = $record->id;
+            $weight->save();
             return back()->with('success', '¡Se agrego el expediente del usuario de forma exitosa!');
+            DB::commit();
+
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th);

@@ -304,12 +304,7 @@
                     <span>Expedientes</span>
                 </a>
             </li>
-            <li class="sidebar-item  ">
-                <a href="{{ route('user.index') }}" class="sidebar-link">
-                    <i class="bi bi-person-bounding-box"></i>
-                    <span>Clientes</span>
-                </a>
-            </li>
+
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
