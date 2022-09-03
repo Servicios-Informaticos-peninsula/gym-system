@@ -9,6 +9,7 @@ use App\Models\WeightControl;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class RecordController extends Controller
 {
@@ -41,16 +42,13 @@ class RecordController extends Controller
     public function getList(Request $request)
     {
 
+        $list_expediente = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
+            ->join('users', 'records.users_id', '=', 'users.id')
+            ->select('records.numero_control', 'records.id', 'users.name', 'users.code_user')
+            ->orderBy('users.code_user', 'desc')
 
-
-            $list_expediente = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
-                ->join('users', 'records.users_id', '=', 'users.id')
-                ->select('records.numero_control', 'records.id', 'users.name', 'users.code_user')
-                ->orderBy('users.code_user', 'desc')
-
-                ->get();
-                return $list_expediente;
-
+            ->get();
+        return $list_expediente;
 
     }
     /**
@@ -200,7 +198,49 @@ class RecordController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $expediente = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
+                ->join('users', 'records.users_id', '=', 'users.id')
+
+                ->orderBy('users.code_user', 'desc')
+                ->where('users.id', $id)
+
+                ->select('records.numero_control', 'records.id', 'users.name', 'users.code_user',
+                    'records.date_interview', 'users.ocupation', 'users.age', 'users.phone', 'users.email', 'users.born',
+                    'records.hipertension', 'records.asma', 'records.epilepsia', 'records.ciatica', 'records.diabetes', 'records.lumbagia', 'records.arritmia',
+                    'records.ansiedad', 'records.depresion', 'records.depre_postparto', 'records.estres_cronico', 'records.estres_postraumatico',
+                    'records.papiloma_humano', 'records.herpes', 'records.sifilis', 'records.gonorrea', 'records.sida', 'records.clamidia',
+                    'records.desmayos', 'records.mareos', 'records.perdida_conocimiento', 'records.hospitalizacion', 'records.causa', 'records.fecha_hospitalizacion',
+                    'records.numero_control')
+
+                ->latest('records.created_at')
+                ->first();
+
+            $pdf = PDF::loadView('records/pdf/expediente', compact('expediente'))
+            ->setPaper('a4', 'portrait');
+            $pdf->output();
+
+            /**PHP indicara que se obtiene el pdf */
+            //$pdf->getDomPDF()->set_option("enable_php", true);
+            $canvas = $pdf->getCanvas();
+            $w = $canvas->get_width();
+            $h = $canvas->get_height();
+            $imageURL = 'img/logo-remo.png';
+            //dd( $imageURL);
+            $imgWidth = 200;
+            $imgHeight = 200;
+            $canvas->set_opacity(.2,"Multiply");
+            $canvas->set_opacity(.2);
+            $x = (($w-$imgWidth)/2);
+            $y = (($h-$imgHeight)/2);
+            $canvas->image($imageURL,$x,$y,$imgWidth,$imgHeight);
+$explode=explode(' ',$expediente->name);
+
+$filename='expediente'.'_'.$explode[0].'_'.$explode[1].'_'.$expediente->numero_control.'.pdf';
+            return $pdf->stream($filename);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
 
     /**

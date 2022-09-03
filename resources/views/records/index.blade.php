@@ -118,10 +118,12 @@
 @endsection
 @section('scripts')
     <script>
+
         let get_user = '{{ route('record.getuser') }}'
         let get_expediente = '{{ route('expediente.get') }}'
         let get_usuario = '{{ route('data.get') }}'
-        console.log(get_user);
+
+        //console.log(get_pdf);
     </script>
     <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
 @endsection
