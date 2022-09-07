@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MembershipTypeRequest;
 use App\Models\MembershipType;
-use Illuminate\Http\Request;
 
 class MembershipTypeController extends Controller
 {
@@ -26,7 +26,7 @@ class MembershipTypeController extends Controller
      */
     public function create()
     {
-        //
+        // NO IMPLEMENTET
     }
 
     /**
@@ -35,9 +35,11 @@ class MembershipTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MembershipTypeRequest $request)
     {
-        //
+        MembershipType::create([
+            'name' => $request->name
+        ]);
     }
 
     /**
@@ -59,7 +61,7 @@ class MembershipTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        // NO IMPLEMENTET
     }
 
     /**
@@ -69,7 +71,7 @@ class MembershipTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MembershipTypeRequest $request, $id)
     {
         //
     }
