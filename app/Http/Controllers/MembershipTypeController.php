@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MembershipTypeRequest;
 use App\Models\MembershipType;
+use Exception;
 
 class MembershipTypeController extends Controller
 {
@@ -37,9 +38,15 @@ class MembershipTypeController extends Controller
      */
     public function store(MembershipTypeRequest $request)
     {
-        MembershipType::create([
-            'name' => $request->name
-        ]);
+        try {
+            MembershipType::create([
+                'name' => $request->name
+            ]);
+
+            return redirect()->back()->with('success', "Registro Éxitoso!");
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 
     /**
@@ -84,6 +91,12 @@ class MembershipTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            MembershipType::find($id)->delete();
+
+            return redirect()->back()->with('success', 'Eliminación Éxitosa!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 }
