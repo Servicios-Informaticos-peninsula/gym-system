@@ -16,6 +16,7 @@ class CreateMembershipTypesTable extends Migration
         Schema::create('membership_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->double('price');
             $table->timestamps();
         });
     }

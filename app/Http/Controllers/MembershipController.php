@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MembershipTypeRequest;
-use App\Models\MembershipType;
-use Exception;
+use Illuminate\Http\Request;
 
-class MembershipTypeController extends Controller
+class MembershipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +13,7 @@ class MembershipTypeController extends Controller
      */
     public function index()
     {
-        $membershipTypes = MembershipType::paginate('10');
-
-        return view('Membership-type.index', compact('membershipTypes'));
+        //
     }
 
     /**
@@ -27,7 +23,7 @@ class MembershipTypeController extends Controller
      */
     public function create()
     {
-        // NO IMPLEMENTET
+        //
     }
 
     /**
@@ -36,22 +32,9 @@ class MembershipTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MembershipTypeRequest $request)
+    public function store(Request $request)
     {
-        try {
-            MembershipType::create([
-                'name' => $request->name,
-                'price' => $request->price,
-            ]);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Registro Éxitoso!');
-        } catch (Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', $e);
-        }
+        //
     }
 
     /**
@@ -73,7 +56,7 @@ class MembershipTypeController extends Controller
      */
     public function edit($id)
     {
-        // NO IMPLEMENTET
+        //
     }
 
     /**
@@ -83,7 +66,7 @@ class MembershipTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MembershipTypeRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -96,16 +79,6 @@ class MembershipTypeController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            MembershipType::find($id)->delete();
-
-            return redirect()
-                ->back()
-                ->with('success', 'Eliminación Éxitosa!');
-        } catch (Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', $e);
-        }
+        //
     }
 }

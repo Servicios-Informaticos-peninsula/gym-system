@@ -159,6 +159,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item  ">
+                <a href="{{ route('Membership.i') }}" class="sidebar-link">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Membresias</span>
+                </a>
+            </li>
+
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pen-fill"></i>
@@ -282,13 +289,6 @@
                 <a href="application-chat.html" class="sidebar-link">
                     <i class="bi bi-bar-chart"></i>
                     <span>Estadisticas</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item  ">
-                <a href="application-gallery.html" class="sidebar-link">
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Membresias</span>
                 </a>
             </li>
 
