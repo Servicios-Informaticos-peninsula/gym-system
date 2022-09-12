@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Record;
 use App\Models\User;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
@@ -90,7 +91,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = Record::findOrFail($id);
+        return view('records.update');
     }
 
     /**

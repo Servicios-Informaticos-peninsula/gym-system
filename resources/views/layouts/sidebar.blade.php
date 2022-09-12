@@ -160,7 +160,7 @@
             </li>
 
             <li class="sidebar-item  ">
-                <a href="{{ route('Membership.i') }}" class="sidebar-link">
+                {{-- <a href="{{ route('Membership.i') }}" class="sidebar-link"> --}}
                     <i class="bi bi-credit-card-fill"></i>
                     <span>Membresias</span>
                 </a>

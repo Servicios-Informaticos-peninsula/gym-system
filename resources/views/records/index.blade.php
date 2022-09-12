@@ -122,6 +122,7 @@
         let get_user = '{{ route('record.getuser') }}'
         let get_expediente = '{{ route('expediente.get') }}'
         let get_usuario = '{{ route('data.get') }}'
+        let get_record = '{{ route('record.get') }}'
 
         //console.log(get_pdf);
     </script>

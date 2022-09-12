@@ -8,7 +8,15 @@
         <header class="card px-2 py-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="h2">Creacion Expediente Cliente</h3>
-
+                <button type="button" class="btn btn-warning" id="volver_index">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle me-1" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                    <span class="btn-inner--text">Volver</span>
+                </button>
             </div>
 
         </header>
@@ -28,7 +36,7 @@
                                     <select id='search_user' class="form-control">
                                         <option value="">Seleccione una Opcion</option>
                                         @foreach ($user as $row)
-                                            <option value="{{ $row->id }}">{{ $row->code_user }}</option>
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
 
                                     </select>
@@ -728,7 +736,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number" name="IMC"
+                                            <input class="form-control" autocomplete="off" type="text" name="IMC"
                                                 id="IMC">
                                         </div>
                                     </div>
@@ -739,7 +747,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" name="grasa" type="number"
+                                            <input class="form-control" autocomplete="off" name="grasa" type="text"
                                                 id="grasa" min="1">
                                         </div>
 
@@ -752,7 +760,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="number" name="musculo" id="musculo">
+                                            <input class="form-control" type="text" name="musculo" id="musculo">
                                         </div>
 
                                     </div>
@@ -775,7 +783,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number"
+                                            <input class="form-control" autocomplete="off" type="text"
                                                 name="edad_blo" id="edad_blo">
                                         </div>
                                     </div>
@@ -787,7 +795,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="visceral"
-                                                type="number" id="visceral" min="1">
+                                                type="text" id="visceral" min="1">
                                         </div>
 
                                     </div>
@@ -799,7 +807,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="number" name="busto" id="busto">
+                                            <input class="form-control" type="text" name="busto" id="busto">
                                         </div>
 
                                     </div>
@@ -822,7 +830,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" autocomplete="off" type="number" name="cadera"
+                                            <input class="form-control" autocomplete="off" type="text" name="cadera"
                                                 id="cadera">
                                         </div>
                                     </div>
@@ -834,7 +842,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="brazo_der"
-                                                type="number" id="brazo_der" min="1">
+                                                type="text" id="brazo_der">
                                         </div>
 
                                     </div>
@@ -846,7 +854,7 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="number" name="brazo_izq" id="brazo_izq">
+                                            <input class="form-control" type="text" name="brazo_izq" id="brazo_izq">
                                         </div>
 
                                     </div>
