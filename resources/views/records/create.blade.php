@@ -22,7 +22,7 @@
         </header>
         <div class="card-body">
             <div class="card py-3">
-
+                {{-- {{dd($user)}} --}}
                 <form action="{{ route('record.store') }}" method="POST">
                     @csrf
                     <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
@@ -35,6 +35,7 @@
                                 <div class="col-md-5">
                                     <select id='search_user' class="form-control">
                                         <option value="">Seleccione una Opcion</option>
+
                                         @foreach ($user as $row)
                                             <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
@@ -502,7 +503,17 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <div class="col-md" id="alergias_descripcion">
+                                                    <label>Especifique Alergias</label>
+                                                    <div class="form-group mb-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text "><i
+                                                                    class="ni ni-zoom-split-in"></i></span>
+                                                            <textarea class="form-control" autocomplete="off" name="alergias_text" id="alergias_text"></textarea>
+                                                        </div>
 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 

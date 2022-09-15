@@ -9,36 +9,39 @@
 
         }
 
-
-        ,
-        /* table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 5px;
-            font-size: 10px;
-            font-style: normal;
-            line-height: 1.5;
-            font-family: Arial, Helvetica, sans-serif;
-        } */
-
         img {
             height: 10%;
             width: 20%;
 
             object-fit: contain;
         }
+
+        #watermark {
+                position: fixed;
+
+                /**
+                    Set a position in the page for your image
+                    This should center it vertically
+                **/
+                bottom:  -18cm;
+                left:    5cm;
+
+                /** Change image dimensions**/
+                width:  300%;
+                height:   150%;
+
+                /** Your watermark should be behind every content**/
+                z-index:  1;
+                opacity:0.5;
+            }
     </style>
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 
 <body style="background: white;">
-
+    <div id="watermark">
+        <img src="img/logo-remo.png" height="100%" width="100%" />
+    </div>
     <div>
         <div style="position: center;">
             <header>
@@ -77,7 +80,7 @@
                         </thead>
                     </table>
                     <br>
-                    <br>
+
                     <h3>II. Antecedentes personales en general</h3>
                     <label for="">Enfermedades Crónicas</label>
                     <table class="table table-striped align-items-center mb-0">
@@ -245,17 +248,11 @@
                             @else
                                 <td style="font-size: 85%;text-align:center;"></td>
                             @endif
-
-
-
-
                         </tr>
                     </table>
                     <br>
-                    <br>
                     <label for="">Ha presentado o presenta alguna de las siguientes condiciones físicas:</label>
                     <table class="table table-striped align-items-center mb-0">
-
                         <thead>
                             <tr>
                                 <th style="font-size: 85%;text-align:center;">Desmayos</th>
@@ -263,9 +260,6 @@
                                 <th style="font-size: 85%;text-align:center;">Pérdidas del conocimiento</th>
                                 <th style="font-size: 85%;text-align:center;">Hospitalizaciones</th>
                             </tr>
-
-
-
                         </thead>
                         <tr>
                             @if ($expediente->desmayos == 1)
@@ -380,79 +374,79 @@
                     @endif
                     <br>
                     <label for="">Síntomas adicionales:</label>
-                        <table class="table table-striped align-items-center">
-                            <thead>
-                                <tr>
-                                    <th style="font-size: 85%;text-align:center;">Alergias</th>
-                                    <th style="font-size: 85%;text-align:center;">Cefales(Dolores de cabeza intensos
-                                        (Migraña))</th>
-                                    <th style="font-size: 85%;text-align:center;">Visión Borrosa</th>
-                                    <th style="font-size: 85%;text-align:center;">Cáncer</th>
-                                    <th style="font-size: 85%;text-align:center;">Ausencia de Órganos</th>
-                                    <th style="font-size: 85%;text-align:center;">Embarazos</th>
-                                    <th style="font-size: 85%;text-align:center;">Abortos</th>
-                                    <th style="font-size: 85%;text-align:center;">Método Anticonceptivo</th>
-                                    <th style="font-size: 85%;text-align:center;">Traumatismos Craneocefálicos</th>
-                                    <th style="font-size: 85%;text-align:center;">Traumatismos Cervicales</th>
-
-                                </tr>
-                            </thead>
+                    <table class="table table-striped align-items-center">
+                        <thead>
                             <tr>
-                                @if ($expediente->alergias == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
+                                <th style="font-size: 85%;text-align:center;">Alergias</th>
+                                <th style="font-size: 85%;text-align:center;">Cefales(Dolores de cabeza intensos
+                                    (Migraña))</th>
+                                <th style="font-size: 85%;text-align:center;">Visión Borrosa</th>
+                                <th style="font-size: 85%;text-align:center;">Cáncer</th>
+                                <th style="font-size: 85%;text-align:center;">Ausencia de Órganos</th>
+                                <th style="font-size: 85%;text-align:center;">Embarazos</th>
+                                <th style="font-size: 85%;text-align:center;">Abortos</th>
+                                <th style="font-size: 85%;text-align:center;">Método Anticonceptivo</th>
+                                <th style="font-size: 85%;text-align:center;">Traumatismos Craneocefálicos</th>
+                                <th style="font-size: 85%;text-align:center;">Traumatismos Cervicales</th>
 
-                                @if ($expediente->cefaleas == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-
-                                @if ($expediente->vision_borrosa == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-
-                                @if ($expediente->cancer == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->ausencia_organos == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->embarazos == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->aborto == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->metodo_anticonceptivo == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->craneocefalico == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
-                                @if ($expediente->cervicales == 1)
-                                    <td style="font-size: 85%;text-align:center;color:black;">x</td>
-                                @else
-                                    <td style="font-size: 85%;text-align:center;"></td>
-                                @endif
                             </tr>
-                        </table>
+                        </thead>
+                        <tr>
+                            @if ($expediente->alergias == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+
+                            @if ($expediente->cefaleas == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+
+                            @if ($expediente->vision_borrosa == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+
+                            @if ($expediente->cancer == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->ausencia_organos == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->embarazos == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->aborto == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->metodo_anticonceptivo == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->craneocefalico == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                            @if ($expediente->cervicales == 1)
+                                <td style="font-size: 85%;text-align:center;color:black;">x</td>
+                            @else
+                                <td style="font-size: 85%;text-align:center;"></td>
+                            @endif
+                        </tr>
+                    </table>
                     <table class="table table-striped align-items-center mb-0">
                         <thead>
                             <tr>
@@ -595,7 +589,7 @@
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Peso</td>
-                                <td>{{ $data->peso }}</td>
+                                <td>{{ $data->peso }} Kg</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">IMC</td>
@@ -603,11 +597,11 @@
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">% Grasa</td>
-                                <td>{{ $data->grasa }}</td>
+                                <td>{{ $data->grasa }} %</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">% Musculo</td>
-                                <td>{{ $data->musculo }}</td>
+                                <td>{{ $data->musculo }} Kg</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">KCAL</td>
@@ -619,35 +613,35 @@
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Visceral</td>
-                                <td>{{ $data->visceral }}</td>
+                                <td>{{ $data->visceral }} Kg</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Busto</td>
-                                <td>{{ $data->busto }}</td>
+                                <td>{{ $data->busto }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Cintura</td>
-                                <td>{{ $data->cintura }}</td>
+                                <td>{{ $data->cintura }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Cadera</td>
-                                <td>{{ $data->cadera }}</td>
+                                <td>{{ $data->cadera }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Brazo Der.</td>
-                                <td>{{ $data->brazo_der }}</td>
+                                <td>{{ $data->brazo_der }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Brazo Izq.</td>
-                                <td>{{ $data->brazo_izq }}</td>
+                                <td>{{ $data->brazo_izq }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Pierna Der.</td>
-                                <td>{{ $data->pierna_der }}</td>
+                                <td>{{ $data->pierna_der }} cm</td>
                             </tr>
                             <tr>
                                 <td style="font-size: 85%"><b style="color: black;">Pierna Izq.</td>
-                                <td>{{ $data->pierna_izq }}</td>
+                                <td>{{ $data->pierna_izq }} cm</td>
                             </tr>
                         @endforeach
                     </table>
@@ -693,36 +687,48 @@
                     <div style="font-size: 20px; font-family:Arial Narrow;color:black;">
                         <table class="table align-items-center mb-0">
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black; text-align:center;">"EL USUARIO"</td>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black; text-align:center;">"EL GIMNASIO"</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black; text-align:center;">
+                                    "EL USUARIO"</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black; text-align:center;">
+                                    "EL GIMNASIO"</td>
                             </tr>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:blue; text-align:center;">{{ $expediente->name }}</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:blue; text-align:center;">
+                                    {{ $expediente->name }}</td>
                             </tr>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">____________________</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                    ____________________</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">Nombre Completo</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                    Nombre Completo</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;"></td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                </td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;"></td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                </td>
                                 <td></td>
                             </tr>
-                            <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">______________________________</td>
-                            <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">______________________________</td>
+                            <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                ______________________________</td>
+                            <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                ______________________________</td>
                             <tr>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">Firma</td>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">PSIC. ABIGAIL CETINA BALAM</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                    Firma</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                    PSIC. ABIGAIL CETINA BALAM</td>
                             <tr>
                                 <td></td>
-                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">ADMINISTRACIÓN</td>
+                                <td style="font-size: 20px; font-family:Arial Narrow;color:black;text-align:center;">
+                                    ADMINISTRACIÓN</td>
                             </tr>
                             </tr>
                         </table>

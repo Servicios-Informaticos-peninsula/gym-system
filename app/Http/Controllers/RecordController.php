@@ -19,14 +19,18 @@ class RecordController extends Controller
      */
     public function index(Request $request)
     {
-        //     $user = Record::join('users', 'records.users_id', '=', 'users.id')
-        //     ->select('users.id', 'users.name', 'users.code_user')
-        //     ->orderBy('users.id', 'asc')
-        //    ->distinct()
-        //     ->get();
+            // $user = Record::join('users', 'records.users_id', '=', 'users.id')
+            // ->select('users.id', 'users.name', 'users.code_user')
+            // ->orderBy('users.id', 'asc')
+            // // ->where('records.users_id','<>','users.id')
+
+            // ->get();
         $user = User::orderBy('id', 'asc')
             ->distinct()
+            ->where('expediente',0)
             ->get();
+
+
 
         return view('records.index', compact('user'));
     }
@@ -105,6 +109,7 @@ class RecordController extends Controller
                 'ocupation' => $request->ocupation,
                 'age' => $request->age,
                 'born' => $request->born,
+                'expediente'=> 1
             ));
 
             $record = new Record();
@@ -226,36 +231,22 @@ class RecordController extends Controller
     {
 
         try {
-            // $expediente = Record::join('users', 'records.users_id', '=', 'users.id')
-            //     ->leftjoin('weight_controls', 'weight_controls.records_id', '=', 'records.id')
-            //     ->join('psychobiological_habits', 'psychobiological_habits.records_id', '=', 'psychobiological_habits.id')
-            //     ->orderBy('users.code_user', 'desc')
-            //     ->where('records.id', $id)
-            //     ->select('records.numero_control', 'records.id', 'users.name', 'users.code_user',
-            //         'records.date_interview', 'users.ocupation', 'users.age', 'users.phone', 'users.email', 'users.born',
-            //         'records.hipertension', 'records.asma', 'records.epilepsia', 'records.ciatica', 'records.diabetes', 'records.lumbagia', 'records.arritmia',
-            //         'records.ansiedad', 'records.depresion', 'records.depre_postparto', 'records.estres_cronico', 'records.estres_postraumatico',
-            //         'records.papiloma_humano', 'records.herpes', 'records.sifilis', 'records.gonorrea', 'records.sida', 'records.clamidia',
-            //         'records.desmayos', 'records.mareos', 'records.perdida_conocimiento', 'records.hospitalizacion', 'records.causa', 'records.fecha_hospitalizacion',
-            //         'records.alergias', 'records.cefaleas', 'records.vision_borrosa', 'records.cancer', 'records.ausencia_organos', 'records.embarazos', 'records.aborto', 'records.metodo_anticonceptivo', 'records.craneocefalico', 'records.cervicales',
-            //         'records.medicamentos', 'records.numero_control', 'psychobiological_habits.numero_comidas', 'psychobiological_habits.horas_descanso', 'psychobiological_habits.micciones_dia', 'psychobiological_habits.micciones_noche',
-            //         'psychobiological_habits.evacuaciones', 'psychobiological_habits.tabaco', 'psychobiological_habits.alcohol', 'psychobiological_habits.marihuana', 'psychobiological_habits.opiaceos', 'psychobiological_habits.cocaina', 'psychobiological_habits.heroina', 'psychobiological_habits.pastillas', 'psychobiological_habits.crack',
-            //         'psychobiological_habits.resistol', 'psychobiological_habits.gasolina', 'psychobiological_habits.thiner', 'psychobiological_habits.cristal')
 
-            //     ->first();
             $expediente = Record::join('users', 'records.users_id', '=', 'users.id')
                 ->leftjoin('weight_controls', 'weight_controls.records_id', '=', 'records.id')
                 ->join('psychobiological_habits', 'psychobiological_habits.records_id', '=', 'psychobiological_habits.id')
                 ->orderBy('users.code_user', 'desc')
                 ->where('records.id', $id)
                 ->first();
+
             $peso = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
                 ->join('users', 'records.users_id', '=', 'users.id')
-
-                ->where('records.id', $id)
-                ->distinct()
+                ->where('users.id',$expediente->users_id)
+                ->first();
+                $peso = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
+                ->join('users', 'records.users_id', '=', 'users.id')
+                ->where('users.id',$expediente->users_id)
                 ->get();
-
             $count = Record::join('users', 'records.users_id', '=', 'users.id')
                 ->leftjoin('weight_controls', 'weight_controls.records_id', '=', 'records.id')
                 ->join('psychobiological_habits', 'psychobiological_habits.records_id', '=', 'psychobiological_habits.id')
@@ -267,19 +258,21 @@ class RecordController extends Controller
             $pdf->output();
 
             /**PHP indicara que se obtiene el pdf */
-            //$pdf->getDomPDF()->set_option("enable_php", true);
-            $canvas = $pdf->getCanvas();
-            $w = $canvas->get_width();
-            $h = $canvas->get_height();
-            $imageURL = 'img/logo-remo.png';
-            //dd( $imageURL);
-            $imgWidth = 200;
-            $imgHeight = 200;
-            $canvas->set_opacity(.2, "Multiply");
-            $canvas->set_opacity(.2);
-            $x = (($w - $imgWidth) / 2);
-            $y = (($h - $imgHeight) / 2);
-            $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
+           //S $pdf->getDomPDF()->set_option("enable_php", true);
+            // $canvas = $pdf->getCanvas();
+            // $w = $canvas->get_width();
+            // $h = $canvas->get_height();
+            // $imageURL = 'img/logo-remo.png';
+            // //dd( $imageURL);
+            // $imgWidth = 200;
+            // $imgHeight = 200;
+
+            // $canvas->set_opacity(.2);
+            // $x = (($w - $imgWidth) / 2);
+            // $y = (($h - $imgHeight) / 2);
+
+            // $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
+           // dd($imageURL, $x, $y, $imgWidth, $imgHeight);
             $explode = explode(' ', $expediente->name);
 
             $filename = 'expediente' . '_' . $explode[0] . '_' . $expediente->numero_control . '.pdf';

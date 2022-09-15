@@ -65,7 +65,7 @@ class CreateRecordsTable extends Migration
             $table->string('metodo_anticonceptivo')->nullable();
             $table->string('craneocefalico')->nullable();
             $table->string('cervicales')->nullable();
-
+$table->string('alergias_text')->nullable();
             /**Medicamentos */
             $table->string('medicamentos')->nullable();
             $table->string('numero_control')->nullable();
