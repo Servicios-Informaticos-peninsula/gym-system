@@ -59,4 +59,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         });
 
     Route::resource('Membership-type', MembershipTypeController::class);
+    Route::resource('Membership', MembershipController::class);
 });
+

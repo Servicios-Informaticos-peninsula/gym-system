@@ -145,10 +145,17 @@
                     </ul>
                 </li> --}}
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item">
                 <a href="{{ route('home') }}" class="sidebar-link">
                     <i class="bi bi-speedometer"></i>
                     <span>Panel</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('Membership.index') }}" class="sidebar-link">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Membresias</span>
                 </a>
             </li>
 
@@ -282,13 +289,6 @@
                 <a href="application-chat.html" class="sidebar-link">
                     <i class="bi bi-bar-chart"></i>
                     <span>Estadisticas</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item  ">
-                <a href="application-gallery.html" class="sidebar-link">
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Membresias</span>
                 </a>
             </li>
 
