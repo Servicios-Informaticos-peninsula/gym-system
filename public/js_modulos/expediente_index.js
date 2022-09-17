@@ -5,134 +5,134 @@ $(function ($) {
     });
     console.log("hola 23234");
     // $('#capa_create_record').hide();
-    $('#nuevo_expediente').on('click', function () {
-        $('#capa_index_record').fadeOut(1000, function () {
+    // $('#nuevo_expediente').on('click', function () {
+    //     $('#capa_index_record').fadeOut(1000, function () {
 
-            $("#capa_create_record").fadeIn(1000, function () {
-                $(window).on('resize');
-            });
-        });
+    //         $("#capa_create_record").fadeIn(1000, function () {
+    //             $(window).on('resize');
+    //         });
+    //     });
 
-    });
+    // });
     /**Select de busqueda de usuarios */
-    $("#volver_index").on('click', function () {
-        location.reload();
-    });
-    $('#search_user').select2({
-        width: '100%',
-        placeholder: "Seleccione una Opcion",
-        allowClear: true,
-        language: {
-            noResults: function () {
-                return "No hay resultado";
-            },
-            searching: function () {
-                return "Buscando..";
-            },
-        },
+    // $("#volver_index").on('click', function () {
+    //     location.reload();
+    // });
+    // $('#search_user').select2({
+    //     width: '100%',
+    //     placeholder: "Seleccione una Opcion",
+    //     allowClear: true,
+    //     language: {
+    //         noResults: function () {
+    //             return "No hay resultado";
+    //         },
+    //         searching: function () {
+    //             return "Buscando..";
+    //         },
+    //     },
 
-    });
+    // });
 
-    $('#search_user').on('select2:select', function () {
-        getdatos_select();
-    });
-    $('#search_user2').select2({
+    // $('#search_user').on('select2:select', function () {
+    //     getdatos_select();
+    // });
+    // $('#search_user2').select2({
 
-        width: '100%',
-        placeholder: "Seleccione una Opcion",
-        allowClear: true,
-        language: {
-            noResults: function () {
-                return "No hay resultado";
-            },
-            searching: function () {
-                return "Buscando..";
-            },
-        },
+    //     width: '100%',
+    //     placeholder: "Seleccione una Opcion",
+    //     allowClear: true,
+    //     language: {
+    //         noResults: function () {
+    //             return "No hay resultado";
+    //         },
+    //         searching: function () {
+    //             return "Buscando..";
+    //         },
+    //     },
 
-    });
+    // });
 
-    $('#search_user2').on('select2:select', function () {
+    // $('#search_user2').on('select2:select', function () {
 
-        $("#gridExpediente").bootstrapTable("removeAll");
-        $("#gridExpediente").bootstrapTable("refresh");
+    //     $("#gridExpediente").bootstrapTable("removeAll");
+    //     $("#gridExpediente").bootstrapTable("refresh");
 
-    });
+    // });
 
     /**Ocultar Collapse */
-    $("#identificacion").on('click', function () {
-        $("#collapseAntecedentes").collapse("hide");
-        $("#collapsePsico").collapse("hide");
-        $("#collapsePeso").collapse("hide");
-    });
-    $("#antecedentes").on('click', function () {
-        $("#collapseIdentificacion").collapse("hide");
-        $("#collapsePsico").collapse("hide");
-        $("#collapsePeso").collapse("hide");
-    });
-    $("#habitos").on('click', function () {
-        $("#collapseIdentificacion").collapse("hide");
-        $("#collapseAntecedentes").collapse("hide");
-        $("#collapsePeso").collapse("hide");
-    });
-    $("#peso").on('click', function () {
-        $("#collapseIdentificacion").collapse("hide");
-        $("#collapsePsico").collapse("hide");
-        $("#collapseAntecedentes").collapse("hide");
-    });
+    // $("#identificacion").on('click', function () {
+    //     $("#collapseAntecedentes").collapse("hide");
+    //     $("#collapsePsico").collapse("hide");
+    //     $("#collapsePeso").collapse("hide");
+    // });
+    // $("#antecedentes").on('click', function () {
+    //     $("#collapseIdentificacion").collapse("hide");
+    //     $("#collapsePsico").collapse("hide");
+    //     $("#collapsePeso").collapse("hide");
+    // });
+    // $("#habitos").on('click', function () {
+    //     $("#collapseIdentificacion").collapse("hide");
+    //     $("#collapseAntecedentes").collapse("hide");
+    //     $("#collapsePeso").collapse("hide");
+    // });
+    // $("#peso").on('click', function () {
+    //     $("#collapseIdentificacion").collapse("hide");
+    //     $("#collapsePsico").collapse("hide");
+    //     $("#collapseAntecedentes").collapse("hide");
+    // });
     /**validar inputs que no se necesiten */
     /**Ocultar inputs hostpitalizacion */
-    var hospitalizacion = $("#hospitalizacion");
-    var hospitalizacion_fisica = $("#hospitalizacion_fisica");
-    hospitalizacion_fisica.hide();
-    hospitalizacion.change(function () {
-        if (hospitalizacion.is(':checked')) {
-            hospitalizacion_fisica.fadeIn("200");
+    // var hospitalizacion = $("#hospitalizacion");
+    // var hospitalizacion_fisica = $("#hospitalizacion_fisica");
+    // hospitalizacion_fisica.hide();
+    // hospitalizacion.change(function () {
+    //     if (hospitalizacion.is(':checked')) {
+    //         hospitalizacion_fisica.fadeIn("200");
 
-        } else {
-            hospitalizacion_fisica.fadeOut("200");
-            $("#fecha_hospitalizacion").val("");
-            $("#causa").val("");
-          //  $('input[type=checkbox]').prop('checked', false);//
+    //     } else {
+    //         hospitalizacion_fisica.fadeOut("200");
+    //         $("#fecha_hospitalizacion").val("");
+    //         $("#causa").val("");
+    //       //  $('input[type=checkbox]').prop('checked', false);//
 
-        }
-    });
+    //     }
+    // });
 
     /**Ocultar otro cirugias */
-    var otro = $("#otro");
-    var especifique = $("#especifique");
-    var especifique_text = document.querySelector('#especifique_text');
-    especifique.hide();
-    otro.change(function () {
-        if (otro.is(':checked')) {
-            especifique.fadeIn("200");
+    // var otro = $("#otro");
+    // var especifique = $("#especifique");
+    // var especifique_text = document.querySelector('#especifique_text');
+    // especifique.hide();
+    // otro.change(function () {
+    //     if (otro.is(':checked')) {
+    //         especifique.fadeIn("200");
 
-        } else {
-            especifique.fadeOut("200");
-            especifique_text.value = '';
-
-
-            //$('input[name=checkbox]').prop('checked', false);//
-
-        }
-    });
+    //     } else {
+    //         especifique.fadeOut("200");
+    //         especifique_text.value = '';
 
 
-    var alergias = $("#alergias");
-    var alergias_descripcion = $("#alergias_descripcion");
-    var alergias_text = document.querySelector('#alergias_text');
-    alergias_descripcion.hide();
-    alergias.change(function () {
-        if (alergias.is(':checked')) {
-            alergias_descripcion.fadeIn("200");
+    //         //$('input[name=checkbox]').prop('checked', false);//
 
-        } else {
-            alergias_descripcion.fadeOut("200");
-            alergias_text.value = '';
-            //$('input[type=checkbox]').prop('checked', false);//
+    //     }
+    // });
 
-        }
-    });
+
+    // var alergias = $("#alergias");
+    // var alergias_descripcion = $("#alergias_descripcion");
+    // var alergias_text = document.querySelector('#alergias_text');
+    // alergias_descripcion.hide();
+    // alergias.change(function () {
+    //     if (alergias.is(':checked')) {
+    //         alergias_descripcion.fadeIn("200");
+
+    //     } else {
+    //         alergias_descripcion.fadeOut("200");
+    //         alergias_text.value = '';
+    //         //$('input[type=checkbox]').prop('checked', false);//
+
+    //     }
+    // });
 
     /**bootstrap table del grid de expediente */
     $("#gridExpediente").bootstrapTable({
@@ -186,75 +186,75 @@ $(function ($) {
 });
 
 
-function getdatos_select(e) {
-    let a = document.getElementById("search_user").value;
-    $("#users_id").val(a);
-    let user_id = $("#users_id").val();
-    console.log(user_id, "..", a);
+// function getdatos_select(e) {
+//     let a = document.getElementById("search_user").value;
+//     $("#users_id").val(a);
+//     let user_id = $("#users_id").val();
+//     console.log(user_id, "..", a);
 
-    $.ajax({
-        url: get_user,
-        type: "post",
-        dataType: "json",
-        data: {
-            user_id: user_id
-        },
-        async: true,
-        cache: false,
-        beforeSend: function () {
+//     $.ajax({
+//         url: get_user,
+//         type: "post",
+//         dataType: "json",
+//         data: {
+//             user_id: user_id
+//         },
+//         async: true,
+//         cache: false,
+//         beforeSend: function () {
 
-            swal.fire({
-                icon: "success",
-                title: "Datos del cliente",
-                text: "Obteniendo la información, Espere Por Favor...",
+//             swal.fire({
+//                 icon: "success",
+//                 title: "Datos del cliente",
+//                 text: "Obteniendo la información, Espere Por Favor...",
 
-            });
-        },
-        success: function (data) {
-console.table(data.name);
-            if (data) {
-                $("#name").val(data.name);
-                $("#email").val(data.email);
-                $("#phone").val(data.phone);
-                $("#collapseIdentificacion").collapse("show");
-                NProgress.done();
-                swal.fire({
-                    icon: "success",
-                    title: "Clientes",
-                    text: "Se encontraron los datos de manera exitosa",
+//             });
+//         },
+//         success: function (data) {
+// console.table(data.name);
+//             if (data) {
+//                 $("#name").val(data.name);
+//                 $("#email").val(data.email);
+//                 $("#phone").val(data.phone);
+//                 $("#collapseIdentificacion").collapse("show");
+//                 NProgress.done();
+//                 swal.fire({
+//                     icon: "success",
+//                     title: "Clientes",
+//                     text: "Se encontraron los datos de manera exitosa",
 
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-primary btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                });
-            } else {
-                NProgress.done();
-                swal.fire({
-                    icon: "info",
-                    title: "Clientes",
-                    text: "Lo siento no pude obtener los datos de ese cliente",
+//                     showConfirmButton: true,
+//                     confirmButtonClass: "btn btn-primary btn-round",
+//                     confirmButtonText: "Aceptar",
+//                     buttonsStyling: false,
+//                 });
+//             } else {
+//                 NProgress.done();
+//                 swal.fire({
+//                     icon: "info",
+//                     title: "Clientes",
+//                     text: "Lo siento no pude obtener los datos de ese cliente",
 
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-primary btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                });
-            }
-        }
-    });
+//                     showConfirmButton: true,
+//                     confirmButtonClass: "btn btn-primary btn-round",
+//                     confirmButtonText: "Aceptar",
+//                     buttonsStyling: false,
+//                 });
+//             }
+//         }
+//     });
 
-}
+// }
 
-function calcular_edad() {
-    let date_now = $("#date_now").val();
-    let date_born = $("#born").val();
-    let a = Math.abs(date_now.getTime() - date_born.getTime());
+// function calcular_edad() {
+//     let date_now = $("#date_now").val();
+//     let date_born = $("#born").val();
+//     let a = Math.abs(date_now.getTime() - date_born.getTime());
 
 
 
-    console.log(a);
-}
+//     console.log(a);
+// }
 
 
 function verExpediente(id) {
@@ -315,10 +315,10 @@ function verFotos(id) {
     });
 }
 
-function editarVista(id) {
-    console.log(id)
-    window.open('vista/modificar/' + id, "_self");
-}
+// function editarVista(id) {
+//     console.log(id)
+//     window.open('vista/modificar/' + id, "_self");
+// }
 function expandTable(row, $detail) {
     console.log(row, "--", $detail);
     $detail.bootstrapTable({
