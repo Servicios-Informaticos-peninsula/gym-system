@@ -70,7 +70,7 @@ $table->string('alergias_text')->nullable();
             $table->string('medicamentos')->nullable();
             $table->string('numero_control')->nullable();
             /**foraneas */
-            $table->foreignId('record_photos_id')->nullable()->constrained();
+
             $table->foreignId('users_id')->constrained();
             $table->foreignId('exercises_id')->nullable()->constrained();
 

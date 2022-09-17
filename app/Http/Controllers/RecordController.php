@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\PsychobiologicalHabits;
 use App\Models\Record;
+use App\Models\RecordPhoto;
 use App\Models\User;
 use App\Models\WeightControl;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class RecordController extends Controller
@@ -19,18 +21,16 @@ class RecordController extends Controller
      */
     public function index(Request $request)
     {
-            // $user = Record::join('users', 'records.users_id', '=', 'users.id')
-            // ->select('users.id', 'users.name', 'users.code_user')
-            // ->orderBy('users.id', 'asc')
-            // // ->where('records.users_id','<>','users.id')
+        // $user = Record::join('users', 'records.users_id', '=', 'users.id')
+        // ->select('users.id', 'users.name', 'users.code_user')
+        // ->orderBy('users.id', 'asc')
+        // // ->where('records.users_id','<>','users.id')
 
-            // ->get();
+        // ->get();
         $user = User::orderBy('id', 'asc')
             ->distinct()
-            ->where('expediente',0)
+            ->where('expediente', 0)
             ->get();
-
-
 
         return view('records.index', compact('user'));
     }
@@ -55,7 +55,7 @@ class RecordController extends Controller
         $list_expediente = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
             ->join('users', 'records.users_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.code_user')
-            ->orderBy('users.code_user', 'desc')
+            ->orderBy('users.code_user', 'ASC')
             ->distinct()
             ->get();
 
@@ -76,7 +76,7 @@ class RecordController extends Controller
             ->where('users_id', $request->user_id)
             ->select('id', 'numero_control')
             ->get();
-        //dd($record);
+
         return $record;
     }
     /**
@@ -101,7 +101,8 @@ class RecordController extends Controller
         $carbon = Carbon::now();
         //DB::beginTransaction();
         try {
-
+            $usuario = User::where('id', $request->users_id)->first();
+            // dd($usuario);
             $user = User::where('id', $request->users_id)->update(array(
                 'name' => $request->name,
                 'email' => $request->email,
@@ -109,7 +110,7 @@ class RecordController extends Controller
                 'ocupation' => $request->ocupation,
                 'age' => $request->age,
                 'born' => $request->born,
-                'expediente'=> 1
+                'expediente' => 1,
             ));
 
             $record = new Record();
@@ -208,6 +209,26 @@ class RecordController extends Controller
             $weight->pierna_izq = $request->pierna_izq;
             $weight->records_id = $record->id;
             $weight->save();
+
+            // $urlImagenes = [];
+
+            if ($request->hasFile('path')) {
+                $imagenes = $request->file('path');
+                foreach ($imagenes as $imagen) {
+
+                    $nombre = time()."_". $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
+                    //$ruta = 'app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
+                    $ruta = storage_path('app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre);
+                    $photo = new RecordPhoto();
+                    $photo->path = $ruta;
+                    $photo->records_id = $record->id;
+                    //dd($photo,$ruta,storage_path('app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre));
+                    $photo->save();
+                    $contenido_archivo = file_get_contents($imagen);
+                    $route = 'imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
+                    $laravel_path = Storage::disk('public')->put($route, $contenido_archivo);
+                }
+            }
             // dd($user,$record,  $psyco,$weight);
             return back()->with('success', '¡Se agrego el expediente del usuario de forma exitosa!');
             //DB::commit();
@@ -241,11 +262,11 @@ class RecordController extends Controller
 
             $peso = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
                 ->join('users', 'records.users_id', '=', 'users.id')
-                ->where('users.id',$expediente->users_id)
+                ->where('users.id', $expediente->users_id)
                 ->first();
-                $peso = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
+            $peso = WeightControl::join('records', 'weight_controls.records_id', '=', 'records.id')
                 ->join('users', 'records.users_id', '=', 'users.id')
-                ->where('users.id',$expediente->users_id)
+                ->where('users.id', $expediente->users_id)
                 ->get();
             $count = Record::join('users', 'records.users_id', '=', 'users.id')
                 ->leftjoin('weight_controls', 'weight_controls.records_id', '=', 'records.id')
@@ -258,7 +279,7 @@ class RecordController extends Controller
             $pdf->output();
 
             /**PHP indicara que se obtiene el pdf */
-           //S $pdf->getDomPDF()->set_option("enable_php", true);
+            //S $pdf->getDomPDF()->set_option("enable_php", true);
             // $canvas = $pdf->getCanvas();
             // $w = $canvas->get_width();
             // $h = $canvas->get_height();
@@ -272,7 +293,7 @@ class RecordController extends Controller
             // $y = (($h - $imgHeight) / 2);
 
             // $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
-           // dd($imageURL, $x, $y, $imgWidth, $imgHeight);
+            // dd($imageURL, $x, $y, $imgWidth, $imgHeight);
             $explode = explode(' ', $expediente->name);
 
             $filename = 'expediente' . '_' . $explode[0] . '_' . $expediente->numero_control . '.pdf';
@@ -281,7 +302,32 @@ class RecordController extends Controller
             dd($th);
         }
     }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showImg($id)
+    {
 
+        try {
+            $fotos=RecordPhoto::where('records_id',$id)->get();
+            $html = ob_get_clean();
+            $pdf = PDF::loadView('records/pdf/fotos',compact('fotos'))
+                ->setPaper('A4', 'portrait');
+                $pdf->render();
+
+            $pdf->output();
+            //$explode = explode(' ', $expediente->name);
+
+            //$filename = 'expediente' . '_' . $explode[0] . '_' . $expediente->numero_control . '.pdf';
+           // return $pdf->stream($filename);
+           return $pdf->stream("hola.pdf");
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -294,10 +340,10 @@ class RecordController extends Controller
             ->leftjoin('weight_controls', 'weight_controls.records_id', '=', 'records.id')
             ->join('psychobiological_habits', 'psychobiological_habits.records_id', '=', 'psychobiological_habits.id')
             ->orderBy('users.code_user', 'desc')
+            ->where('records.users_id', $id)
+        //->where('records.id', $id)
 
-            ->where('records.id', $id)
-
-        //->where('records.users_id','users.id')
+            ->latest('records.created_at')
             ->first();
 
         return view('records.update', compact('record'))->render();
@@ -317,7 +363,7 @@ class RecordController extends Controller
         $carbon = Carbon::now();
         //DB::beginTransaction();
         try {
-
+            $usuario = User::where('id', $request->users_id)->first();
             $user = User::where('id', $request->users_id)->update(array(
                 'name' => $request->name,
                 'email' => $request->email,
@@ -423,6 +469,26 @@ class RecordController extends Controller
             $weight->pierna_izq = $request->pierna_izq;
             $weight->records_id = $record->id;
             $weight->save();
+
+            if ($request->hasFile('path')) {
+
+                $imagenes = $request->file('path');
+                foreach ($imagenes as $imagen) {
+
+                    $nombre = time()."_". $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
+                    //$ruta = 'app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
+                    $ruta = storage_path('app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre);
+                 //   dd($ruta);
+                    $photo = new RecordPhoto();
+                    $photo->path = $ruta;
+                    $photo->records_id = $record->id;
+                    //dd($photo,$ruta,storage_path('app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre));
+                    $photo->save();
+                    $contenido_archivo = file_get_contents($imagen);
+                    $route = 'imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
+                    $laravel_path = Storage::disk('public')->put($route, $contenido_archivo);
+                }
+            }
             // dd($user,$record,  $psyco,$weight);
             return redirect()->route('record.index')->with('success', '¡Se agrego un nuevo expediente al usuario de forma exitosa!');
             //DB::commit();

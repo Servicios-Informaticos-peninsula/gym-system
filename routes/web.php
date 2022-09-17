@@ -87,4 +87,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     /**Rutas AJAX */
     require (__DIR__ . '/ajax/rutas.php');
 
+    Route::resource('Membership', MembershipController::class);
 });
+

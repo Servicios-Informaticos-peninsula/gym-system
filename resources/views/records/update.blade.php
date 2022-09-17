@@ -15,7 +15,7 @@
          <div class="card-body">
              <div class="card py-3">
 
-                 <form action="{{ route('record.update',$record->id) }}" method="POST">
+                 <form action="{{ route('record.update',$record->id) }}" method="POST" enctype="multipart/form-data">
                      @csrf
                      @method('put')
                      <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
@@ -1164,6 +1164,58 @@
 
                              </div>
                          </div>
+                         <hr>
+                          {{-- fotos --}}
+                    <div class="border-bottom px-3">
+                        <a id="peso" data-bs-toggle="collapse" href="#collapseFoto" role="button"
+                            aria-expanded="false" aria-controls="collapsePsico">
+                            <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
+                                    <path
+                                        d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
+                                    <path
+                                        d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+                                </svg> Fotos <i class="bi bi-chevron-compact-down"></i></h5>
+                        </a>
+
+                    </div>
+                    <div class="collapse modal-body" id="collapseFoto" data-parent="#listaAcordion">
+
+
+                        <div class="row">
+                            <div class="col-md">
+                                <label>Cargar Foto</label>
+                                <div class="form-group mb-4">
+                                    <div class="input-group">
+                                        <input type="file" id="path[]" name="path[]" class="form-control"
+                                            multiple accept="image/*">
+                                        <br>
+                                    </div>
+                                    <div class="description">
+                                        Un número ilimitado de archivos pueden ser cargados en este campo.
+                                        <br>
+                                        Limite de 2018 MB por imagen.
+                                        <br>
+                                        Tipos Permitidos: jpeg, png, jpg
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <label>Tomar Foto</label>
+                                <div class="form-group mb-4">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#avisoModal">
+                                            Tomar Foto
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                          <div class="modal-footer">
 
                              <button type="submit" class="btn btn-success"><strong>GUARDAR</strong></button>
@@ -1178,6 +1230,7 @@
 
 
      </div>
+     @include('records.modal.aviso')
  @endsection
  @section('scripts')
 <script>

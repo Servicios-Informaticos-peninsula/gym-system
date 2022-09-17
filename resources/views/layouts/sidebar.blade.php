@@ -145,10 +145,17 @@
                     </ul>
                 </li> --}}
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item">
                 <a href="{{ route('home') }}" class="sidebar-link">
                     <i class="bi bi-speedometer"></i>
                     <span>Panel</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('Membership.index') }}" class="sidebar-link">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Membresias</span>
                 </a>
             </li>
 
@@ -159,12 +166,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
-                {{-- <a href="{{ route('Membership.i') }}" class="sidebar-link"> --}}
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Membresias</span>
-                </a>
-            </li>
+
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">

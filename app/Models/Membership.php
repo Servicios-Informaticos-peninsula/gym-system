@@ -15,9 +15,10 @@ class Membership extends Model
      * @var array<int, string>
      */
      protected $fillable = [
-        'users_id',
+        'user_id',
         'init_date',
         'expiration_date',
-        'membership_types_id'
+        'membership_prices_id',
+        'asigned_by'
     ];
 }

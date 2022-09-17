@@ -112,9 +112,11 @@
 
         </div>
     </div>
-    @include('records.create')
+
     {{-- section modales --}}
     @include('provider.modales.create')
+    @include('records.create')
+    @include('records.modal.aviso')
 @endsection
 @section('scripts')
     <script>
