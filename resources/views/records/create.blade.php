@@ -7,12 +7,16 @@
     color: red;
 }
 </style>
+
+
+
+{{-- {{dd($errors->all())}} --}}
     <div class="container-fluid" id="capa_create_record">
 
         <header class="card px-2 py-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="h2">Creacion Expediente Cliente</h3>
-                <button type="button" class="btn btn-warning" id="volver_index">
+                <a type="button" class="btn btn-warning" id="volver_index" href="{{route('record.index')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-plus-circle me-1" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -20,14 +24,14 @@
                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                     </svg>
                     <span class="btn-inner--text">Volver</span>
-                </button>
+                </a>
             </div>
 
         </header>
         <div class="card-body">
             <div class="card py-3">
                 {{-- {{dd($user)}} --}}
-                <form action="{{ route('record.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('record.store') }}" method="POST" enctype="multipart/form-data" >
                     @csrf
                     <div aria-multiselectable="false" class="card-collapse" id="listaAcordion" role="tablist">
                         <div class="border-bottom px-3">
@@ -46,20 +50,31 @@
 
                                     </select>
                                 </div>
-
+                                <div class="col-md">
+                                   <a href="#" tabindex="-1"
+                                        data-toggle="tooltip"
+                                        title="Debe Seleccionar la opcion Nombre cliente"><i class="bi bi-patch-question"></i></a>
+                                </div>
+                                <input type="text" id="users_id" name="users_id" hidden readonly>
+                                @error('users_id')
+                                <p class="error-message">{{ $message }}</p>
+                            @enderror
 
                             </div>
 
                         </div>
-                        <input type="text" id="users_id" name="users_id" hidden readonly>
+
                         <hr>
                         {{-- identificacion --}}
                         <div class="border-bottom px-3">
                             <a data-bs-toggle="collapse" href="#collapseIdentificacion" role="button" aria-expanded="false"
                                 aria-controls="collapseIdentificacion" id="identificacion">
 
-                                <h5 class="h5 mb-2"><i class="bi bi-person-badge-fill"></i> Identificacion <i
-                                        class="bi bi-chevron-compact-down"></i></h5>
+                                <h5 class="h5 mb-2"><i class="bi bi-person-badge-fill"></i> Identificacion   <i
+                                        class="bi bi-chevron-compact-down"></i> <a href="#" tabindex="-1"
+                                        data-toggle="tooltip"
+                                        title="Debe Seleccionar la identificacion para desplegar las opciones, pero si escoge el nombre de cliente se hara en automatico"><i class="bi bi-patch-question"></i></a></h5>
+
                             </a>
 
                         </div>
@@ -86,7 +101,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text" name="ocupation"
-                                                id="ocupation">
+                                                id="ocupation" value="{{old('ocupation')}}">
                                                 @error('ocupation')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -101,7 +116,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="date" name="born"
-                                                id="born">
+                                                id="born" value="{{old('born')}}">
                                                 @error('born')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -116,7 +131,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="age" type="number"
-                                                id="age" min="1" onclick="calcular_edad()">
+                                                id="age" min="0" onclick="calcular_edad()"  value="{{old('age')}}">
                                                 @error('age')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -128,23 +143,25 @@
 
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="d-flex justify-content-between">
+
                                         <label>Nombre Completo</label>
 
-                                    </div>
+
 
                                     <div class="form-group mb-4">
                                         <div class="input-group">
-                                            <span
-                                                class="input-group-text @error('room.type') border border-danger text-danger @enderror"><i
-                                                    class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" name="name" id="name" type="text"
-                                                autocomplete="off">
-                                                @error('name')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
 
+                                            <span
+                                                class="input-group-text @error('name') border border-danger text-danger @enderror"><i
+                                                    class="ni ni-zoom-split-in"></i></span>
+
+                                            <input class="form-control" name="name" id="name" type="text"
+                                                autocomplete="off" value="{{old('name')}}">
+
+                                        </div>
+                                        @error('name')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -153,26 +170,26 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" name="phone" id="phone" type="number"
-                                                autocomplete="off">
-                                                @error('phone')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                                autocomplete="off" value="{{old('phone')}}">
 
+                                        </div>
+                                        @error('phone')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <label>correo electronico</label>
+                                    <label>Correo Electrónico</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" name="email" id="email" type="text"
-                                                autocomplete="off">
-                                                @error('email')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                                autocomplete="off" value="{{old('email')}}">
 
+                                        </div>
+                                        @error('email')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -189,7 +206,9 @@
                                         height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
-                                    </svg> Antecedentes Personales en General <i class="bi bi-chevron-compact-down"></i>
+                                    </svg> Antecedentes Personales en General <i class="bi bi-chevron-compact-down"></i> <a href="#" tabindex="-1"
+                                    data-toggle="tooltip"
+                                    title="Debe Seleccionar la opcion Antecedentes personales en general para desplegar las opciones"><i class="bi bi-patch-question"></i></a>
                                 </h5>
                             </a>
 
@@ -556,7 +575,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" type="number" name="numero_comidas"
-                                                id="numero_comidas" min="0">
+                                                id="numero_comidas" min="0" value="{{old('numero_comidas')}}">
                                                 @error('numero_comidas')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -571,12 +590,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="number"
-                                                name="horas_descanso" id="horas_descanso" min="0">
-                                                @error('horas_descanso')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                                name="horas_descanso" id="horas_descanso" min="0" value="{{old('horas_descanso')}}">
 
+                                        </div>
+                                        @error('horas_descanso')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -586,11 +605,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="number"
-                                                name="evacuaciones" id="evacuaciones" min="0">
-                                                @error('evacuaciones')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
+                                                name="evacuaciones" id="evacuaciones" min="0" value="{{old('evacuaciones')}}">
+
                                         </div>
+                                        @error('evacuaciones')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -605,11 +625,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="number"
-                                                name="micciones_dia" id="micciones_dia" min="0">
-                                                @error('micciones_dia')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
+                                                name="micciones_dia" id="micciones_dia" min="0" value="{{old('micciones_dia')}}">
+
                                         </div>
+                                        @error('micciones_dia')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -618,11 +639,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="number"
-                                                name="micciones_noche" id="micciones_noche" min="0">
-                                                @error('micciones_noche')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
+                                                name="micciones_noche" id="micciones_noche" min="0" value="{{old('micciones_noche')}}">
+
                                         </div>
+                                        @error('micciones_noche')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -639,12 +661,12 @@
                                                 class="input-group-text @error('room.type') border border-danger text-danger @enderror"><i
                                                     class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" name="tabaco" id="tabaco" type="text"
-                                                autocomplete="off">
-                                                @error('tabaco')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                                autocomplete="off" value="{{old('tabaco')}}">
 
+                                        </div>
+                                        @error('tabaco')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -653,12 +675,12 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" name="alcohol" type="number" id="alcohol"
-                                                autocomplete="off" min="0">
-                                                @error('alcohol')
-                                                <p class="error-message">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                                autocomplete="off" min="0" value="{{old('alcohol')}}">
 
+                                        </div>
+                                        @error('alcohol')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -755,7 +777,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text" name="peso"
-                                                id="peso">
+                                                id="peso" value="{{old('peso')}}">
                                                 @error('peso')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -770,7 +792,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text" name="IMC"
-                                                id="IMC">
+                                                id="IMC" value="{{old('IMC')}}">
                                                 @error('IMC')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror
@@ -784,9 +806,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="grasa" type="text"
-                                                id="grasa">
+                                                id="grasa" value="{{old('grasa')}}">
                                         </div>
-
+                                        @error('grasa')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -794,9 +818,11 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="text" name="musculo" id="musculo">
+                                            <input class="form-control" type="text" name="musculo" id="musculo" value="{{old('musculo')}}">
                                         </div>
-
+                                        @error('musculo')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -804,14 +830,16 @@
                             <div class="row">
 
                                 <div class="col-md">
-                                    <label>KCLA</label>
+                                    <label>KCAL</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text" name="KCAL"
-                                                id="KCAL">
+                                                id="KCAL" value="{{old('KCAL')}}">
                                         </div>
-
+                                        @error('KCAL')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -821,8 +849,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text"
-                                                name="edad_blo" id="edad_blo">
+                                                name="edad_blo" id="edad_blo" value="{{old('edad_blo')}}">
                                         </div>
+                                        @error('edad_blo')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -832,9 +863,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="visceral"
-                                                type="text" id="visceral">
+                                                type="text" id="visceral" value="{{old('visceral')}}">
                                         </div>
-
+                                        @error('visceral')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -842,9 +875,11 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="text" name="busto" id="busto">
+                                            <input class="form-control" type="text" name="busto" id="busto" value="{{old('busto')}}">
                                         </div>
-
+                                        @error('busto')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -857,9 +892,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text" name="cintura"
-                                                id="cintura">
+                                                id="cintura" value="{{old('cintura')}}">
                                         </div>
-
+                                        @error('cintura')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -871,6 +908,9 @@
                                             <input class="form-control" autocomplete="off" type="text" name="cadera"
                                                 id="cadera">
                                         </div>
+                                        @error('cadera')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -880,9 +920,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text  "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" name="brazo_der"
-                                                type="text" id="brazo_der">
+                                                type="text" id="brazo_der" value="{{old('brazo_der')}}">
                                         </div>
-
+                                        @error('brazo_der')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -890,9 +932,11 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="text" name="brazo_izq" id="brazo_izq">
+                                            <input class="form-control" type="text" name="brazo_izq" id="brazo_izq" value="{{old('brazo_izq')}}">
                                         </div>
-
+                                        @error('brazo_izq')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -905,9 +949,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text"
-                                                name="pierna_der" id="pierna_der">
+                                                name="pierna_der" id="pierna_der" value="{{old('pierna_der')}}">
                                         </div>
-
+                                        @error('pierna_der')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -917,8 +963,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
                                             <input class="form-control" autocomplete="off" type="text"
-                                                name="pierna_izq" id="pierna_izq">
+                                                name="pierna_izq" id="pierna_izq" value="{{old('pierna_izq')}}">
                                         </div>
+                                        @error('pierna_izq')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -951,7 +1000,11 @@
                                             <input type="file" id="path[]" name="path[]" class="form-control"
                                                 multiple accept="image/*">
                                             <br>
+
                                         </div>
+                                        @error('path')
+                                        <p class="error-message">{{ $message }}</p>
+                                    @enderror
                                         <div class="description">
                                             Un número ilimitado de archivos pueden ser cargados en este campo.
                                             <br>
@@ -980,7 +1033,7 @@
                         <div class="modal-footer">
 
 
-                            <button type="submit" class="btn btn-success"><strong>GUARDAR</strong></button>
+                            <button type="submit" class="btn btn-success" id="formRecord"><strong>GUARDAR</strong></button>
                         </div>
                     </div>
                 </form>
@@ -999,8 +1052,20 @@
         let get_expediente = '{{ route('expediente.get') }}'
         let get_usuario = '{{ route('data.get') }}'
         let get_record = '{{ route('record.get') }}'
+        let store='{{route('record.store')}}'
 
         //console.log(get_pdf);
     </script>
     <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
-@endsection
+<script>
+   console.log(data);
+    if(has_errors)
+    swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+       text: jQuery("#ERROR_COPY").html(),
+        confirmButtonText: 'Cerrar'
+    })
+    console.log(has_errors);
+</script>
+    @endsection

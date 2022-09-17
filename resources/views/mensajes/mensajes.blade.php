@@ -35,4 +35,6 @@
         })
         console.log("{{ Session::get('code') }}");
     </script>
+
 @endif
+

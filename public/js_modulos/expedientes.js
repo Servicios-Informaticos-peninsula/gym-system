@@ -172,14 +172,7 @@ $(function ($) {
         },
     });
 
-    // Webcam.set({
-    //     width: 490,
-    //     height: 350,
-    //     image_format: 'jpeg',
-    //     jpeg_quality: 90
-    // });
 
-    // Webcam.attach( '#my_camera' )
 
 
 
