@@ -13,7 +13,7 @@ class MembershipRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class MembershipRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'users_id' => ['required', 'exists:users,id'],
+            'membership_type' => ['required', 'exists:membership_types,id'],
+            'init_date' => ['required', 'date'],
+            'expiration_date' => ['required', 'date']
         ];
     }
 }
