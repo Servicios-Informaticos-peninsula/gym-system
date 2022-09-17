@@ -62,14 +62,14 @@
                                                                 </button>
                                                             </form>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        {{-- <div class="col-md-4">
                                                             <form action="{{route('user.destroy',$row->id)}}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-icon btn-info" title="Ver Expediente Usuario"><i class="bi bi-list-check"></i>
                                                                 </button>
                                                             </form>
-                                                        </div>
+                                                        </div> --}}
                                                     </div></td>
 
 

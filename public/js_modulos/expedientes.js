@@ -5,19 +5,19 @@ $(function ($) {
     });
     console.log("hola 23234");
     // $('#capa_create_record').hide();
-    $('#nuevo_expediente').on('click', function () {
-        $('#capa_index_record').fadeOut(1000, function () {
+    // $('#nuevo_expediente').on('click', function () {
+    //     $('#capa_index_record').fadeOut(1000, function () {
 
-            $("#capa_create_record").fadeIn(1000, function () {
-                $(window).on('resize');
-            });
-        });
+    //         $("#capa_create_record").fadeIn(1000, function () {
+    //             $(window).on('resize');
+    //         });
+    //     });
 
-    });
+    // });
     /**Select de busqueda de usuarios */
-    $("#volver_index").on('click', function () {
-        location.reload();
-    });
+    // $("#volver_index").on('click', function () {
+    //     location.reload();
+    // });
     $('#search_user').select2({
         width: '100%',
         placeholder: "Seleccione una Opcion",
@@ -64,21 +64,32 @@ $(function ($) {
         $("#collapseAntecedentes").collapse("hide");
         $("#collapsePsico").collapse("hide");
         $("#collapsePeso").collapse("hide");
+        $("#collapseFoto").collapse("hide");
+
     });
     $("#antecedentes").on('click', function () {
         $("#collapseIdentificacion").collapse("hide");
         $("#collapsePsico").collapse("hide");
         $("#collapsePeso").collapse("hide");
+        $("#collapseFoto").collapse("hide");
     });
     $("#habitos").on('click', function () {
         $("#collapseIdentificacion").collapse("hide");
         $("#collapseAntecedentes").collapse("hide");
         $("#collapsePeso").collapse("hide");
+        $("#collapseFoto").collapse("hide");
     });
     $("#peso").on('click', function () {
         $("#collapseIdentificacion").collapse("hide");
         $("#collapsePsico").collapse("hide");
         $("#collapseAntecedentes").collapse("hide");
+        $("#collapseFoto").collapse("hide");
+    });
+    $("#foto").on('click', function () {
+        $("#collapseIdentificacion").collapse("hide");
+        $("#collapsePsico").collapse("hide");
+        $("#collapseAntecedentes").collapse("hide");
+        $("#collapsePeso").collapse("hide");
     });
     /**validar inputs que no se necesiten */
     /**Ocultar inputs hostpitalizacion */

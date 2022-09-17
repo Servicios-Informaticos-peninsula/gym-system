@@ -26,7 +26,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="//code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ url('//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js') }}"></script>{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">    <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="//unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.20.1/bootstrap-table.min.js"></script>
 

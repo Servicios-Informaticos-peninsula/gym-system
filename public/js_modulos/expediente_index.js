@@ -149,18 +149,14 @@ $(function ($) {
             title: "ID",
             visible: false,
         }, {
-            field: "code_user",
-            title: "Codigo Usuario",
-            visible: true,
-        }, {
-            field: "numero_control",
-            title: "Numero Expediente",
-            visible: true,
-        }, {
             field: "name",
             title: "Cliente",
             visible: true,
         },{
+            field: "code_user",
+            title: "Codigo Usuario",
+            visible: true,
+        },  {
             field: "cedicion",
             title: "Acciones",
             formatter: "accionesFormatter",
@@ -252,7 +248,6 @@ $(function ($) {
 //     let a = Math.abs(date_now.getTime() - date_born.getTime());
 
 
-
 //     console.log(a);
 // }
 
@@ -315,10 +310,10 @@ function verFotos(id) {
     });
 }
 
-// function editarVista(id) {
-//     console.log(id)
-//     window.open('vista/modificar/' + id, "_self");
-// }
+function editarVista(id) {
+    console.log(id)
+    window.open('vista/modificar/' + id, "_self");
+}
 function expandTable(row, $detail) {
     console.log(row, "--", $detail);
     $detail.bootstrapTable({

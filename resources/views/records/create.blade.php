@@ -66,14 +66,14 @@
 
                         <hr>
                         {{-- identificacion --}}
+
                         <div class="border-bottom px-3">
+
                             <a data-bs-toggle="collapse" href="#collapseIdentificacion" role="button" aria-expanded="false"
                                 aria-controls="collapseIdentificacion" id="identificacion">
 
                                 <h5 class="h5 mb-2"><i class="bi bi-person-badge-fill"></i> Identificacion   <i
-                                        class="bi bi-chevron-compact-down"></i> <a href="#" tabindex="-1"
-                                        data-toggle="tooltip"
-                                        title="Debe Seleccionar la identificacion para desplegar las opciones, pero si escoge el nombre de cliente se hara en automatico"><i class="bi bi-patch-question"></i></a></h5>
+                                        class="bi bi-chevron-compact-down"></i> </h5>
 
                             </a>
 
@@ -206,9 +206,7 @@
                                         height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
-                                    </svg> Antecedentes Personales en General <i class="bi bi-chevron-compact-down"></i> <a href="#" tabindex="-1"
-                                    data-toggle="tooltip"
-                                    title="Debe Seleccionar la opcion Antecedentes personales en general para desplegar las opciones"><i class="bi bi-patch-question"></i></a>
+                                    </svg> Antecedentes Personales en General <i class="bi bi-chevron-compact-down"></i>
                                 </h5>
                             </a>
 
@@ -235,18 +233,18 @@
                                                         </thead>
                                                         <tbody>
                                                             <td><input type="checkbox" name="hipertension"
-                                                                    id="hipertension"></td>
-                                                            <td><input type="checkbox" name="asma" id="asma">
+                                                                    id="hipertension" value="on"    {{ old('hipertension') == 'on' ? 'checked' : '' }}></td>
+                                                            <td><input type="checkbox" name="asma" id="asma" value="on" {{ old('asma') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="epilepsia" id="epilepsia">
+                                                            <td><input type="checkbox" name="epilepsia" id="epilepsia" value="on" {{ old('epilepsia') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="ciatica" id="ciatica">
+                                                            <td><input type="checkbox" name="ciatica" id="ciatica" value="on" {{ old('ciatica') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="diabetes" id="diabetes">
+                                                            <td><input type="checkbox" name="diabetes" id="diabetes" value="on" {{ old('diabetes') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="lumbagia" id="lumbagia">
+                                                            <td><input type="checkbox" name="lumbagia" id="lumbagia" value="on" {{ old('lumbagia') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="arritmia" id="arritmia">
+                                                            <td><input type="checkbox" name="arritmia" id="arritmia" value="on"{{ old('arritmia') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                         </tbody>
                                                     </table>
@@ -275,16 +273,16 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="ansiedad" id="ansiedad">
+                                                            <td><input type="checkbox" name="ansiedad" id="ansiedad" value="on" {{ old('ansiedad') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="depresion" id="depresion">
+                                                            <td><input type="checkbox" name="depresion" id="depresion" value="on" {{ old('depresion') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                             <td><input type="checkbox" name="depre_postparto"
-                                                                    id="depre_postparto"></td>
+                                                                    id="depre_postparto" value="on" {{ old('depre_postparto') == 'on' ? 'checked' : '' }}></td>
                                                             <td><input type="checkbox" name="estres_cronico"
-                                                                    id="estres_cronico"></td>
+                                                                    id="estres_cronico" value="on" {{ old('estres_cronico') == 'on' ? 'checked' : '' }}></td>
                                                             <td><input type="checkbox" name="estres_postraumatico"
-                                                                    id="estres_postraumatico"></td>
+                                                                    id="estres_postraumatico" value="on" {{ old('estres_postraumatico') == 'on' ? 'checked' : '' }}></td>
 
                                                         </tbody>
                                                     </table>
@@ -315,16 +313,16 @@
                                                         </thead>
                                                         <tbody>
                                                             <td><input type="checkbox" name="papiloma_humano"
-                                                                    id="papiloma_humano"></td>
-                                                            <td><input type="checkbox" name="herpes" id="herpes">
+                                                                    id="papiloma_humano" value="on" {{ old('papiloma_humano') == 'on' ? 'checked' : '' }}></td>
+                                                            <td><input type="checkbox" name="herpes" id="herpes" value="on" {{ old('herpes') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="sifilis" id="sifilis">
+                                                            <td><input type="checkbox" name="sifilis" id="sifilis" value="on" {{ old('sifilis') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="gonorrea" id="gonorrea">
+                                                            <td><input type="checkbox" name="gonorrea" id="gonorrea" value="on" {{ old('gonorrea') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="sida" id="sida">
+                                                            <td><input type="checkbox" name="sida" id="sida" value="on" {{ old('sida') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="clamidia" id="clamidia">
+                                                            <td><input type="checkbox" name="clamidia" id="clamidia" value="on" {{ old('clamidia') == 'on' ? 'checked' : '' }}>
                                                             </td>
 
                                                         </tbody>
@@ -353,14 +351,14 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="desmayos" id="desmayos">
+                                                            <td><input type="checkbox" name="desmayos" id="desmayos" value="on" {{ old('desmayos') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="mareos" id="mareos">
+                                                            <td><input type="checkbox" name="mareos" id="mareos" value="on" {{ old('mareos') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                             <td><input type="checkbox" name="perdida_conocimiento"
-                                                                    id="perdida_conocimiento"></td>
+                                                                    id="perdida_conocimiento" value="on" {{ old('perdida_conocimiento') == 'on' ? 'checked' : '' }}></td>
                                                             <td><input type="checkbox" name="hospitalizacion"
-                                                                    id="hospitalizacion"></td>
+                                                                    id="hospitalizacion" value="on" {{ old('hospitalizacion') == 'on' ? 'checked' : '' }}></td>
 
                                                         </tbody>
                                                     </table>
@@ -377,7 +375,7 @@
                                                         <span class="input-group-text "><i
                                                                 class="ni ni-zoom-split-in"></i></span>
                                                         <input class="form-control" autocomplete="off" type="date"
-                                                            name="fecha_hospitalizacion" id="fecha_hospitalizacion">
+                                                            name="fecha_hospitalizacion" id="fecha_hospitalizacion" value="{{old('fecha_hospitalizacion')}}">
                                                     </div>
 
                                                 </div>
@@ -389,7 +387,7 @@
                                                         <span class="input-group-text "><i
                                                                 class="ni ni-zoom-split-in"></i></span>
                                                         <input class="form-control" autocomplete="off" type="text"
-                                                            name="causa" id="causa">
+                                                            name="causa" id="causa" value="{{old('causa')}}">
                                                     </div>
 
                                                 </div>
@@ -400,9 +398,11 @@
 
                                     </div>
                                 </div>
+
                                 <div class="border-bottom px-3">
-                                    <label for="">Cirugias: </label>
-                                    <div class="modal-body">
+                                    <label for="">Cirugias:  </label>
+
+                                    <div class="modal-body" id="sugeries">
                                         <div class="col-md">
 
                                             <div class="form-group mb-4">
@@ -417,15 +417,15 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="cesarea" id="cesarea">
+                                                            <td><input type="checkbox" name="cesarea" id="cesarea" value="on" {{ old('cesarea') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="abortos" id="abortos">
+                                                            <td><input type="checkbox" name="abortos" id="abortos" value="on" {{ old('abortos') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="apendice" id="apendice">
+                                                            <td><input type="checkbox" name="apendice" id="apendice" value="on" {{ old('apendice') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="vesicula" id="vesicula">
+                                                            <td><input type="checkbox" name="vesicula" id="vesicula" value="on" {{ old('vesicula') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="otro" id="otro">
+                                                            <td><input type="checkbox" name="otro" id="otro" value="on" {{ old('otro') == 'on' ? 'checked' : '' }}>
                                                             </td>
 
                                                         </tbody>
@@ -441,7 +441,7 @@
                                                             <span class="input-group-text "><i
                                                                     class="ni ni-zoom-split-in"></i></span>
                                                             <input class="form-control" autocomplete="off" type="date"
-                                                                name="fecha_hospitalizacion" id="ocupation">
+                                                                name="fecha_hospitalizacion" id="ocupation" value="{{old('fecha_hospitalizacion')}}">
                                                         </div>
 
                                                     </div>
@@ -453,7 +453,7 @@
                                                             <span class="input-group-text "><i
                                                                     class="ni ni-zoom-split-in"></i></span>
                                                             <input class="form-control" autocomplete="off" type="text"
-                                                                name="causa_cirugia" id="causa_cirugia">
+                                                                name="causa_cirugia" id="causa_cirugia" value="{{old('causa_cirugia')}}">
                                                         </div>
 
                                                     </div>
@@ -465,7 +465,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-text "><i
                                                                 class="ni ni-zoom-split-in"></i></span>
-                                                        <textarea class="form-control" autocomplete="off" name="especifique_text" id="especifique_text"></textarea>
+                                                        <textarea class="form-control" autocomplete="off" name="especifique_text" id="especifique_text" autofocus="{{old('especifique_text')}}" value="{{old('especifique_text')}}"></textarea>
                                                     </div>
 
                                                 </div>
@@ -497,25 +497,25 @@
                                                             <th>Traumatismos cervicales</th>
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="alergias" id="alergias">
+                                                            <td><input type="checkbox" name="alergias" id="alergias" value="on" {{ old('alergias') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="cefaleas" id="cefaleas">
+                                                            <td><input type="checkbox" name="cefaleas" id="cefaleas" value="on" {{ old('cefaleas') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                             <td><input type="checkbox" name="vision_borrosa"
-                                                                    id="vision_borrosa"></td>
+                                                                    id="vision_borrosa" value="on" {{ old('vision_borrosa') == 'on' ? 'checked' : '' }}></td>
                                                             <td><input type="checkbox" name="cancer" id="cancer">
                                                             </td>
                                                             <td><input type="checkbox" name="ausencia_organos"
-                                                                    id="ausencia_organos"></td>
-                                                            <td><input type="checkbox" name="embarazos" id="embarazos">
+                                                                    id="ausencia_organos" value="on" {{ old('ausencia_organos') == 'on' ? 'checked' : '' }}></td>
+                                                            <td><input type="checkbox" name="embarazos" id="embarazos" value="on" {{ old('embarazos') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="aborto" id="aborto">
+                                                            <td><input type="checkbox" name="aborto" id="aborto" value="on" {{ old('aborto') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                             <td><input type="checkbox" name="metodo_anticonceptivo"
-                                                                    id="metodo_anticonceptivo"></td>
+                                                                    id="metodo_anticonceptivo" value="on" {{ old('metodo_anticonceptivo') == 'on' ? 'checked' : '' }}></td>
                                                             <td><input type="checkbox" name="craneocefalicos"
-                                                                    id="craneocefalicos"></td>
-                                                            <td><input type="checkbox" name="cervicales" id="cervicales">
+                                                                    id="craneocefalicos" value="on" {{ old('craneocefalicos') == 'on' ? 'checked' : '' }}></td>
+                                                            <td><input type="checkbox" name="cervicales" id="cervicales" value="on" {{ old('cervicales') == 'on' ? 'checked' : '' }}>
                                                             </td>
                                                         </tbody>
                                                     </table>
@@ -526,7 +526,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-text "><i
                                                                     class="ni ni-zoom-split-in"></i></span>
-                                                            <textarea class="form-control" autocomplete="off" name="alergias_text" id="alergias_text"></textarea>
+                                                            <textarea class="form-control" autocomplete="off" name="alergias_text" id="alergias_text" autofocus="{{old('alergias_text')}}" value="{{old('alergias_text')}}"></textarea>
                                                         </div>
 
                                                     </div>
@@ -543,7 +543,7 @@
 
                                             <div class="form-group">
                                                 <div class="input-group">
-                                                    <textarea name="medicamentos" id="medicamentos" class="form-control" cols="30" rows="10"></textarea>
+                                                    <textarea name="medicamentos" id="medicamentos" class="form-control" cols="30" rows="10">{{old('medicamentos')}}</textarea>
                                                 </div>
 
                                             </div>
@@ -709,25 +709,25 @@
 
                                                         </thead>
                                                         <tbody>
-                                                            <td><input type="checkbox" name="marihuana" id="marihuana">
+                                                            <td><input type="checkbox" name="marihuana" id="marihuana" value="on" {{ old('marihuana') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="opiaceos" id="opiaceos">
+                                                            <td><input type="checkbox" name="opiaceos" id="opiaceos" value="on" {{ old('opiaceos') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="cocaina" id="cocaina">
+                                                            <td><input type="checkbox" name="cocaina" id="cocaina" value="on" {{ old('cocaina') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="heroina" id="heroina">
+                                                            <td><input type="checkbox" name="heroina" id="heroina"  value="on" {{old('heroina') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="pastillas" id="pastillas">
+                                                            <td><input type="checkbox" name="pastillas" id="pastillas" value="on" {{ old('pastillas') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="crack" id="crack">
+                                                            <td><input type="checkbox" name="crack" id="crack" value="on" {{ old('crack') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="cristal" id="cristal">
+                                                            <td><input type="checkbox" name="cristal" id="cristal" value="on" {{ old('cristal') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="resistol" id="resistol">
+                                                            <td><input type="checkbox" name="resistol" id="resistol" value="on" {{ old('resistol') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="gasolina" id="gasolina">
+                                                            <td><input type="checkbox" name="gasolina" id="gasolina" value="on" {{ old('gasolina') == 'on' ? 'checked' : '' }}>
                                                             </td>
-                                                            <td><input type="checkbox" name="cristal" id="cristal">
+                                                            <td><input type="checkbox" name="thiner" id="thiner" value="on" {{ old('thiner') == 'on' ? 'checked' : '' }}>
                                                             </td>
 
                                                         </tbody>
@@ -752,7 +752,7 @@
                                         viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1Zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5v-1Zm-2 0h1v1H3a1 1 0 0 0-1 1V14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3.5a1 1 0 0 0-1-1h-1v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2Zm6.979 3.856a.5.5 0 0 0-.968.04L7.92 10.49l-.94-3.135a.5.5 0 0 0-.895-.133L4.232 10H3.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 .416-.223l1.41-2.115 1.195 3.982a.5.5 0 0 0 .968-.04L9.58 7.51l.94 3.135A.5.5 0 0 0 11 11h1.5a.5.5 0 0 0 0-1h-1.128L9.979 5.356Z" />
-                                    </svg> Control Peso <i class="bi bi-chevron-compact-down"></i></h5>
+                                    </svg> Control de Peso <i class="bi bi-chevron-compact-down"></i>  </h5>
                             </a>
 
                         </div>
@@ -977,7 +977,7 @@
                         <hr>
                         {{-- fotos --}}
                         <div class="border-bottom px-3">
-                            <a id="peso" data-bs-toggle="collapse" href="#collapseFoto" role="button"
+                            <a id="foto" data-bs-toggle="collapse" href="#collapseFoto" role="button"
                                 aria-expanded="false" aria-controls="collapsePsico">
                                 <h5 class="h5 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                         height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
@@ -985,7 +985,7 @@
                                             d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
                                         <path
                                             d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
-                                    </svg> Fotos <i class="bi bi-chevron-compact-down"></i></h5>
+                                    </svg> Fotos <i class="bi bi-chevron-compact-down"></i> </h5>
                             </a>
 
                         </div>
@@ -1057,15 +1057,5 @@
         //console.log(get_pdf);
     </script>
     <script src="{{ asset('js_modulos/expedientes.js') }}"></script>
-<script>
-   console.log(data);
-    if(has_errors)
-    swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-       text: jQuery("#ERROR_COPY").html(),
-        confirmButtonText: 'Cerrar'
-    })
-    console.log(has_errors);
-</script>
+
     @endsection

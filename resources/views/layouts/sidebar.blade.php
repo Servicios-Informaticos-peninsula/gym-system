@@ -13,8 +13,8 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item active ">
-                <a href="{{ route('sales.point') }}" class="sidebar-link">
+            <li class="sidebar-item active" >
+                <a href="{{ route('sales.point') }}" class="sidebar-link" style="background:#F25D50;">
                     <i class="bi bi-receipt"></i>
                     <span>Venta</span>
                 </a>
