@@ -104,7 +104,7 @@ class MembershipController extends Controller
         try {
             Membership::find($id)->delete();
             return redirect()->back()->with('success', 'Eliminación Éxitosa!');
-        } catch (Exception) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Hubo un problema, porfavor Intente nuevamente!');
         }
     }
