@@ -49,7 +49,7 @@ class MembershipController extends Controller
                 'user_id' => $request->users_id,
                 'init_date' => $request->init_date,
                 'expiration_date' => $request->expiration_date,
-                'membership_type_id' => $request->membership_type,
+                'membership_types_id' => $request->membership_type,
                 'asigned_by' => Auth::id()
             ]);
 

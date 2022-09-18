@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::orderBy('id', 'asc')->paginate(10);
+        $user = User::role('Client')->paginate(10);
         return view('user.index', compact('user'));
     }
 
