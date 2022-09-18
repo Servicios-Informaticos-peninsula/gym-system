@@ -24,7 +24,8 @@ class MembershipTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:100'
+            'name' => 'required|min:2|max:100',
+            'price' => 'required|numeric|min:0.01',
         ];
     }
 }
