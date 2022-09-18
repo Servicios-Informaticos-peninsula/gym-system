@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MembershipTypeRequest;
 use App\Models\MembershipType;
-use Illuminate\Http\Request;
+use Exception;
 
 class MembershipTypeController extends Controller
 {
@@ -26,7 +27,7 @@ class MembershipTypeController extends Controller
      */
     public function create()
     {
-        //
+        // NO IMPLEMENTET
     }
 
     /**
@@ -35,9 +36,9 @@ class MembershipTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MembershipTypeRequest $request)
     {
-        
+
     }
 
     /**
@@ -59,7 +60,7 @@ class MembershipTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        // NO IMPLEMENTET
     }
 
     /**
@@ -69,7 +70,7 @@ class MembershipTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MembershipTypeRequest $request, $id)
     {
         //
     }
@@ -82,6 +83,16 @@ class MembershipTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            MembershipType::find($id)->delete();
+
+            return redirect()
+                ->back()
+                ->with('success', 'Eliminación Éxitosa!');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', $e);
+        }
     }
 }
