@@ -1,29 +1,26 @@
-
-    <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
-            <div class="d-flex justify-content-between">
-                <div class="logo">
-                    <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo"
-                            srcset=""></a>
-                </div>
-                <div class="toggler">
-                    <a href="#" class="sidebar-hide d-xl-none d-block"><i
-                            class="bi bi-x bi-middle"></i></a>
-                </div>
+<div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+        <div class="d-flex justify-content-between">
+            <div class="logo">
+                <a href="#"><img src="{{ asset('img/logo.jpeg') }}" alt="Logo"></a>
+            </div>
+            <div class="toggler">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
             </div>
         </div>
-        <div class="sidebar-menu">
-            <ul class="menu">
-                <li class="sidebar-title">Menu</li>
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item active ">
-                    <a href="{{route('sales.point')}}" class="sidebar-link">
-                        <i class="bi bi-receipt"></i>
-                        <span>Venta</span>
-                    </a>
-                </li>
+            <li class="sidebar-item active" >
+                <a href="{{ route('sales.point') }}" class="sidebar-link" style="background:#F25D50;">
+                    <i class="bi bi-receipt"></i>
+                    <span>Venta</span>
+                </a>
+            </li>
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-stack"></i>
                         <span>Panel</span>
@@ -74,7 +71,7 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-collection-fill"></i>
                         <span>Extra Components</span>
@@ -119,9 +116,9 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-title">Forms &amp; Tables</li> --}}
+            {{-- <li class="sidebar-title">Forms &amp; Tables</li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-hexagon-fill"></i>
                         <span>Form Elements</span>
@@ -148,14 +145,30 @@
                     </ul>
                 </li> --}}
 
-                <li class="sidebar-item  ">
-                    <a href="{{route('home')}}" class="sidebar-link">
-                        <i class="bi bi-speedometer"></i>
-                        <span>Panel</span>
-                    </a>
-                </li>
+            <li class="sidebar-item">
+                <a href="{{ route('home') }}" class="sidebar-link">
+                    <i class="bi bi-speedometer"></i>
+                    <span>Panel</span>
+                </a>
+            </li>
 
-                {{-- <li class="sidebar-item  has-sub">
+            <li class="sidebar-item">
+                <a href="{{ route('Membership.index') }}" class="sidebar-link">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Membresias</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('Membership-type.index') }}" class="sidebar-link">
+                    <i class="bi bi-speedometer"></i>
+                    <span>Tipo Membresias</span>
+                </a>
+            </li>
+
+
+
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pen-fill"></i>
                         <span>Productos</span>
@@ -176,23 +189,23 @@
                     </ul>
                 </li> --}}
 
-                <li class="sidebar-item  ">
-                    <a href="table.html" class="sidebar-link">
-                        <i class="bi bi-people-fill"></i>
-                        <span>Proveedores</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="{{ route('provider.index') }}" class="sidebar-link">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Proveedores</span>
+                </a>
+            </li>
 
-                <li class="sidebar-item  ">
-                    <a href="table-datatable.html" class="sidebar-link">
-                        <i class="bi bi-card-list"></i>
-                        <span>Productos</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="table-datatable.html" class="sidebar-link">
+                    <i class="bi bi-card-list"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
 
-                {{-- <li class="sidebar-title">Extra UI</li> --}}
+            {{-- <li class="sidebar-title">Extra UI</li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pentagon-fill"></i>
                         <span>Widgets</span>
@@ -210,7 +223,7 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-egg-fill"></i>
                         <span>Icons</span>
@@ -228,7 +241,7 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-bar-chart-fill"></i>
                         <span>Charts</span>
@@ -243,14 +256,14 @@
                     </ul>
                 </li> --}}
 
-                <li class="sidebar-item  ">
-                    <a href="ui-file-uploader.html" class="sidebar-link">
-                        <i class="bi bi-shop"></i>
-                        <span>Inventario</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="ui-file-uploader.html" class="sidebar-link">
+                    <i class="bi bi-shop"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-map-fill"></i>
                         <span>Maps</span>
@@ -265,37 +278,37 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-title">Pages</li> --}}
+            {{-- <li class="sidebar-title">Pages</li> --}}
 
-                <li class="sidebar-item  ">
-                    <a href="application-email.html" class="sidebar-link">
-                        <i class="bi bi-cash"></i>
-                        <span>Corte Caja</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="application-email.html" class="sidebar-link">
+                    <i class="bi bi-cash"></i>
+                    <span>Corte Caja</span>
+                </a>
+            </li>
 
-                <li class="sidebar-item  ">
-                    <a href="application-chat.html" class="sidebar-link">
-                        <i class="bi bi-bar-chart"></i>
-                        <span>Estadisticas</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="application-chat.html" class="sidebar-link">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Estadisticas</span>
+                </a>
+            </li>
 
-                <li class="sidebar-item  ">
-                    <a href="application-gallery.html" class="sidebar-link">
-                        <i class="bi bi-credit-card-fill"></i>
-                        <span>Membresias</span>
-                    </a>
-                </li>
+            <li class="sidebar-item  ">
+                <a href="{{ route('user.index') }}" class="sidebar-link">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+            <li class="sidebar-item  ">
+                <a href="{{ route('record.index') }}" class="sidebar-link">
+                    <i class="bi bi-list-check"></i>
+                    <span>Expedientes</span>
+                </a>
+            </li>
 
-                <li class="sidebar-item  ">
-                    <a href="application-checkout.html" class="sidebar-link">
-                        <i class="bi bi-person-bounding-box"></i>
-                        <span>Clientes</span>
-                    </a>
-                </li>
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-person-badge-fill"></i>
                         <span>Authentication</span>
@@ -313,7 +326,7 @@
                     </ul>
                 </li> --}}
 
-                {{-- <li class="sidebar-item  has-sub">
+            {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-x-octagon-fill"></i>
                         <span>Errors</span>
@@ -330,28 +343,25 @@
                         </li>
                     </ul>
                 </li> --}}
-{{--
-                <li class="sidebar-title">Raise Support</li> --}}
+            {{-- <li class="sidebar-title">Raise Support</li> --}}
 
 
 
-                {{-- <li class="sidebar-item  ">
+            {{-- <li class="sidebar-item  ">
                     <a href="https://github.com/zuramai/mazer/blob/main/CONTRIBUTING.md" class="sidebar-link">
                         <i class="bi bi-puzzle"></i>
                         <span>Contribute</span>
                     </a>
                 </li> --}}
 
-                {{-- <li class="sidebar-item  ">
+            {{-- <li class="sidebar-item  ">
                     <a href="https://github.com/zuramai/mazer#donate" class="sidebar-link">
                         <i class="bi bi-cash"></i>
                         <span>Donate</span>
                     </a>
                 </li> --}}
 
-            </ul>
-        </div>
-        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+        </ul>
     </div>
-
-
+    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+</div>

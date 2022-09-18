@@ -2,7 +2,7 @@
 
 @section('content')
 
-<link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+
 
 <div class="page-heading">
     <h3>Profile Statistics</h3>

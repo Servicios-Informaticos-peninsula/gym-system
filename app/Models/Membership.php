@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Membership extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+     protected $fillable = [
+        'user_id',
+        'init_date',
+        'expiration_date',
+        'membership_prices_id',
+        'asigned_by'
+    ];
 }

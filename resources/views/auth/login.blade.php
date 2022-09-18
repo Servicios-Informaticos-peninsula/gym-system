@@ -7,7 +7,7 @@
             <div class="card pt-4">
                 <div class="card-body">
                     <div class="text-center mb-5">
-                        <img src="assets/images/favicon.svg" height="48" class='mb-4'>
+                        <img src="{{asset('img/logo.jpeg')}}" height="48" class='mb-4'>
                         <h3>Iniciar Sesión</h3>
                         <p>Porfavor ponga sus datos para acceder a Spacio Fem´s.</p>
                     </div>
