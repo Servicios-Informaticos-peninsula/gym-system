@@ -39,12 +39,12 @@ class MembershipTypeController extends Controller
      */
     public function store(MembershipTypeRequest $request)
     {
-        dd($request->all());
+
         try {
             $membership = new MembershipType();
             $membership->name = $request->name;
             $membership->price= $request->price;
-            dd($membership);
+
             $membership->save();
             // MembershipType::create([
             //     'name' => $request->name,

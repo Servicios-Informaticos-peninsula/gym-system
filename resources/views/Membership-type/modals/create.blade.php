@@ -46,9 +46,9 @@
                                             </svg>
                                         </span>
                                         <input class="form-control @error('price') is-invalid @enderror" type="text"
-                                            id="price" id="price" placeholder="Precio $ 0.00">
+                                            id="price" name="price" placeholder="Precio $ 0.00">
                                     </div>
-                                    @error('name')
+                                    @error('price')
                                         <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                 </div>

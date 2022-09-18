@@ -25,7 +25,7 @@ class MembershipTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:100',
-            'price' => 'required|numeric|min:0.01',
+            'price' => 'required|numeric',
         ];
     }
 }
