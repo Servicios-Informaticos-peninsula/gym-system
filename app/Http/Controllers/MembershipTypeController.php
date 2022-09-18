@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MembershipTypeRequest;
+use App\Models\Membership;
 use App\Models\MembershipType;
 use Exception;
 
@@ -39,18 +40,23 @@ class MembershipTypeController extends Controller
     public function store(MembershipTypeRequest $request)
     {
         try {
-            MembershipType::create([
-                'name' => $request->name,
-                'price' => $request->price,
-            ]);
+            $membership = new MembershipType();
+            $membership->name = $request->name;
+            $membership->price= $request->price;
+            $membership->save();
+            // MembershipType::create([
+            //     'name' => $request->name,
+            //     'price' => $request->price,
+            // ]);
 
             return redirect()
                 ->back()
                 ->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
+            dd($e);
             return redirect()
                 ->back()
-                ->with('error', $e);
+                ->with('error', "Error al guardar el archivo");
         }
     }
 
