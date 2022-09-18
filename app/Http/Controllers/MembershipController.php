@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\MembershipRequest;
+use App\Models\Membership;
+use App\Models\MembershipType;
+use App\Models\User;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class MembershipController extends Controller
 {
@@ -13,7 +19,11 @@ class MembershipController extends Controller
      */
     public function index()
     {
-        //
+        $membership = Membership::paginate(10);
+        $membership_types = MembershipType::all();
+        $clients = User::role('Client')->get();
+
+        return view('Membership.index', compact('membership', 'membership_types', 'clients'));
     }
 
     /**
@@ -23,7 +33,7 @@ class MembershipController extends Controller
      */
     public function create()
     {
-        //
+        // NO IMPLEMENT
     }
 
     /**
@@ -32,9 +42,21 @@ class MembershipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MembershipRequest $request)
     {
-        //
+        try {
+            Membership::create([
+                'user_id' => $request->users_id,
+                'init_date' => $request->init_date,
+                'expiration_date' => $request->expiration_date,
+                'membership_type_id' => $request->membership_type,
+                'asigned_by' => Auth::id()
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Surgio un problema, Intenta de nuevo!');
+        }
     }
 
     /**
@@ -66,7 +88,7 @@ class MembershipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MembershipRequest $request, $id)
     {
         //
     }
@@ -79,6 +101,11 @@ class MembershipController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Membership::find($id)->delete();
+            return redirect()->back()->with('success', 'Eliminación Éxitosa!');
+        } catch (Exception) {
+            return redirect()->back()->with('error', 'Hubo un problema, porfavor Intente nuevamente!');
+        }
     }
 }

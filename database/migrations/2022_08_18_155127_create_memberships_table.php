@@ -18,8 +18,8 @@ class CreateMembershipsTable extends Migration
             $table->foreignId('users_id')->constrained();
             $table->date('init_date');
             $table->date('expiration_date');
-            //$table->foreignId('membership_prices_id')->constrained();
-            //$table->foreignId('asigned_by')->constrained('users');
+            $table->foreignId('membership_types_id')->constrained();
+            $table->foreignId('asigned_by')->constrained('users');
             $table->timestamps();
         });
     }
