@@ -59,34 +59,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::put('modificar/{id}', 'update')->name('record.update');
             Route::delete('eliminar/{id}', 'destroy')->name('record.destroy');
         });
-
+   /**Rutas AJAX */
+   require (__DIR__ . '/ajax/rutas.php');
     Route::resource('Membership-type', MembershipTypeController::class);
-
-
-    Route::controller('ProviderController')->prefix('proveedores/')->group(function () {
-        Route::get('lista',  'index')->name('provider.index');
-        Route::post('registro',  'store')->name('provider.store');
-        Route::put('modificar/{id}', 'update')->name('provider.update');
-        Route::delete('eliminar/{id}', 'destroy')->name('provider.destroy');
-    });
-
-    Route::controller('UserController')->prefix('clientes/')->group(function () {
-        Route::get('lista',  'index')->name('user.index');
-        Route::post('registro',  'store')->name('user.store');
-        Route::put('modificar/{id}', 'update')->name('user.update');
-        Route::delete('eliminar/{id}', 'destroy')->name('user.destroy');
-    });
-
-    Route::controller('RecordController')->prefix('expediente/')->group(function () {
-        Route::get('lista',  'index')->name('record.index');
-        Route::get('crear',  'create')->name('record.create');
-        Route::post('registro',  'store')->name('record.store');
-        Route::put('modificar/{id}', 'update')->name('record.update');
-        Route::delete('eliminar/{id}', 'destroy')->name('record.destroy');
-    });
-    /**Rutas AJAX */
-    require (__DIR__ . '/ajax/rutas.php');
-
     Route::resource('Membership', MembershipController::class);
 });
 
