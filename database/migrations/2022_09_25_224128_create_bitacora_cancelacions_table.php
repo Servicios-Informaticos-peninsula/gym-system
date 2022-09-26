@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePedidosTable extends Migration
+class CreateBitacoraCancelacionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreatePedidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedidos', function (Blueprint $table) {
+        Schema::create('bitacora_cancelacions', function (Blueprint $table) {
             $table->id();
-            $table->string('orden_number');
-$table->string('reference_line');
-$table->string('estatus');
-$table->foreignId('users_id')->constrained();
+            $table->string("motivo");
+            $table->foreignId('pedidos_id')->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ $table->foreignId('users_id')->constrained();
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('bitacora_cancelacions');
     }
 }
