@@ -31,7 +31,6 @@ class CreateUsersTable extends Migration
             $table->string('age')->nullable()->comment('Estos datos se necesitan obligatorios al momento de crear el expediente');
             $table->date('born')->nullable()->comment('Estos datos se necesitan obligatorios al momento de crear el expediente');
            $table->boolean('expediente')->default(0);
-
             $table->rememberToken();
             $table->timestamps();
         });
