@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="">RFC (Opcional)</label>
+                        <label for="">RFC (Opcional) </label>
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>

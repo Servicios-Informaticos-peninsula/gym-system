@@ -452,7 +452,7 @@ try {
                 ->count();
 
             $pdf = PDF::loadView('records/pdf/expediente', compact('expediente', 'count', 'peso'))
-                ->setPaper('A4', 'landscape');
+                ->setPaper('A4', 'portrait');
             $pdf->output();
 
             /**PHP indicara que se obtiene el pdf */

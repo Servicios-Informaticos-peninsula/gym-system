@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductsTable extends Migration
+class CreateBitacoraAccesosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('bitacora_accesos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('product_units_id')->constrained();
-            $table->text('description');
-            $table->foreignId('providers_id')->constrained();
-            $table->foreignId('category_products_id')->constrained();
+            $table->string('ip_access');
+            $table->string('nickname');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('bitacora_accesos');
     }
 }
