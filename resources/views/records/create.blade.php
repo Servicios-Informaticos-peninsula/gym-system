@@ -85,8 +85,9 @@
                                     <div class="form-group mb-4">
                                         <div class="input-group">
                                             <span class="input-group-text "><i class="ni ni-zoom-split-in"></i></span>
-                                            <input class="form-control" type="datetime-local" name="date_interview"
-                                                id="date_interview" value="{{old('date_interview')}}">
+                                            {{-- <input class="form-control" type="datetime-local" name="date_interview"
+                                                id="date_interview" value="<?php echo date('d/m/Y HH:mm'); ?>" hidden> --}}
+                                                <input  class="form-control" type="datetime-local" name="date_interview" id="date_interview"   value="<?php echo date("Y-m-d H:m");?>" >
                                             @error('date_interview')
                                                 <p class="error-message">{{ $message }}</p>
                                             @enderror

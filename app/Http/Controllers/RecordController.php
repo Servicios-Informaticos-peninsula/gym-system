@@ -92,6 +92,7 @@ class RecordController extends Controller
         $user = User::orderBy('id', 'asc')
             ->distinct()
             ->where('expediente', 0)
+            ->role('cliente')
             ->get();
 
         return view('records.create', compact('user'));
