@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
 use App\Models\Record;
 use App\Models\User;
+use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -17,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::role('Client')->paginate(10);
+        $user = User::role('Cliente')->withTrashed()
+            ->paginate(10);
         return view('user.index', compact('user'));
     }
 
@@ -37,39 +40,117 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
 
-        try {
 
-            $code = IdGenerator::generate([
-                'table' => 'users',
-                'length' => 5,
-                'prefix' => date('y'),
-            ]);
-            $user = new User();
-            $user->name = $request->name;
-            $user->code_user = $code;
-            if (is_null($request->email)) {
-                $user->email = "N/A";
-            } else {
-                $user->email = $request->email;
+
+        // $request->validate( [
+        //         'name' => 'required',
+        //         'surnames' => 'required',
+        //         'email' => 'required',
+        //         'phone' => 'required',
+        //         'contact_phone' => 'required',
+        //     ],   [
+        //         //identificacion
+
+        //         'name.required' => 'El campo de fecha de la entrevista es obligatorio',
+        //         'surnames.required' => 'El campo de ocupacion es obligatorio',
+
+        //         'email.required' => 'El campo de fecha de nacimiento es obligatorio',
+        //         'phone.required' => 'El campo de edad es obligatorio',
+        //         'contact_phone.required' => 'El campo de nombre es obligatorio',
+
+        //     ]);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required', 'string', 'max:255',
+            'surnames' => 'required', 'string', 'max:255',
+            'email' => 'required|unique:users|string',
+            'phone' => 'required|max:10',
+            'contact_phone' => 'required|max:10',
+            'ocupation' => 'required',
+            'born' => 'required',
+        ], [
+            'name.required' => 'El campo de nombre es obligatorio',
+            'name.string' => 'El campo de nombre debe ser texto',
+            'surnames.required' => 'El campo de apellidos es obligatorio',
+            'email.required' => 'El campo de email es obligatorio',
+            'email.unique' => 'El campo de email es unico',
+            'phone.required' => 'El campo de telefono es obligatorio',
+            'contact_phone.required' => 'El campo de número de contacto es obligatorio',
+            'ocupation.required' => 'El campo de ocupacion es obligatorio',
+            'born.required' => 'El campo de fecha de nacimiento es obligatorio',
+
+        ]);
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+
+            foreach ($error as $validador) {
+                return redirect()
+                    ->back()
+                    ->with('error', $validador)
+                    ->withInput();
             }
 
-            if (is_null($request->phone)) {
-                $user->phone = "N/A";
-            } else {
-                $user->phone = $request->phone;
-            }
-            $user->password = 123456;
-            //  dd($user);
-            $user->save();
-            return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
+// dd($encode);
 
-        } catch (\Throwable $th) {
-            // dd($th);
-            return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
+        } else {
+            try {
+                $anio = Carbon::parse($request->get('born'))->format('Y');
+                $dia = Carbon::parse($request->get('born'))->format('d');
+                $mes = Carbon::parse($request->get('born'))->format('m');
+                $anio_actual = Carbon::now()->format('Y');
+                $age = $anio_actual - $anio;
+
+                $name = explode(" ", $request->name);
+                $surnames = explode(" ", $request->surnames);
+                $user = User::create([
+                    'name' => $request->get('name'),
+                    'surnames' => $request->get('surnames'),
+                    'username' => $name[0] . "." . $surnames[0] . $dia . $mes . $anio,
+                    'code_user' => 0,
+                    'email' => $request->get('email'),
+                    'phone' => $request->get('phone'),
+                    'contact_phone' => $request->contact_phone,
+                    'ocupation' => $request->get('ocupation'),
+                    'born' => $request->get('born'),
+                    'age' => $age,
+                    'password' => Hash::make('123456'),
+                ]);
+
+                $user->assignRole('cliente');
+                $user_code = User::where('id',$user->id)->first();
+
+               $us= User::where('id',  $user_code->id)
+                    ->update([
+                        'code_user' => "000". $user_code->id,
+                    ]);
+
+                return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
+            } catch (\Throwable $th) {
+                return redirect()
+                    ->back()
+                    ->with('error', $th->getMessage())
+                    ->withInput();
+            }
+
         }
+
+        // } catch (\Throwable $th) {
+
+        //     $errors = new BitacoraError();
+        //     $json_encode = $th->getMessage();
+        //     $errors->error = $json_encode;
+        //     $errors->modulo = "users_clients";
+        //     $errors->save();
+        //     return redirect()
+        //     ->back()
+        //     ->with('error', 'Verifique la informacion o contacte con soporte')
+        //     ->withInput();
+        //     // return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
+        // }
+
     }
 
     /**

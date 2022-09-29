@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\CategoryMembership;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CategoryMembershipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate('30');
-        return view('Products.index', compact('products'));
+        //
     }
 
     /**
@@ -42,10 +41,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\CategoryMembership  $categoryMembership
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(CategoryMembership $categoryMembership)
     {
         //
     }
@@ -53,10 +52,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\CategoryMembership  $categoryMembership
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CategoryMembership $categoryMembership)
     {
         //
     }
@@ -65,10 +64,10 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\CategoryMembership  $categoryMembership
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CategoryMembership $categoryMembership)
     {
         //
     }
@@ -76,10 +75,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\CategoryMembership  $categoryMembership
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CategoryMembership $categoryMembership)
     {
         //
     }

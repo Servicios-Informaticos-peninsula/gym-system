@@ -14,5 +14,5 @@ class MembershipType extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price','category'];
 }

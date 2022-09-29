@@ -8,6 +8,7 @@ use App\Models\MembershipType;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MembershipController extends Controller
@@ -21,7 +22,7 @@ class MembershipController extends Controller
     {
         $membership = Membership::paginate(10);
         $membership_types = MembershipType::all();
-        $clients = User::role('Client')->get();
+        $clients = User::role('Cliente')->get();
 
         return view('Membership.index', compact('membership', 'membership_types', 'clients'));
     }
@@ -42,10 +43,11 @@ class MembershipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MembershipRequest $request)
+    public function store(Request $request)
     {
+        dd($request->all());
         try {
-            Membership::create([
+            $Membership=Membership::create([
                 'user_id' => $request->users_id,
                 'init_date' => $request->init_date,
                 'expiration_date' => $request->expiration_date,

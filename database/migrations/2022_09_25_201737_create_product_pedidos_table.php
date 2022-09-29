@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembershipTypesTable extends Migration
+class CreateProductPedidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMembershipTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('membership_types', function (Blueprint $table) {
+        Schema::create('product_pedidos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->double('price');
-            $table->boolean('category');
+            $table->foreignId('products_id')->constrained();
+            $table->foreignId('pedidos_id')->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateMembershipTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membership_types');
+        Schema::dropIfExists('product_pedidos');
     }
 }

@@ -267,11 +267,14 @@ function getdatos_select(e) {
             });
         },
         success: function (data) {
-console.table(data.name);
+console.table(data);
             if (data) {
                 $("#name").val(data.name);
                 $("#email").val(data.email);
                 $("#phone").val(data.phone);
+                $("#ocupation").val(data.ocupation);
+                $("#born").val(data.born);
+                $("#age").val(data.age);
                 $("#collapseIdentificacion").collapse("show");
                 NProgress.done();
                 swal.fire({
