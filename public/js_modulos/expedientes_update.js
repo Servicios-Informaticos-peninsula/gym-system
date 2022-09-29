@@ -3,6 +3,32 @@ $(function ($) {
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
+
+    $("#camera_area").hide();
+
+    $("#path").change(function () {
+
+        showImgs("path", "dataImagenes");
+        let filesize = $('path')[0].files[0].size;
+
+    let sizekiloByte = parseInt(filesize / 1024);
+    if (sizekiloByte > 2018) {
+        swal({
+            title: "Error",
+            text: "El archivo es mayor a 2MB",
+            type: "warning",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        });
+        document.getElementById("path").value = "";
+        $("#btnRemoverImg").hide();
+    } else {
+        //  var hayArchivos = document.getElementById("fPDF").files.length > 0;
+        $("#btnRemoverImg").show();
+    }
+        });
     // console.log("hola 23234");
     // $('#capa_create_record').hide();
     // $('#nuevo_expediente').on('click', function () {
@@ -102,6 +128,10 @@ $(function ($) {
         }
     });
 
+
+
+
+
     // /**Ocultar otro cirugias */
     var otro = $("#otro");
     var especifique = $("#especifique");
@@ -162,6 +192,77 @@ $(function ($) {
 
 
 });
+
+function open_Camera(){
+
+    $("#camera_area").show();
+
+    Webcam.set({
+        width: 490,
+        height: 350,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    Webcam.attach( '#my_camera' );
+}
+
+function take_snapshot() {
+    alert("tomar foto");
+    Webcam.snap( function(data_uri) {
+
+        // document.getElementById('path').setAttribute('value', data_uri);
+        //showImgs("path", "dataImagenes");
+
+
+        // document.getElementsByName("path")[0].setAttribute("value", data_uri);
+        // showImgs("path", "dataImagenes");
+
+        var file = dataURLtoFile(data_uri, "test.png");
+        let container = new DataTransfer();
+        container.items.add(data_uri);
+        document.querySelector('#path').files = container.files;
+        // var newfile = document.querySelector('#path').files[0];
+
+    } );
+}
+
+
+
+function showImgs(IDfImagenes, divDataImagenes) {
+    // alert("fotos"+IDfImagenes);
+    var archivos = document.getElementById(IDfImagenes).files;
+    $.each(archivos, function (index, archivo) {
+        $("#" + divDataImagenes).empty();
+        var reader = new FileReader();
+        if (archivo) {
+                var html = "";
+                setTimeout(function () {
+                    reader.readAsDataURL(archivo);
+                    reader.onloadend = function () {
+                        html =
+                            '<div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6 contenedorImagenes">' +
+                            '<div class="font-icon-detail-img">' +
+                            '<img class="zoom img-file-input" id="img' +
+                            index +
+                            '" " src="' +
+                            reader.result +
+                            '" height="100%" width="100%" />' +
+                            '<p class="p-without-m-b-t"><span class="span-name-img">' +
+                            archivo.name +
+                            "</span></p>" +
+                            "</div>" +
+                            "</div>";
+                        $("#" + divDataImagenes).append(html);
+                    };
+                }, 100);
+            }
+
+
+    });
+
+    //'<img class="zoom img-file-input" id="img' + index + '" onclick="showFancyBox($(this))" src="' + reader.result + '"/>' +
+}
 
 
 // function getdatos_select(e) {

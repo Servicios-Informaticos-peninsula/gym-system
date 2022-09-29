@@ -19,6 +19,7 @@
         img.redimension {
             width: 50%;
             height: 50%;
+            z-index: 2;
         }
 
         /* img.redimension {
@@ -33,15 +34,15 @@
                     Set a position in the page for your image
                     This should center it vertically
                 **/
-            bottom: -18cm;
-            left: 5cm;
+            top:9cm;
+            left: 2cm;
 
             /** Change image dimensions**/
-            width: 300%;
-            height: 150%;
+            width: 400%;
+            height: 400%;
 
             /** Your watermark should be behind every content**/
-            z-index: 1;
+            z-index: -1;
             opacity: 0.10;
         }
     </style>
