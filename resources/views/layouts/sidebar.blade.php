@@ -202,7 +202,7 @@
             </li>
 
             <li class="sidebar-item  ">
-                <a href="table-datatable.html" class="sidebar-link">
+                <a href="{{ route('products.index') }}" class="sidebar-link">
                     <i class="bi bi-card-list"></i>
                     <span>Productos</span>
                 </a>

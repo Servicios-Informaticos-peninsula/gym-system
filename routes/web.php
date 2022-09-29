@@ -60,7 +60,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::delete('eliminar/{id}', 'destroy')->name('record.destroy');
         });
    /**Rutas AJAX */
+
    require (__DIR__ . '/ajax/rutas.php');
+   
     Route::resource('Membership-type', MembershipTypeController::class);
     Route::resource('Membership', MembershipController::class);
 
