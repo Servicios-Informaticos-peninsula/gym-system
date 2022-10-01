@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\CategoryProduct;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\ProductUnit;
+use App\Models\Provider;
+use Exception;
 
 class ProductController extends Controller
 {
@@ -15,7 +19,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::paginate('30');
-        return view('Products.index', compact('products'));
+        $productUnits = ProductUnit::all();
+        $productCategories = CategoryProduct::all();
+        $providers = Provider::all();
+
+        return view('Products.index', compact('products', 'productUnits', 'productCategories', 'providers'));
     }
 
     /**
@@ -34,9 +42,21 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        try {
+            Product::create([
+                'name' => $request->product_name,
+                'product_units_id' => $request->product_unit,
+                'description' => $request->product_description,
+                'providers_id' => $request->providers_id,
+                'category_products_id' => $request->product_category
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Hubo un problema!');
+        }
     }
 
     /**
@@ -68,9 +88,21 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        try {
+            Product::find($id)->update([
+                'name' => $request->product_name,
+                'product_units_id' => $request->product_unit,
+                'description' => $request->product_description,
+                'providers_id' => $request->providers_id,
+                'category_products_id' => $request->product_category
+            ]);
+
+            return redirect()->back()->with('success', 'Actualización Éxitosa!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Hubo un problema!');
+        }
     }
 
     /**
@@ -81,6 +113,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Product::find($id)->delete();
+
+            return redirect()->back()->with('success', 'Eliminación Éxitosa!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 }

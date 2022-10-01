@@ -1,13 +1,13 @@
-<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Producto</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Editar Producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.update', $product->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
@@ -108,7 +108,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                         aria-label="Close">Cancelar</button>
-                    <button type="submit" class="btn btn-success"><strong>GUARDAR</strong></button>
+                    <button type="submit" class="btn btn-success"><strong>ACTUALIZAR</strong></button>
                 </div>
             </form>
         </div>
