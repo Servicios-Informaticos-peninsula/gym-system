@@ -19,6 +19,8 @@ class CreateInventoriesTable extends Migration
             $table->integer('quantity');
             $table->integer('minimum_alert');
             $table->integer('maximun_alert');
+            $table->double('purchase_price')->nullable();
+            $table->double('sales_price')->nullable();
             $table->foreignId('asigned_by')->constrained('users');
             $table->string('status_sale');
             $table->string('status_envio');

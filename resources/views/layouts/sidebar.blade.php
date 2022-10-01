@@ -13,7 +13,7 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item active" >
+            <li class="sidebar-item active">
                 <a href="{{ route('sales.point') }}" class="sidebar-link" style="background:#F25D50;">
                     <i class="bi bi-receipt"></i>
                     <span>Venta</span>
@@ -208,6 +208,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item">
+                <a href="{{ route('inventory.index') }}" class="sidebar-link">
+                    <i class="bi bi-shop"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+
             {{-- <li class="sidebar-title">Extra UI</li> --}}
 
             {{-- <li class="sidebar-item  has-sub">
@@ -260,13 +267,6 @@
                         </li>
                     </ul>
                 </li> --}}
-
-            <li class="sidebar-item  ">
-                <a href="ui-file-uploader.html" class="sidebar-link">
-                    <i class="bi bi-shop"></i>
-                    <span>Inventario</span>
-                </a>
-            </li>
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
