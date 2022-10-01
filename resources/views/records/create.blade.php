@@ -55,7 +55,7 @@
                                         data-toggle="tooltip"
                                         title="Debe Seleccionar la opcion Nombre cliente"><i class="bi bi-patch-question"></i></a>
                                 </div>
-                                <input type="text" id="users_id" name="users_id" hidden readonly>
+                                <input type="text" id="users_id" name="users_id" value ="" hidden >
                                 @error('users_id')
                                 <p class="error-message">{{ $message }}</p>
                             @enderror
@@ -998,7 +998,7 @@
                                     <label>Cargar Foto</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
-                                            <input type="file" id="path[]" name="path[]" class="form-control"
+                                            <input type="file" id="path" name="path[]" class="form-control"
                                                 multiple accept="image/*">
                                             <br>
 
@@ -1020,15 +1020,38 @@
                                     <label>Tomar Foto</label>
                                     <div class="form-group mb-4">
                                         <div class="input-group">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#avisoModal">
-                                                Tomar Foto
+                                            <button  type="button" class="btn btn-primary"  value="open Camera" onClick="open_Camera()" >
+                                                Usar Camara
                                             </button>
                                         </div>
+                                        <br>
+                                        <div  id = "camera_area" class="col-md-6">
+                                            <div id="my_camera"></div>
+                                            <br>
+                                            <button  type="button" class="btn btn-primary" onClick="take_snapshot()">
+                                                Capturar Foto
+                                            </button>
+                                            <button  type="button" class="btn btn-primary" onClick="stopCamera()">
+                                                Cerrar
+                                            </button>
+
+                                        </div>
+
 
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row" id="dataImagenes">
+                                        <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
+                                            <div class="font-icon-detail-img">
+                                                <img class="img-file-input" id="" src="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -106,6 +106,9 @@ class RecordController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        // $imagenes = $request->file('path');
+        // dd($request->hasFile('path'));
 
         $carbon = Carbon::now();
         //DB::beginTransaction();
@@ -384,10 +387,15 @@ try {
         // $urlImagenes = [];
 
         if ($request->hasFile('path')) {
+
             $imagenes = $request->file('path');
+            // dd($imagenes);
+            $i=1;
+
             foreach ($imagenes as $imagen) {
 
-                $nombre = time() . "_" . $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
+
+                $nombre = time() .$i. "_" . $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
                 //$ruta = 'app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
                 $ruta = storage_path('app/public/imagenes/' . $usuario->name . "/" . $record->numero_control . "/" . $nombre);
                 $photo = new RecordPhoto();
@@ -398,12 +406,14 @@ try {
                 $contenido_archivo = file_get_contents($imagen);
                 $route = 'imagenes/' . $usuario->name . "/" . $record->numero_control . "/" . $nombre;
                 $laravel_path = Storage::disk('public')->put($route, $contenido_archivo);
+                $i++;
             }
         }
 
         return redirect()->route('record.index')->with('success', '¡Se agrego el expediente del usuario de forma exitosa!');
     }
 } catch (\Throwable $th) {
+    dd($th->getMessage());
     return back()->with('error', 'Hubo un error al agregar los datos. Verifique los datos.');
 }
 
@@ -451,6 +461,8 @@ try {
                 ->join('psychobiological_habits', 'psychobiological_habits.records_id', '=', 'psychobiological_habits.id')
                 ->where('records.id', $id)
                 ->count();
+
+
 
             $pdf = PDF::loadView('records/pdf/expediente', compact('expediente', 'count', 'peso'))
                 ->setPaper('A4', 'portrait');
@@ -537,6 +549,7 @@ try {
      */
     public function update(Request $request, $id)
     {
+
 
         $carbon = Carbon::now();
        // DB::beginTransaction();
@@ -672,10 +685,15 @@ try {
 
                 if ($request->hasFile('path')) {
 
-                    $imagenes = $request->file('path');
-                    foreach ($imagenes as $imagen) {
 
-                        $nombre = time() . "_" . $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
+                    $imagenes = $request->file('path');
+                    $i =1;
+                    // dd($imagenes);
+                    foreach ($imagenes as $imagen) {
+                        // dd($imagen);
+
+
+                        $nombre = time().$i . "_" . $usuario->name . "_" . $record->numero_control . "_" . $record->id . "." . $imagen->getClientOriginalExtension();
                         //$ruta = 'app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre;
                         $ruta = storage_path('app/public/imagenes/' . $usuario->name . "/" . $record->numero_control . "/" . $nombre);
                         //   dd($ruta);
@@ -684,10 +702,14 @@ try {
                         $photo->records_id = $record->id;
                         //dd($photo,$ruta,storage_path('app/public/imagenes/' . $usuario->name . "/".$record->numero_control."/" . $nombre));
                         $photo->save();
+                        // dd($photo);
                         $contenido_archivo = file_get_contents($imagen);
                         $route = 'imagenes/' . $usuario->name . "/" . $record->numero_control . "/" . $nombre;
                         $laravel_path = Storage::disk('public')->put($route, $contenido_archivo);
+                        $i++;
                     }
+
+
                 }
                 // dd($user,$record,  $psyco,$weight);
                 return redirect()->route('record.index')->with('success', '¡Se agrego un nuevo expediente al usuario de forma exitosa!');

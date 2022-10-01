@@ -1,9 +1,37 @@
 
+let countPhotos = 0;
 $(function ($) {
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
-    console.log("hola 23234");
+
+
+    $("#camera_area").hide();
+
+    $("#path").change(function () {
+
+        showImgs("path", "dataImagenes");
+        let filesize = $('path')[0].files[0].size;
+
+    let sizekiloByte = parseInt(filesize / 1024);
+    if (sizekiloByte > 2018) {
+        swal({
+            title: "Error",
+            text: "El archivo es mayor a 2MB",
+            type: "warning",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        });
+        document.getElementById("path").value = "";
+        $("#btnRemoverImg").hide();
+    } else {
+        //  var hayArchivos = document.getElementById("fPDF").files.length > 0;
+        $("#btnRemoverImg").show();
+    }
+        });
+    // console.log("hola 23234");
     // $('#capa_create_record').hide();
     // $('#nuevo_expediente').on('click', function () {
     //     $('#capa_index_record').fadeOut(1000, function () {
@@ -33,7 +61,28 @@ $(function ($) {
 
     });
 
+
+
+    // /**Ocultar otro cirugias */
+    var otro = $("#otro");
+    var especifique = $("#especifique");
+    especifique.hide();
+    otro.change(function () {
+        if (otro.is(':checked')) {
+            especifique.fadeIn("200");
+
+        } else {
+            especifique.fadeOut("200");
+            document.getElementById("especifique_text").val = '';
+
+
+            $('input[type=checkbox]').prop('checked', false);//
+
+        }
+    });
+
     $('#search_user').on('select2:select', function () {
+
         getdatos_select();
     });
     $('#search_user2').select2({
@@ -262,6 +311,152 @@ function calcular_edad() {
 
     console.log(a);
 }
+
+function open_Camera(){
+
+    $("#camera_area").show();
+
+    Webcam.set({
+        width: 490,
+        height: 350,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    Webcam.attach( '#my_camera' );
+}
+
+function take_snapshot() {
+
+    let i = 1;
+
+    let nameI = "path";
+    // console.log("a");
+
+    var archivos = document.getElementById(nameI).files;
+    console.log(archivos);
+
+    let container = new DataTransfer();
+    Webcam.snap( function(data_uri) {
+
+
+
+        $.each(archivos, function (index, archivo) {
+            var reader = new FileReader();
+            $("#" + 'path').empty();
+            if (archivo) {
+
+                i++;
+
+                var fileTemp;
+
+
+                            reader.readAsDataURL(archivo);
+                            reader.onloadend = function () {
+                                fileTemp = reader.result;
+                                var fileP= dataURLtoFile(fileTemp, archivo.name);
+                                container.items.add(fileP);
+                                 console.log("archivoseach "+container.items.length);
+
+                            };
+
+
+
+
+                }
+
+
+        });
+
+        setTimeout(() => {
+        var fileC = dataURLtoFile(data_uri, "imagen"+i+".jpeg");
+        container.items.add(fileC);
+        // container.items.add(document.getElementById('path').files );
+        console.log("archivos "+container.items.length);
+        document.querySelector('#path').files =  container.files;
+        showImgs("path", "dataImagenes");
+
+           }, 100);
+
+
+
+    } );
+
+}
+function stopCamera(){
+const video = document.querySelector('video');
+
+// A video's MediaStream object is available through its srcObject attribute
+const mediaStream = video.srcObject;
+
+// Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+const tracks = mediaStream.getTracks();
+
+// Tracks are returned as an array, so if you know you only have one, you can stop it with:
+tracks[0].stop();
+
+// Or stop all like so:
+tracks.forEach(track => track.stop());
+
+$("#camera_area").hide();
+
+
+}
+function dataURLtoFile(dataurl, filename) {
+    // console.log("dataurl "+dataurl+ " "+filename);
+
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+}
+
+
+
+function showImgs(IDfImagenes, divDataImagenes) {
+    // alert("fotos"+IDfImagenes);
+    var archivos = document.getElementById(IDfImagenes).files;
+
+    $.each(archivos, function (index, archivo) {
+        $("#" + divDataImagenes).empty();
+        var reader = new FileReader();
+        if (archivo) {
+                var html = "";
+                setTimeout(function () {
+                    reader.readAsDataURL(archivo);
+                    reader.onloadend = function () {
+                        html =
+                            '<div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6 contenedorImagenes">' +
+                            '<div class="font-icon-detail-img">' +
+                            '<img class="zoom img-file-input" id="img' +
+                            index +
+                            '" " src="' +
+                            reader.result +
+                            '" height="100%" width="100%" />' +
+                            '<p class="p-without-m-b-t"><span class="span-name-img">' +
+                            archivo.name +
+                            "</span></p>" +
+                            "</div>" +
+                            "</div>";
+                        $("#" + divDataImagenes).append(html);
+                    };
+                }, 100);
+            }
+
+
+    });
+
+    //'<img class="zoom img-file-input" id="img' + index + '" onclick="showFancyBox($(this))" src="' + reader.result + '"/>' +
+}
+
+
 
 
 function verExpediente(id) {
