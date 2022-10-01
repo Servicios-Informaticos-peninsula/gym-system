@@ -45,12 +45,14 @@ class MembershipTypeController extends Controller
             'name' => 'required', 'string', 'max:255',
             'price' => 'required', 'string', 'max:255',
             'category' => 'required',
+            'days' => 'required',
 
         ], [
             'name.required' => 'El campo de nombre es obligatorio',
             'name.string' => 'El campo de nombre debe ser texto',
             'price.required' => 'El campo de Precio Membresia es obligatorio',
-            'category.required' => 'El campo de cateogoria es obligatorio',
+            'category.required' => 'El campo de categoria es obligatorio',
+            'days.required' => 'El campo dias de membresias es obligatorio',
 
         ]);
         if ($validator->fails()) {
@@ -72,6 +74,7 @@ class MembershipTypeController extends Controller
                     'name' => $request->get('name'),
                     'price' => $request->get('price'),
                     'category' => $request->category,
+                    'days'=>$request->days
                 ]);
                 // $membership = new MembershipType();
                 // $membership->name = $request->get('name');

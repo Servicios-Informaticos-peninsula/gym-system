@@ -67,7 +67,13 @@
                                   </select>
                             </div>
                         </div>
+                        <div class="col-md">
+                            <div>
+                                <label class="@error('category') border-danger text-danger @enderror">Dias Membresias</label>
 
+                                            <input type="number" min="1" step="1" class="form-control @error('price') is-invalid @enderror" id="days" aria-label="Amount" name="days" placeholder="dias membresias" inputmode="numeric" pattern="[0-9]*" onkeydown="filtro()">
+                            </div>
+                        </div>
 
                     </div>
                 </div>

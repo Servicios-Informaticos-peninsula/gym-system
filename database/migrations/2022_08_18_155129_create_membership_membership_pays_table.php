@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembershipPayTable extends Migration
+class CreateMembershipMembershipPaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMembershipPayTable extends Migration
      */
     public function up()
     {
-        Schema::create('membership_pay', function (Blueprint $table) {
+        Schema::create('membership_membership_pays', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_line');
-            $table->string('estatus');
             $table->foreignId('memberships_id')->constrained();
+            $table->foreignId('membership_pays_id')->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateMembershipPayTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membership_pay');
+        Schema::dropIfExists('membership_membership_pays');
     }
 }

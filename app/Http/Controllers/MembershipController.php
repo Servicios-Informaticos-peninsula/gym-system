@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MembershipRequest;
 use App\Models\Membership;
+use App\Models\MemberShipMembershipPay;
+use App\Models\MembershipPay;
 use App\Models\MembershipType;
 use App\Models\User;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,18 +46,30 @@ class MembershipController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
         try {
-            $Membership=Membership::create([
-                'user_id' => $request->users_id,
+
+            $reference = mt_rand(00000000001, 9999999999);
+
+            $Membership = Membership::create([
+                'users_id' => $request->users_id,
                 'init_date' => $request->init_date,
-                'expiration_date' => $request->expiration_date,
                 'membership_types_id' => $request->membership_type,
-                'asigned_by' => Auth::id()
+                'asigned_by' => Auth::id(),
             ]);
+
+            $pay = MembershipPay::create([
+                'reference_line' => $Membership->id . $reference,
+            ]);
+
+            // $pivot = MemberShipMembershipPay::create([
+            //     'memberships_id' => $Membership->id,
+            //     'membership_pays_id' => $pay->id,
+            // ]);
 
             return redirect()->back()->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', 'Surgio un problema, Intenta de nuevo!');
         }
     }
