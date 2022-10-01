@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RecordPhoto extends Model
 {
     use HasFactory;
+    protected $dates = ['deleted_at'];
+    protected $table = "record_photos";
 }

@@ -4,6 +4,8 @@ $(function ($) {
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
+
+
     $("#camera_area").hide();
 
     $("#path").change(function () {
@@ -59,13 +61,7 @@ $(function ($) {
 
     });
 
-    //camara
-    document.getElementById("startbutton").addEventListener("click", function() {
-        var video = document.getElementById('video');
-        var canvas = document.getElementById('canvas');
-        canvas.getContext('2d').drawImage(video, 100, 0, 480, video.videoHeight, 0, 0, 120, 160);
-        var data = canvas.toDataURL('image/png');
-        document.getElementById('fotocamara').setAttribute('value', data);  });
+
 
     // /**Ocultar otro cirugias */
     var otro = $("#otro");
@@ -86,6 +82,7 @@ $(function ($) {
     });
 
     $('#search_user').on('select2:select', function () {
+
         getdatos_select();
     });
     $('#search_user2').select2({
@@ -331,40 +328,82 @@ function open_Camera(){
 
 function take_snapshot() {
 
+    let i = 1;
+
     let nameI = "path";
+    // console.log("a");
 
     var archivos = document.getElementById(nameI).files;
     console.log(archivos);
 
+    let container = new DataTransfer();
     Webcam.snap( function(data_uri) {
-        let container = new DataTransfer();
+
+
+
         $.each(archivos, function (index, archivo) {
-            $("#" + 'path').empty();
             var reader = new FileReader();
+            $("#" + 'path').empty();
             if (archivo) {
 
-                    setTimeout(function () {
+                i++;
+
+                var fileTemp;
+
+
                             reader.readAsDataURL(archivo);
-                            container.items.add(dataURLtoFile(reader.result, "captura.jpeg"));
-                    }, 100);
+                            reader.onloadend = function () {
+                                fileTemp = reader.result;
+                                var fileP= dataURLtoFile(fileTemp, archivo.name);
+                                container.items.add(fileP);
+                                 console.log("archivoseach "+container.items.length);
+
+                            };
+
+
+
+
                 }
 
 
         });
-        var fileC = dataURLtoFile(data_uri, "captura.jpeg");
+
+        setTimeout(() => {
+        var fileC = dataURLtoFile(data_uri, "imagen"+i+".jpeg");
         container.items.add(fileC);
         // container.items.add(document.getElementById('path').files );
+        console.log("archivos "+container.items.length);
         document.querySelector('#path').files =  container.files;
+        showImgs("path", "dataImagenes");
 
-         showImgs("path", "dataImagenes");
-
-        // $('path')[0].files[0].val(data_uri);
+           }, 100);
 
 
 
     } );
+
+}
+function stopCamera(){
+const video = document.querySelector('video');
+
+// A video's MediaStream object is available through its srcObject attribute
+const mediaStream = video.srcObject;
+
+// Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+const tracks = mediaStream.getTracks();
+
+// Tracks are returned as an array, so if you know you only have one, you can stop it with:
+tracks[0].stop();
+
+// Or stop all like so:
+tracks.forEach(track => track.stop());
+
+$("#camera_area").hide();
+
+
 }
 function dataURLtoFile(dataurl, filename) {
+    // console.log("dataurl "+dataurl+ " "+filename);
 
     var arr = dataurl.split(','),
         mime = arr[0].match(/:(.*?);/)[1],

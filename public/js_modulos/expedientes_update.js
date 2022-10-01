@@ -206,25 +206,92 @@ function open_Camera(){
 
     Webcam.attach( '#my_camera' );
 }
-
 function take_snapshot() {
-    alert("tomar foto");
+
+    let i = 1;
+
+    let nameI = "path";
+    // console.log("a");
+
+    var archivos = document.getElementById(nameI).files;
+    console.log(archivos);
+
+    let container = new DataTransfer();
     Webcam.snap( function(data_uri) {
 
-        // document.getElementById('path').setAttribute('value', data_uri);
-        //showImgs("path", "dataImagenes");
 
 
-        // document.getElementsByName("path")[0].setAttribute("value", data_uri);
-        // showImgs("path", "dataImagenes");
+        $.each(archivos, function (index, archivo) {
+            var reader = new FileReader();
+            $("#" + 'path').empty();
+            if (archivo) {
 
-        var file = dataURLtoFile(data_uri, "test.png");
-        let container = new DataTransfer();
-        container.items.add(data_uri);
-        document.querySelector('#path').files = container.files;
-        // var newfile = document.querySelector('#path').files[0];
+                i++;
+
+                var fileTemp;
+
+
+                            reader.readAsDataURL(archivo);
+                            reader.onloadend = function () {
+                                fileTemp = reader.result;
+                                var fileP= dataURLtoFile(fileTemp, archivo.name);
+                                container.items.add(fileP);
+                                 console.log("archivoseach "+container.items.length);
+
+                            };
+
+                }
+
+
+        });
+
+        setTimeout(() => {
+        var fileC = dataURLtoFile(data_uri, "imagen"+i+".jpeg");
+        container.items.add(fileC);
+        // container.items.add(document.getElementById('path').files );
+        console.log("archivos "+container.items.length);
+        document.querySelector('#path').files =  container.files;
+        showImgs("path", "dataImagenes");
+
+           }, 100);
+
+
 
     } );
+
+}
+function stopCamera(){
+const video = document.querySelector('video');
+
+// A video's MediaStream object is available through its srcObject attribute
+const mediaStream = video.srcObject;
+
+// Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+const tracks = mediaStream.getTracks();
+
+// Tracks are returned as an array, so if you know you only have one, you can stop it with:
+tracks[0].stop();
+
+// Or stop all like so:
+tracks.forEach(track => track.stop());
+
+$("#camera_area").hide();
+
+
+}
+function dataURLtoFile(dataurl, filename) {
+
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
 }
 
 

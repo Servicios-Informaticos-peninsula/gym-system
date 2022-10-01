@@ -1194,7 +1194,7 @@
                                 <label>Cargar Foto</label>
                                 <div class="form-group mb-4">
                                     <div class="input-group">
-                                        <input type="file" id="path" name="path" class="form-control"
+                                        <input type="file" id="path" name="path[]" class="form-control"
                                             multiple accept="image/*">
                                         <br>
 
@@ -1217,7 +1217,7 @@
                                 <div class="form-group mb-4">
                                     <div class="input-group">
                                         <button  type="button" class="btn btn-primary"  value="open Camera" onClick="open_Camera()" >
-                                            Usar WebCam
+                                            Usar Camara
                                         </button>
                                     </div>
                                     <br>
@@ -1225,7 +1225,10 @@
                                         <div id="my_camera"></div>
                                         <br>
                                         <button  type="button" class="btn btn-primary" onClick="take_snapshot()">
-                                            Tomar Foto
+                                            Capturar Foto
+                                        </button>
+                                        <button  type="button" class="btn btn-primary" onClick="stopCamera()">
+                                            Cerrar
                                         </button>
 
                                     </div>
