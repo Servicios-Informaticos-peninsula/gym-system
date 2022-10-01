@@ -31,6 +31,9 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
+                                            <th>Unidad de Medida</th>
+                                            <th>Proveedor</th>
+                                            <th>Categoria</th>
                                             <th>Fecha</th>
                                             <th>Acciones</th>
                                         </tr>
