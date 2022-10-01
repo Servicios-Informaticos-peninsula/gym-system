@@ -57,8 +57,7 @@
 
 
                                                         <div>
-                                                            <form
-                                                                action="{{ route('Products.destroy', $product->id) }}"
+                                                            <form action="{{ route('Products.destroy', $product->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -80,7 +79,6 @@
                     <div class="d-flex justify-content-between align-items-center">
                         {{ $products->links('vendor.pagination.bootstrap-4') }}
                     </div>
-
                 </div>
             </div>
         </div>
