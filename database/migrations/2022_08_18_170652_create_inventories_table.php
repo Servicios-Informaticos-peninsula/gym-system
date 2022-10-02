@@ -17,13 +17,13 @@ class CreateInventoriesTable extends Migration
             $table->id();
             $table->foreignId('products_id')->constrained();
             $table->integer('quantity');
-            $table->integer('minimum_alert');
-            $table->integer('maximun_alert');
+            $table->integer('minimum_alert')->nullable();
+            $table->integer('maximun_alert')->nullable();
             $table->double('purchase_price')->nullable();
             $table->double('sales_price')->nullable();
             $table->foreignId('asigned_by')->constrained('users');
-            $table->string('status_sale');
-            $table->string('status_envio');
+            $table->string('status_sale')->nullable();
+            $table->string('status_envio')->nullable();
 
             $table->timestamps();
         });
