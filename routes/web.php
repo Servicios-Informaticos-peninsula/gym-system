@@ -62,10 +62,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
    /**Rutas AJAX */
 
    require (__DIR__ . '/ajax/rutas.php');
-   
+
     Route::resource('Membership-type', MembershipTypeController::class);
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
+    Route::resource('products-units', ProductUnitController::class);
 });
 
