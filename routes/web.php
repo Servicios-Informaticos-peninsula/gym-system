@@ -30,7 +30,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     });
 
-
     Route::controller('ProviderController')
         ->prefix('proveedores/')
         ->group(function () {
@@ -59,15 +58,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::put('modificar/{id}', 'update')->name('record.update');
             Route::delete('eliminar/{id}', 'destroy')->name('record.destroy');
         });
-   /**Rutas AJAX */
+    /**Rutas AJAX */
 
-   require (__DIR__ . '/ajax/rutas.php');
+    require __DIR__ . '/ajax/rutas.php';
 
     Route::resource('Membership-type', MembershipTypeController::class);
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
 
+    Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
     Route::resource('inventory', InventoryController::class);
 });
-
