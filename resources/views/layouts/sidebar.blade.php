@@ -194,14 +194,14 @@
                     </ul>
                 </li> --}}
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item">
                 <a href="{{ route('provider.index') }}" class="sidebar-link">
                     <i class="bi bi-people-fill"></i>
                     <span>Proveedores</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item">
                 <a href="{{ route('products.index') }}" class="sidebar-link">
                     <i class="bi bi-card-list"></i>
                     <span>Productos</span>

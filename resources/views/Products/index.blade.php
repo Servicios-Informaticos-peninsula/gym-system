@@ -31,6 +31,9 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
+                                            <th>Unidad de Medida</th>
+                                            <th>Proveedor</th>
+                                            <th>Categoria</th>
                                             <th>Fecha</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -40,6 +43,12 @@
                                             <tr>
                                                 <td class="text-bold-500">{{ $product->name }}</td>
 
+                                                <td class="text-bold-500">{{ $product->productUnit->name }}</td>
+
+                                                <td class="text-bold-500">{{ $product->productProvider->name }}</td>
+
+                                                <td class="text-bold-500">{{ $product->productCategory->name }}</td>
+
                                                 <td>{{ $product->created_at }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
@@ -47,23 +56,21 @@
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#product-{{ $product->id }}"
-                                                                title="Editar tipo membresia">
+                                                                data-bs-target="#editProduct"
+                                                                title="Editar producto">
 
                                                                 <i class="bi bi-pencil"></i></button>
 
                                                             @include('Products.modals.edit')
                                                         </div>
 
-
                                                         <div>
-                                                            <form
-                                                                action="{{ route('Products.destroy', $product->id) }}"
+                                                            <form action="{{ route('products.destroy', $product->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-icon btn-danger"
-                                                                    title="Eliminar tipo membresia">
+                                                                    title="Eliminar producto">
                                                                     <i class="bi bi-trash"></i>
                                                                 </button>
                                                             </form>
@@ -80,7 +87,6 @@
                     <div class="d-flex justify-content-between align-items-center">
                         {{ $products->links('vendor.pagination.bootstrap-4') }}
                     </div>
-
                 </div>
             </div>
         </div>

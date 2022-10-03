@@ -90,3 +90,6 @@
     {{-- section modales --}}
     @include('Membership-type.modals.create')
 @endsection
+@section('scripts')
+<script src="{{asset('js_modulos/membership_type.js')}}"></script>
+@endsection
