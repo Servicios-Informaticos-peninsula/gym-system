@@ -24,6 +24,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'bar_code' => 'required|numeric|min:5',
             'product_name' => 'required|min:2',
             'product_unit' => 'required',
             'providers_id' => 'nullable',

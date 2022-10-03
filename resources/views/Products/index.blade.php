@@ -41,7 +41,10 @@
                                     <tbody>
                                         @foreach ($products as $product)
                                             <tr>
-                                                <td class="text-bold-500">{{ $product->name }}</td>
+                                                <td class="text-bold-500">
+                                                    {{ $product->name }}<br>
+                                                    <span>Código Barras: <strong>{{ $product->bar_code }}</strong></span>
+                                                </td>
 
                                                 <td class="text-bold-500">{{ $product->productUnit->name }}</td>
 

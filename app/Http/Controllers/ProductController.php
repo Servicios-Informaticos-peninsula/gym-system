@@ -46,6 +46,7 @@ class ProductController extends Controller
     {
         try {
             Product::create([
+                'bar_code' => $request->bar_code,
                 'name' => $request->product_name,
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
@@ -92,6 +93,7 @@ class ProductController extends Controller
     {
         try {
             Product::find($id)->update([
+                'bar_code' => $request->bar_code,
                 'name' => $request->product_name,
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
