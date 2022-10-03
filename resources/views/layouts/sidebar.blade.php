@@ -13,8 +13,8 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item active ">
-                <a href="{{ route('sales.point') }}" class="sidebar-link">
+            <li class="sidebar-item active" >
+                <a href="{{ route('sales.point') }}" class="sidebar-link" style="background:#F25D50;">
                     <i class="bi bi-receipt"></i>
                     <span>Venta</span>
                 </a>
@@ -202,7 +202,7 @@
             </li>
 
             <li class="sidebar-item  ">
-                <a href="table-datatable.html" class="sidebar-link">
+                <a href="{{ route('products.index') }}" class="sidebar-link">
                     <i class="bi bi-card-list"></i>
                     <span>Productos</span>
                 </a>
@@ -311,12 +311,7 @@
                     <span>Expedientes</span>
                 </a>
             </li>
-            <li class="sidebar-item  ">
-                <a href="{{ route('user.index') }}" class="sidebar-link">
-                    <i class="bi bi-person-bounding-box"></i>
-                    <span>Clientes</span>
-                </a>
-            </li>
+
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">

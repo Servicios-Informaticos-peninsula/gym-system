@@ -55,6 +55,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div>
+                                <label class="@error('category') border-danger text-danger @enderror">Categoria Membresia</label>
+                                <select class="form-select" name="category" id="category">
+                                    <option value="">Seleccione Opcion</option>
+                                    <option value="1">Venta Establecimiento</option>
+                                    <option value="2">Venta en Pagina</option>
+
+                                  </select>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
 
                 <div class="modal-footer">

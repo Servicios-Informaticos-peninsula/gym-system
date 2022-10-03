@@ -17,6 +17,7 @@ class CreateMembershipTypesTable extends Migration
             $table->id();
             $table->string('name');
             $table->double('price');
+            $table->boolean('category');
             $table->timestamps();
         });
     }

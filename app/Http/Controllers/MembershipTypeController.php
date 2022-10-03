@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MembershipTypeRequest;
 use App\Models\MembershipType;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MembershipTypeController extends Controller
 {
@@ -36,8 +38,62 @@ class MembershipTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MembershipTypeRequest $request)
+    public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required', 'string', 'max:255',
+            'price' => 'required', 'string', 'max:255',
+            'category' => 'required',
+
+        ], [
+            'name.required' => 'El campo de nombre es obligatorio',
+            'name.string' => 'El campo de nombre debe ser texto',
+            'price.required' => 'El campo de Precio Membresia es obligatorio',
+            'category.required' => 'El campo de cateogoria es obligatorio',
+
+        ]);
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+
+            foreach ($error as $validador) {
+                return redirect()
+                    ->back()
+                    ->with('error', $validador)
+                    ->withInput();
+            }
+
+            // dd($encode);
+
+        } else {
+            try {
+
+                $membership = MembershipType::create([
+                    'name' => $request->get('name'),
+                    'price' => $request->get('price'),
+                    'category' => $request->category,
+                ]);
+                // $membership = new MembershipType();
+                // $membership->name = $request->get('name');
+                // $membership->price = $request->price;
+                // $membership->category = $request->get('category');
+                // $membership->save();
+                // MembershipType::create([
+                //     'name' => $request->name,
+                //     'price' => $request->price,
+                // ]);
+// dd($membership);
+                return redirect()
+                    ->back()
+                    ->with('success', 'Registro Éxitoso!');
+            } catch (Exception $e) {
+
+                return redirect()
+                    ->back()
+                    ->with('error', "Error al guardar el archivo" . $e->getMessage())
+                    ->withInput();
+            }
+        }
 
     }
 

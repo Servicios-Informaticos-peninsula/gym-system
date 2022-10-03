@@ -20,6 +20,9 @@ class CreateInventoriesTable extends Migration
             $table->integer('minimum_alert');
             $table->integer('maximun_alert');
             $table->foreignId('asigned_by')->constrained('users');
+            $table->string('status_sale');
+            $table->string('status_envio');
+
             $table->timestamps();
         });
     }

@@ -22,16 +22,17 @@ class CreatePsychobiologicalHabitsTable extends Migration
             $table->string('evacuaciones');
             $table->string('tabaco');
             $table->string('alcohol');
-            $table->string('marihuana');
-            $table->string('opiaceos');
-            $table->string('cocaina');
-            $table->string('heroina');
-            $table->string('pastillas');
-            $table->string('crack');
-            $table->string('resistol');
-            $table->string('gasolina');
-            $table->string('thiner');
-            $table->string('cristal');
+
+            $table->string('marihuana')->nullable();
+            $table->string('opiaceos')->nullable();
+            $table->string('cocaina')->nullable();
+            $table->string('heroina')->nullable();
+            $table->string('pastillas')->nullable();
+            $table->string('crack')->nullable();
+            $table->string('resistol')->nullable();
+            $table->string('gasolina')->nullable();
+            $table->string('thiner')->nullable();
+            $table->string('cristal')->nullable();
             $table->foreignId('records_id')->constrained();
             $table->timestamps();
         });

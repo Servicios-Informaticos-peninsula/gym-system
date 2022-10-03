@@ -3,6 +3,7 @@
 @section('content')
 @include('mensajes.mensajes')
 
+
     <div class="container-fluid">
         <header class="card px-2 py-4">
             <div class="d-flex justify-content-between align-items-center">
@@ -33,7 +34,9 @@
                                             <thead>
                                                 <tr>
                                                     <th>Codigo de Cliente</th>
-                                                    <th>Nombre</th>
+                                                    <th>Nombre (s)</th>
+                                                    <th>Apellidos</th>
+                                                    <th>Usuario</th>
                                                     <th>N&uacute;mero</th>
                                                     <th>Correo</th>
                                                     <th>Acciones</th>
@@ -44,6 +47,8 @@
                                                 <tr>
                                                     <td class="text-bold-500">{{$row->code_user}}</td>
                                                     <td class="text-bold-500">{{$row->name}}</td>
+                                                    <td class="text-bold-500">{{$row->surnames}}</td>
+                                                    <td class="text-bold-500">{{$row->username}}</td>
                                                     <td>{{$row->phone}}</td>
                                                     <td class="text-bold-500">{{$row->email}}</td>
                                                     <td class="text-bold-500">  <div class="row">
@@ -62,14 +67,14 @@
                                                                 </button>
                                                             </form>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        {{-- <div class="col-md-4">
                                                             <form action="{{route('user.destroy',$row->id)}}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-icon btn-info" title="Ver Expediente Usuario"><i class="bi bi-list-check"></i>
                                                                 </button>
                                                             </form>
-                                                        </div>
+                                                        </div> --}}
                                                     </div></td>
 
 
