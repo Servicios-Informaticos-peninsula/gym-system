@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center px-2">
                 <h3 class="h2">Inventario Productos</h3>
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProduct">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInventory">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-plus-circle me-1" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -41,13 +41,13 @@
                                     <tbody>
                                         @foreach ($inventories as $inventory)
                                             <tr>
-                                                <td class="text-bold-500">{{ $inventory->name }}</td>
+                                                <td class="text-bold-500">{{ $inventory->product->name }}</td>
 
-                                                <td class="text-bold-500">{{ $inventory }}</td>
+                                                <td class="text-bold-500">{{ $inventory->quantity }}</td>
 
-                                                <td class="text-bold-500">{{ $inventory }}</td>
+                                                <td class="text-bold-500">{{ $inventory->minimum_alert }}</td>
 
-                                                <td class="text-bold-500">{{ $inventory }}</td>
+                                                <td class="text-bold-500">{{ $inventory->maximun_alert }}</td>
 
                                                 <td>{{ $inventory->created_at }}</td>
 
@@ -61,11 +61,11 @@
 
                                                                 <i class="bi bi-pencil"></i></button>
 
-                                                            @include('Products.modals.edit')
+                                                            @include('Inventory.modals.edit')
                                                         </div>
 
                                                         <div>
-                                                            <form action="{{ route('products.destroy', $product->id) }}"
+                                                            <form action="{{ route('inventory.destroy', $inventory->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')

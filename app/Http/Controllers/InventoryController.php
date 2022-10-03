@@ -41,7 +41,6 @@ class InventoryController extends Controller
      */
     public function store(InventoryRequest $request)
     {
-        dd($request);
         try {
             Inventory::create([
                 'products_id' => $request->product,
@@ -128,6 +127,12 @@ class InventoryController extends Controller
      */
     public function destroy($id)
     {
-        Inventory::find($id)->delete();
+        try {
+            Inventory::find($id)->delete();
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 }

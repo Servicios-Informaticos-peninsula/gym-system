@@ -14,7 +14,7 @@ class Inventory extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['products_id', 'quantity', 'minimun_alert', 'maximun_alert', 'purchase_price', 'sales_price', 'asigned_by', 'status_sale', 'status_envio'];
+    protected $fillable = ['products_id', 'quantity', 'minimum_alert', 'maximun_alert', 'purchase_price', 'sales_price', 'asigned_by', 'status_sale', 'status_envio'];
 
     /*
      * Get all of the Product for the Inventory
