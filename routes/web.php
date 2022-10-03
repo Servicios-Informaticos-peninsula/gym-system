@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/acceso/usuarios', function () {
+    return view('auth.login');
+});
 
 Auth::routes(['register' => true, 'login' => true, 'password/confirm' => false, 'password/reset' => false]);
 
@@ -61,11 +64,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         });
    /**Rutas AJAX */
 
-   require (__DIR__ . '/ajax/rutas.php');
-   
     Route::resource('Membership-type', MembershipTypeController::class);
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
+    require (__DIR__ . '/ajax/rutas.php');
 });
 
