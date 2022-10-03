@@ -162,7 +162,7 @@
                     </li>
 
                     <li class="submenu-item">
-                        <a href="{{ route('products.index') }}">Categorías</a>
+                        <a href="{{ route('product-categories.index') }}">Categorías</a>
                     </li>
 
                     <li class="submenu-item">
