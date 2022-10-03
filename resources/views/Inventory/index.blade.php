@@ -56,7 +56,7 @@
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#editProduct"
+                                                                data-bs-target="#editInventory"
                                                                 title="Editar producto">
 
                                                                 <i class="bi bi-pencil"></i></button>
