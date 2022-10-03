@@ -24,8 +24,8 @@ class ProductUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2',
-            'value' => 'required|min:2'
+            'unit_product' => 'required|min:2',
+            'unit_value' => 'required|min:2'
         ];
     }
 }

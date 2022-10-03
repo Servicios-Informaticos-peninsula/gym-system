@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductUnitRequest;
 use App\Models\ProductUnit;
+use Exception;
 
 class ProductUnitController extends Controller
 {
@@ -37,7 +38,20 @@ class ProductUnitController extends Controller
      */
     public function store(ProductUnitRequest $request)
     {
-        //
+        try {
+            ProductUnit::create([
+                'name' => $request->unit_product,
+                'value' => $request->unit_value,
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Hubo un error!');
+        }
     }
 
     /**
@@ -71,7 +85,20 @@ class ProductUnitController extends Controller
      */
     public function update(ProductUnitRequest $request, $id)
     {
-        //
+        try {
+            ProductUnit::find($id)->update([
+                'name' => $request->name,
+                'value' => $request->value,
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', $e);
+        }
     }
 
     /**
@@ -82,6 +109,16 @@ class ProductUnitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            ProductUnit::find($id)->delete();
+
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', $e);
+        }
     }
 }
