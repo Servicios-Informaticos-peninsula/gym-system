@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('product-units.update', $productCategory->id) }}" method="POST">
+            <form action="{{ route('product-categories.update', $productCategory->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">

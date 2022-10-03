@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCategoryRequest;
 use App\Models\CategoryProduct;
+use Exception;
 
 class ProductCategoryController extends Controller
 {
@@ -37,7 +38,16 @@ class ProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request)
     {
-        //
+        try {
+            CategoryProduct::create([
+                'name' =>  $request->category_name,
+                'description' => $request->category_description
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 
     /**
@@ -71,7 +81,16 @@ class ProductCategoryController extends Controller
      */
     public function update(ProductCategoryRequest $request, $id)
     {
-        //
+        try {
+            CategoryProduct::find($id)->update([
+                'name' =>  $request->category_name,
+                'description' => $request->category_description
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 
     /**
@@ -82,6 +101,12 @@ class ProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            CategoryProduct::find($id)->delete();
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
     }
 }
