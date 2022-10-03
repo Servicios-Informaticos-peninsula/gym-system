@@ -103,7 +103,7 @@ class ProductController extends Controller
 
             return redirect()->back()->with('success', 'Actualización Éxitosa!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Hubo un problema!');
+            return redirect()->back()->with('error', $e);
         }
     }
 
