@@ -71,5 +71,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     require (__DIR__ . '/ajax/rutas.php');
     Route::resource('product-units', ProductUnitController::class);
     Route::resource('product-categories', ProductCategoryController::class);
+
+    Route::resource('inventory', InventoryController::class);
 });
 

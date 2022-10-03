@@ -171,6 +171,13 @@
                 </ul>
             </li>
 
+            <li class="sidebar-item">
+                <a href="{{ route('inventory.index') }}" class="sidebar-link">
+                    <i class="bi bi-shop"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+
             {{-- <li class="sidebar-title">Extra UI</li> --}}
 
             {{-- <li class="sidebar-item  has-sub">
@@ -223,13 +230,6 @@
                         </li>
                     </ul>
                 </li> --}}
-
-            <li class="sidebar-item  ">
-                <a href="ui-file-uploader.html" class="sidebar-link">
-                    <i class="bi bi-shop"></i>
-                    <span>Inventario</span>
-                </a>
-            </li>
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
