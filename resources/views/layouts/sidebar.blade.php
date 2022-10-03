@@ -13,63 +13,12 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item active" >
+            <li class="sidebar-item active">
                 <a href="{{ route('sales.point') }}" class="sidebar-link" style="background:#F25D50;">
                     <i class="bi bi-receipt"></i>
                     <span>Venta</span>
                 </a>
             </li>
-
-            {{-- <li class="sidebar-item  has-sub">
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-stack"></i>
-                        <span>Panel</span>
-                    </a>
-                    <ul class="submenu" style="display: none;">
-                        <li class="submenu-item ">
-                            <a href="component-alert.html">Alert</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-badge.html">Badge</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-breadcrumb.html">Breadcrumb</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-button.html">Button</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-card.html">Card</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-carousel.html">Carousel</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-dropdown.html">Dropdown</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-list-group.html">List Group</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-modal.html">Modal</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-navs.html">Navs</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-pagination.html">Pagination</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-progress.html">Progress</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-spinner.html">Spinner</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="component-tooltip.html">Tooltip</a>
-                        </li>
-                    </ul>
-                </li> --}}
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
@@ -201,11 +150,25 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a href="{{ route('products.index') }}" class="sidebar-link">
+            <li class="sidebar-item  has-sub">
+                <a href="#" class="sidebar-link">
                     <i class="bi bi-card-list"></i>
                     <span>Productos</span>
                 </a>
+
+                <ul class="submenu" style="display: none;">
+                    <li class="submenu-item">
+                        <a href="{{ route('products.index') }}">Ver Productos</a>
+                    </li>
+
+                    <li class="submenu-item">
+                        <a href="{{ route('product-categories.index') }}">Categorías</a>
+                    </li>
+
+                    <li class="submenu-item">
+                        <a href="{{ route('product-units.index') }}">Unidades de Medida</a>
+                    </li>
+                </ul>
             </li>
 
             {{-- <li class="sidebar-title">Extra UI</li> --}}

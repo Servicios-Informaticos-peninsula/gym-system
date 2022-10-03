@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -24,6 +25,10 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'bar_code' => [
+                'required', 'numeric', 'min:5',
+                Rule::unique('products', 'bar_code')->ignore($this->id)
+            ],
             'product_name' => 'required|min:2',
             'product_unit' => 'required',
             'providers_id' => 'nullable',
