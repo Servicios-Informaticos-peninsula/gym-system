@@ -14,7 +14,9 @@ class ProductUnitController extends Controller
      */
     public function index()
     {
-        $produtUnits = ProductUnit::paginate(20);
+        $productUnits = ProductUnit::paginate(20);
+
+        return view('Product-unit.index', compact('productUnits'));
     }
 
     /**

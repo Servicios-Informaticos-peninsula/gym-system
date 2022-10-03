@@ -67,6 +67,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
-    Route::resource('products-units', ProductUnitController::class);
+    Route::resource('product-units', ProductUnitController::class);
 });
 

@@ -166,7 +166,7 @@
                     </li>
 
                     <li class="submenu-item">
-                        <a href="{{ route('products.index') }}">Unidades de Medida</a>
+                        <a href="{{ route('product-units.index') }}">Unidades de Medida</a>
                     </li>
                 </ul>
             </li>
