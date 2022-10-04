@@ -6,6 +6,7 @@ use App\Http\Requests\InventoryRequest;
 use App\Models\Inventory;
 use App\Models\Product;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
@@ -50,8 +51,7 @@ class InventoryController extends Controller
                 'purchase_price' => $request->purchase_price,
                 'sales_price' => $request->seles_price,
                 'asigned_by' => Auth::id(),
-                //'status_sale' => false,
-                // 'status_envio' => false,
+                'status' => $request->product_status
             ]);
 
             return redirect()
@@ -62,6 +62,25 @@ class InventoryController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Hubo un Problema.');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            Inventory::find($id)->update([
+                'status' => $request->product_status
+            ]);
+
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e);
         }
     }
 
@@ -105,8 +124,7 @@ class InventoryController extends Controller
                 'purchase_price' => $request->purchase_price,
                 'sales_price' => $request->seles_price,
                 'asigned_by' => Auth::id(),
-                //'status_sale' => ,
-                //'status_envio' => ,
+                'status' => $request->product_status
             ]);
 
             return redirect()

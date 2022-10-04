@@ -28,10 +28,11 @@ class InventoryRequest extends FormRequest
             'quantity' => 'required|numeric|min:1',
 
             'minimum_alert' => 'nullable|numeric|min:1',
-            'maximun_alert'=> 'nullable|numeric|min:1',
+            'maximun_alert' => 'nullable|numeric|min:1',
 
             'purchase_price' => 'nullable|numeric|min:1',
-            'sales_price' => 'nullable|numeric|min:1'
+            'sales_price' => 'nullable|numeric|min:1',
+            'product_status' => 'nullable',
         ];
     }
 }

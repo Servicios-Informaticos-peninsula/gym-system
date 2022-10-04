@@ -22,9 +22,7 @@ class CreateInventoriesTable extends Migration
             $table->double('purchase_price')->nullable();
             $table->double('sales_price')->nullable();
             $table->foreignId('asigned_by')->constrained('users');
-            $table->string('status_sale')->nullable();
-            $table->string('status_envio')->nullable();
-
+            $table->enum('status', ['Solicitado', 'Comprado', 'Empaquetado', 'En camino', 'Disponible'])->default('Solicitado');
             $table->timestamps();
         });
     }

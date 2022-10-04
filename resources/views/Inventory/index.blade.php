@@ -34,6 +34,7 @@
                                             <th>Cantidad</th>
                                             <th>Alerta Minima</th>
                                             <th>Alerta Maxima</th>
+                                            <th>Estado</th>
                                             <th>Fecha</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -49,19 +50,32 @@
 
                                                 <td class="text-bold-500">{{ $inventory->maximun_alert }}</td>
 
+                                                <td class="text-bold-500">{{ $inventory->status }}</td>
+
                                                 <td>{{ $inventory->created_at }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editInventory"
+                                                                data-bs-toggle="modal" data-bs-target="#editInventory"
                                                                 title="Editar producto">
 
                                                                 <i class="bi bi-pencil"></i></button>
 
                                                             @include('Inventory.modals.edit')
+                                                        </div>
+
+                                                        <div class="pe-1">
+                                                            <button type="button" class="btn btn-icon btn-secondary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#updateInventoryStatus"
+                                                                title="Editar Estado Inventario">
+
+                                                                <i class="bi bi-pencil"></i></button>
+                                                            </button>
+
+                                                            @include('Inventory.modals.status')
                                                         </div>
 
                                                         <div>
