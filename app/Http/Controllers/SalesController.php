@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -15,11 +14,33 @@ class SalesController extends Controller
      */
     public function index(Request $request)
     {
-$producto = Inventory::join('products','inventories.products.id','products.id')
-->where('products.bar_code',$request->producto)
-->orWhere('')
+
     }
 
+    public function search(Request $request)
+    {
+        try {
+            $producto = Inventory::join('products', 'inventories.products_id', '=', 'products.id')
+                ->where('products.bar_code', $request->producto)
+                ->orWhere('products.name', $request->producto)
+                ->get();
+                return json_decode($producto);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'lSuccess' => false,
+                'cMensaje' => $th->getMessage(),
+            ]);
+        }
+
+        dd($producto);
+        //->where('products.bar_code', $request->producto)
+        // ->orWhere('products.name')
+        //->where('inventories.status', 'Solicitado')
+
+        //->get();
+
+        return $producto;
+    }
     /**
      * Show the form for creating a new resource.
      *

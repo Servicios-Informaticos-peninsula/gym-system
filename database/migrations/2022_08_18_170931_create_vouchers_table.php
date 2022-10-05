@@ -18,7 +18,9 @@ class CreateVouchersTable extends Migration
             $table->foreignId('products_id')->constrained();
             $table->integer('quantity');
             $table->double('price');
-            $table->foreignId('clients_id')->constrained('users');
+            $table->foreignId('clients_id')->nullable()->constrained('users');
+            $table->string("vendendor");
+
             $table->timestamps();
         });
     }

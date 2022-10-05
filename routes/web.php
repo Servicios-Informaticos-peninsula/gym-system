@@ -23,7 +23,7 @@ Route::get('/acceso/usuarios', function () {
 });
 
 Auth::routes(['register' => true, 'login' => true, 'password/confirm' => false, 'password/reset' => false]);
-
+require (__DIR__ . '/ajax/rutas.php');
 /*
  * Home Routes
  */
@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
-    require (__DIR__ . '/ajax/rutas.php');
+
     Route::resource('product-units', ProductUnitController::class);
     Route::resource('product-categories', ProductCategoryController::class);
 

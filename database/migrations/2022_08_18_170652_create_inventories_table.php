@@ -15,13 +15,14 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->constrained();
+
             $table->integer('quantity');
             $table->integer('minimum_alert')->nullable();
             $table->integer('maximun_alert')->nullable();
             $table->double('purchase_price')->nullable();
             $table->double('sales_price')->nullable();
             $table->foreignId('asigned_by')->constrained('users');
+            $table->foreignId('products_id')->constrained();
             $table->enum('status', ['Solicitado', 'Comprado', 'Empaquetado', 'En camino', 'Disponible'])->default('Solicitado');
             $table->timestamps();
         });
