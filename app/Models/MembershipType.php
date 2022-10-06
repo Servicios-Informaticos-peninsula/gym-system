@@ -16,5 +16,15 @@ class MembershipType extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'price','category','days'];
+    protected $fillable = ['name', 'price'];
+
+    /**
+     * Get the Membership that owns the MembershipType
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Membership()
+    {
+        return $this->belongsTo(Membership::class, 'membership_types_id', 'id');
+    }
 }
