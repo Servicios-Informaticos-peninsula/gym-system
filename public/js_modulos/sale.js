@@ -3,7 +3,6 @@ $(function ($) {
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
 
-
     $("#btnBuscarProducto").on('click', function () {
         selectProducto();
     });
@@ -21,6 +20,10 @@ $(function ($) {
     $("#cash").hide();
     $("#transfer").hide();
     $("#tipo_pago").hide();
+
+
+
+
     $("#gridSale").bootstrapTable({
 
         classes: "table-striped",
@@ -65,7 +68,7 @@ $(function ($) {
             title: "",
 
             visible: true,
-            formatter: "EditAAccionFormatter",
+            formatter: "EditAccionFormatter",
         }],
         onLoadSuccess: function (data) { },
     });
@@ -94,6 +97,11 @@ $(function ($) {
         });
 
     });
+    // $("#form_sale").validate({
+    //     rules: {
+
+    //     }
+    // });
 
 });
 
@@ -101,7 +109,7 @@ function selectProducto() {
     if ($("#search_product").val() == 0) {
         swal.fire({
             title: "Aviso",
-            text: "Debe seleccionar el folio electrónico para poder consultar la información del folio catastral",
+            text: "Ingrese  Producto",
             type: "warning",
             showConfirmButton: true,
             confirmButtonClass: "btn btn-success btn-round",
@@ -133,6 +141,7 @@ function selectProducto() {
             swal.close();
             console.log(r);
             if (r.length > 0) {
+                console.log("encontrado");
                 var num = $("#gridSale").bootstrapTable("getData").length;
 
                 $("#gridSale").bootstrapTable("insertRow", {
@@ -153,8 +162,10 @@ function selectProducto() {
 
                     precioTotal = (lst.sales_price + precioTotal);
                 });
-                $("#price").val(precioTotal);
-                $("#sub_price").val(precioTotal);
+              $("#price").val(precioTotal);
+              $("#price_total").val(precioTotal);
+               $("#sub_price").val(precioTotal);
+
                 $("#search_product").val("");
                 $("#cancel_sale").show();
                 $("#cash").show();
@@ -193,4 +204,15 @@ function reset() {
     $("#price").val("");
     $("#sub_price").val("");
     $("#cancel_sale").hide();
+}
+function EditAccionFormatter(value,row){
+    console.log(row);
+    var html = "";
+    html = '<a href="javascript:void(0);" onclick="eliminarProducto(' + row.id + ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' + "<script>$('[data-toggle=" + '"' + "tooltip" + '"' + "]').tooltip() </script>";
+    return html;
+}
+function eliminarProducto(id) {
+    console.log(id);
+    $(".tooltip").hide();
+    $("#gridSale").bootstrapTable("removeByUniqueId", id);
 }

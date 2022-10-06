@@ -71,7 +71,8 @@
                                         <div class="input-group input-group-alternative mb-4">
                                             {{-- <span class="input-group-text"><i class="bi bi-search"></i></span> --}}
                                             <input class="form-control" type="text" id="search_product"
-                                                name="search_product" placeholder="Escanea o busca el producto" autocomplete="off">
+                                                name="search_product" placeholder="Escanea o busca el producto"
+                                                autocomplete="off">
                                             <button type="button" class="btn btn-primary" title="Buscar Producto"
                                                 id="btnBuscarProducto"><i class="bi bi-search"></i> </button>
                                         </div>
@@ -83,7 +84,8 @@
                                         <div class="input-group input-group-alternative mb-4">
 
                                             <button type="button" class="btn btn-primary" style="background:red;"
-                                                title="Buscar Producto" id="cancel_sale" name="cancel_sale"><i class="bi bi-x-octagon"></i>
+                                                title="Buscar Producto" id="cancel_sale" name="cancel_sale"><i
+                                                    class="bi bi-x-octagon"></i>
                                                 Cancelar
                                                 Venta </button>
                                         </div>
@@ -102,9 +104,11 @@
 
                                 <div class="col-md">
                                     <div class="card mb">
+                                        <h4>Productos</h4>
 
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-hover" id="gridSale"  data-locale="es-MX">
+                                            <table class="table table-striped table-hover" id="gridSale"
+                                                data-locale="es-MX">
 
                                             </table>
 
@@ -121,6 +125,7 @@
 
                             </div>
 
+
                         </div>
                     </div>
                 </div>
@@ -135,24 +140,37 @@
                             <table class="table table-striped table-hover" style="width:100%" id="total">
                                 <tr>
                                     <th>SubTotal:</th>
-                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price" readonly></td>
+                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price" readonly>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Total:</th>
-                                    <td><input type="text" class="form-control" id="price" name="price" readonly autocomplete="off"></td>
+                                    <td><input type="text" class="form-control" id="price" name="price"></td>
                                 </tr>
                                 <tr>
                                     <th style="background:white;" id="tipo_pago">Tipo Pago</th>
 
+
                                 </tr>
                                 <tr id="cash">
                                     <th>Efectivo</th>
-                                    <td><button type="button" class="btn btn-primary"><i class="bi bi-cash"></i></button></td>
+                                    <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modalEfectivo">
+                                            <i class="bi bi-cash"></i>
+                                        </button></td>
+                                    @include('sales.modales.efectivo')
+
                                 </tr>
                                 <tr id="transfer">
                                     <th style="background:white;">Transferencia</th>
-                                    <td style="background:white;"><button type="button" class="btn btn-primary"><i class="bi bi-credit-card"></i></button></td>
+                                    <td style="background:white;">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modalTransferencia">
+                                            <i class="bi bi-credit-card"></i>
+                                        </button>
+                                     </td>
                                 </tr>
+                                @include('sales.modales.transferencia')
                             </table>
                         </div>
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\Membership;
+use App\Models\MembershipPay;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -20,26 +22,64 @@ class SalesController extends Controller
     public function search(Request $request)
     {
         try {
+
+            $gridProductos=[];
+
+
             $producto = Inventory::join('products', 'inventories.products_id', '=', 'products.id')
                 ->where('products.bar_code', $request->producto)
                 ->orWhere('products.name', $request->producto)
+
+                ->where('inventories.status', 'Disponible')
                 ->get();
-                return json_decode($producto);
+
+//declaracion negativa
+
+            if(sizeof($producto) > 0 ){
+
+                foreach ($producto as $pro) {
+
+                    $list = new \stdClass();
+
+                    $list->name = $pro->name;
+
+
+                    $gridProductos[] = $list;
+
+
+                }
+
+
+                return $gridProductos;
+
+            }else{
+                $membresia =  MembershipPay::where('reference_line',$request->producto)
+                ->get();
+
+                foreach ($membresia as $memb) {
+
+                    $list = new \stdClass();
+
+                    $list->name = $memb->reference_line;
+
+                    $gridProductos[] = $list;
+
+
+
+                }
+
+
+                return $gridProductos;
+
+
+            }
+
         } catch (\Throwable $th) {
             return response()->json([
                 'lSuccess' => false,
                 'cMensaje' => $th->getMessage(),
             ]);
         }
-
-        dd($producto);
-        //->where('products.bar_code', $request->producto)
-        // ->orWhere('products.name')
-        //->where('inventories.status', 'Solicitado')
-
-        //->get();
-
-        return $producto;
     }
     /**
      * Show the form for creating a new resource.
@@ -59,7 +99,7 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

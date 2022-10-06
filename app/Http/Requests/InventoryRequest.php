@@ -31,7 +31,7 @@ class InventoryRequest extends FormRequest
             'maximun_alert' => 'nullable|numeric|min:1',
 
             'purchase_price' => 'nullable|numeric|min:1',
-            'sales_price' => 'nullable|numeric|min:1',
+            'sales_price' => 'required|min:1',
             'product_status' => 'nullable',
         ];
     }
