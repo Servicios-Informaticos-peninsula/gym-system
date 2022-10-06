@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/acceso/usuarios', function () {
+    return view('auth.login');
+});
 
 Auth::routes(['register' => true, 'login' => true, 'password/confirm' => false, 'password/reset' => false]);
-
+require (__DIR__ . '/ajax/rutas.php');
 /*
  * Home Routes
  */
@@ -29,7 +32,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     });
-
 
     Route::controller('ProviderController')
         ->prefix('proveedores/')
@@ -59,13 +61,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::put('modificar/{id}', 'update')->name('record.update');
             Route::delete('eliminar/{id}', 'destroy')->name('record.destroy');
         });
-   /**Rutas AJAX */
+    /**Rutas AJAX */
 
-   require (__DIR__ . '/ajax/rutas.php');
-   
     Route::resource('Membership-type', MembershipTypeController::class);
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
-});
 
+    Route::resource('product-units', ProductUnitController::class);
+    Route::resource('product-categories', ProductCategoryController::class);
+
+    Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
+    Route::resource('inventory', InventoryController::class);
+});

@@ -10,3 +10,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     });
     Route::get('pdf/expediente/{id}','RecordController@show')->name('expediente.pdf');
     Route::get('fotos/pdf/expediente/{id}','RecordController@showImg')->name('expediente.fotos');
+Route::post('products/sale', 'SalesController@search')->name('search.products');

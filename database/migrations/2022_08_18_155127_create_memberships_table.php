@@ -17,10 +17,12 @@ class CreateMembershipsTable extends Migration
             $table->id();
             $table->foreignId('users_id')->constrained();
             $table->date('init_date');
+            $table->foreignId('carts_id')->nullable()->constrained();
             $table->date('expiration_date')->nullable();
             $table->foreignId('membership_types_id')->constrained();
             $table->foreignId('asigned_by')->constrained('users');
             $table->boolean('estatus_membresia')->default(0);
+
             $table->timestamps();
         });
     }

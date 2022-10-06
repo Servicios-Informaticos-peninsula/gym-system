@@ -49,17 +49,18 @@ class MembershipController extends Controller
 
         try {
 
-            $reference = mt_rand(00000000001, 9999999999);
+            $reference = mt_rand(00000000001, 9999999990);
 
             $Membership = Membership::create([
                 'users_id' => $request->users_id,
                 'init_date' => $request->init_date,
                 'membership_types_id' => $request->membership_type,
+                'carts_id' => '',
                 'asigned_by' => Auth::id(),
             ]);
 
             $pay = MembershipPay::create([
-                'reference_line' => $Membership->id . $reference,
+                'reference_line' => $Membership->id . $reference."M",
             ]);
 
             // $pivot = MemberShipMembershipPay::create([

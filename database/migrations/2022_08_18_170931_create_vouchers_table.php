@@ -15,10 +15,17 @@ class CreateVouchersTable extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->constrained();
+
+            $table->foreignId('carts_id')->constrained();
             $table->integer('quantity');
-            $table->double('price');
-            $table->foreignId('clients_id')->constrained('users');
+            $table->double('price_total');
+            $table->string("vendendor");
+            $table->string('tipo_pago');
+            $table->double('cantidad_pagada')->nullable();
+            $table->string('folio_transferencia')->nullable();
+            $table->string('claveo_rastreo')->nullable();
+            $table->double('cambio')->nullable();
+            $table->string('estatus');
             $table->timestamps();
         });
     }

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductCategoryRequest;
 use App\Models\CategoryProduct;
-use App\Models\Product;
-use App\Models\ProductUnit;
-use App\Models\Provider;
 use Exception;
 
-class ProductController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate('30');
-        $productUnits = ProductUnit::all();
-        $productCategories = CategoryProduct::all();
-        $providers = Provider::all();
+        $productCategories = CategoryProduct::paginate(20);
 
-        return view('Products.index', compact('products', 'productUnits', 'productCategories', 'providers'));
+        return view('Product-category.index', compact('productCategories'));
     }
 
     /**
@@ -42,21 +36,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(ProductCategoryRequest $request)
     {
         try {
-            Product::create([
-                'bar_code' => $request->bar_code,
-                'name' => $request->product_name,
-                'product_units_id' => $request->product_unit,
-                'description' => $request->product_description,
-                'providers_id' => $request->providers_id,
-                'category_products_id' => $request->product_category
+            CategoryProduct::create([
+                'name' =>  $request->category_name,
+                'description' => $request->category_description
             ]);
 
             return redirect()->back()->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Hubo un problema!');
+            return redirect()->back()->with('error', $e);
         }
     }
 
@@ -89,19 +79,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductCategoryRequest $request, $id)
     {
         try {
-            Product::find($id)->update([
-                'bar_code' => $request->bar_code,
-                'name' => $request->product_name,
-                'product_units_id' => $request->product_unit,
-                'description' => $request->product_description,
-                'providers_id' => $request->providers_id,
-                'category_products_id' => $request->product_category
+            CategoryProduct::find($id)->update([
+                'name' =>  $request->category_name,
+                'description' => $request->category_description
             ]);
 
-            return redirect()->back()->with('success', 'Actualización Éxitosa!');
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e);
         }
@@ -116,9 +102,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            Product::find($id)->delete();
+            CategoryProduct::find($id)->delete();
 
-            return redirect()->back()->with('success', 'Eliminación Éxitosa!');
+            return redirect()->back()->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e);
         }
