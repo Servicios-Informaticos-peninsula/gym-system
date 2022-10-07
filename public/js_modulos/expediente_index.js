@@ -140,7 +140,7 @@ $(function ($) {
         classes: "table-striped",
         method: "post",
         contentType: "application/x-www-form-urlencoded",
-
+locale:"es-MX",
         pagination: true,
         pageSize: 10,
         detailView: true,
