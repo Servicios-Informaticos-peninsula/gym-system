@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Record;
 use App\Models\User;
 use Carbon\Carbon;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,8 +43,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-
 
         // $request->validate( [
         //         'name' => 'required',
@@ -93,7 +92,7 @@ class UserController extends Controller
                     ->withInput();
             }
 
-// dd($encode);
+            // dd($encode);
 
         } else {
             try {
@@ -120,11 +119,11 @@ class UserController extends Controller
                 ]);
 
                 $user->assignRole('cliente');
-                $user_code = User::where('id',$user->id)->first();
+                $user_code = User::where('id', $user->id)->first();
 
-               $us= User::where('id',  $user_code->id)
+                $us = User::where('id', $user_code->id)
                     ->update([
-                        'code_user' => "000". $user_code->id,
+                        'code_user' => "000" . $user_code->id,
                     ]);
 
                 return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
@@ -223,5 +222,47 @@ class UserController extends Controller
             $exception = $th->getMessage();
             return back()->with(['error' => 'No se pudo eliminar el registro, por favor, contacta a un administrado del sistema.', 'code' => $exception]);
         }
+    }
+    public function edit_user()
+    {
+        $usuario = User::find(Auth::User()->id);
+        if (empty($usuario)) {
+
+            return redirect()->back()->with('error','Problemas al cargar su Perfil');
+        }
+        return view('auth.edit')->with('usuario', $usuario);
+    }
+
+    public function update_user(Request $request)
+    {
+        $usuario = User::find(Auth::User()->id);
+        if (empty($usuario)) {
+            return redirect()->back()->with('error','Problemas al cargar su Perfil');
+
+        }
+        //dd($usuario->password);
+       // $decrypt =Crypt::encrypt($usuario->password);
+
+        //dd($request->all());
+        $usuario->name = $request->name;
+        $usuario->surnames = $request->surnames;
+        $usuario->username = $request->username;
+        $usuario->code_user= $request->code_user;
+        $usuario->email = $request->email;
+        $usuario->phone = $request->phone;
+        $usuario->contact_phone = $request->contact_phone;
+        if(!is_null($request->password)){
+            $usuario->password = bcrypt($request->password);
+
+        }else{
+            $usuario->password =$usuario->password;
+        }
+
+        $usuario->ocupation = $request->ocupation;
+        $usuario->age = $request->age;
+        $usuario->born = $request->born;
+
+        $usuario->update();
+        return back()->with('success','El perfil se actualizo con exito');
     }
 }
