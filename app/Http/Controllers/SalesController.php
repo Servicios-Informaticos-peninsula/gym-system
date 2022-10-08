@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\Membership;
+use App\Models\MemberShipMembershipPay;
 use App\Models\MembershipPay;
 use Illuminate\Http\Request;
+use stdClass;
 
 class SalesController extends Controller
 {
@@ -39,9 +41,14 @@ class SalesController extends Controller
 
                 foreach ($producto as $pro) {
 
-                    $list = new \stdClass();
+                    $list = new stdClass;//?
 
-                    $list->name = $pro->name;
+                    $list->name =$pro->name;
+                    $list->id_product = $pro->id;
+                    $list->cantidad = 1;
+                    $list->sales_price = $pro->sales_price;
+                    $list->quantity = $pro->quantity;
+                    $list->lmembresia = false;
 
 
                     $gridProductos[] = $list;
@@ -53,20 +60,42 @@ class SalesController extends Controller
                 return $gridProductos;
 
             }else{
-                $membresia =  MembershipPay::where('reference_line',$request->producto)
+
+                // $membresiaRef =  MembershipPay::where('reference_line',$request->producto)
+                // ->first();
+
+                // $lstpay = MemberShipMembershipPay::where('membership_pays_id',$membresiaRef->id)
+                // ->get();
+
+                $membresia = Membership::select('memberships.id as id','membership_types.name as name','membership_types.price as price',)
+                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
+                ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
+                ->where('membership_pays.reference_line',$request->producto)
                 ->get();
+
+                // dd($membresia);
+
+
+
 
                 foreach ($membresia as $memb) {
 
-                    $list = new \stdClass();
+                    $list = new stdClass;
 
-                    $list->name = $memb->reference_line;
-
+                    $list->name = $memb->name;
+                    $list->id_product = $memb->id;
+                    $list->cantidad = 1;
+                    $list->sales_price = $memb->price;
+                    $list->quantity = "no aplica";
+                    $list->lmembresia = true;
                     $gridProductos[] = $list;
 
-
-
                 }
+
+                // dd($gridProductos);
+
+
 
 
                 return $gridProductos;

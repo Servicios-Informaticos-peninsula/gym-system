@@ -13,4 +13,7 @@ class MemberShipMembershipPay extends Model
         'membership_pays_id',
 
     ];
+    protected $table = "membership_membership_pays";
+//    // protected $dates = ['deleted_at'];
+
 }

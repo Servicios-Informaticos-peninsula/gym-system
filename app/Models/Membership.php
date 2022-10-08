@@ -23,6 +23,10 @@ class Membership extends Model
      */
     public function MembershipType()
     {
-        return $this->hasMany(MembershipType::class, 'id', 'membership_types_id');
+        return $this->hasOne(MembershipType::class, 'id', 'membership_types_id');
+    }
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'users_id');
     }
 }

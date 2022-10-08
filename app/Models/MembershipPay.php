@@ -13,8 +13,5 @@ class MembershipPay extends Model
         'estatus',
 
     ];
-    public function Membership()
-    {
-        return $this->belongsToMany(Membership::class, 'membership_membership_pays', )->withPivot();
-    }
+
 }

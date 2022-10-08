@@ -43,6 +43,11 @@ $(function ($) {
             title: "id",
 
             visible: false,
+        },{
+            field: "id_product",
+            title: "IDProducto",
+
+            visible: false,
         }, {
             field: "name",
             title: "Producto",
@@ -142,19 +147,106 @@ function selectProducto() {
             console.log(r);
             if (r.length > 0) {
                 console.log("encontrado");
-                var num = $("#gridSale").bootstrapTable("getData").length;
+                let table = $("#gridSale").bootstrapTable("getData");
+                console.log(table);
+                if (table.length == 0) {
+                    var num = $("#gridSale").bootstrapTable("getData").length;
+                    $("#gridSale").bootstrapTable("insertRow", {
+                        index: num + 1,
+                        row: {
+                            id: num + 1,
+                            name: r[0].name,
+                            id_product:r[0].id_product,
+                            cantidad: r[0].cantidad,
 
-                $("#gridSale").bootstrapTable("insertRow", {
-                    index: num + 1,
-                    row: {
-                        id: num + 1,
-                        name: r[0].name,
-                        quantity: r[0].quantity,
-                        cantidad: "1",
-                        sales_price: r[0].sales_price,
+                            sales_price: r[0].sales_price,
 
-                    },
-                });
+                        },
+                    });
+                } else {
+
+
+                    if(r[0].lMembresia == false){
+
+
+                    let i = 0;
+                    let cambio;
+                    table.forEach(function (lst) {
+
+                                if (lst.id_product == r[0].id_product) {
+                                    cambio = true;
+                                    $("#gridSale").bootstrapTable('updateRow', {
+
+                                        index: i,
+                                        row: {
+                                            cantidad: lst.cantidad+1,
+
+                                            sales_price: ((lst.cantidad + 1) * lst.sales_price)
+                                        }
+                                    })
+
+                                }
+                                i++;
+                    });
+
+
+
+                    if(!cambio){
+                        var num = $("#gridSale").bootstrapTable("getData").length;
+                        $("#gridSale").bootstrapTable("insertRow", {
+                            index: num + 1,
+                            row: {
+                                id: num + 1,
+                                id_product:r[0].id_product,
+                                name: r[0].name,
+                                cantidad: r[0].cantidad,
+
+                                sales_price: r[0].sales_price,
+
+                            },
+                        });
+
+                    }
+
+
+
+                }else{
+
+                    var num = $("#gridSale").bootstrapTable("getData").length;
+                        $("#gridSale").bootstrapTable("insertRow", {
+                            index: num + 1,
+                            row: {
+                                id: num + 1,
+                                id_product:r[0].id_product,
+                                name: r[0].name,
+                                cantidad: r[0].cantidad,
+
+                                sales_price: r[0].sales_price,
+
+                            },
+                        });
+
+
+                }
+
+
+
+
+
+                    // var num = $("#gridSale").bootstrapTable("getData").length;
+                    // $("#gridSale").bootstrapTable("updateRow", {
+                    //     index: num + 1,
+                    //     row: {
+                    //         id: num + 1,
+                    //         name: r[0].name,
+                    //         quantity: r[0].quantity,
+                    //         cantidad: "1",
+                    //         sales_price: r[0].sales_price,
+
+                    //     },
+                    // });
+                }
+
                 let total = $("#gridSale").bootstrapTable("getData");
                 let precioTotal = 0;
                 total.forEach(function (lst) {
@@ -162,9 +254,9 @@ function selectProducto() {
 
                     precioTotal = (lst.sales_price + precioTotal);
                 });
-              $("#price").val(precioTotal);
-              $("#price_total").val(precioTotal);
-               $("#sub_price").val(precioTotal);
+                $("#price").val(precioTotal);
+                $("#price_total").val(precioTotal);
+                $("#sub_price").val(precioTotal);
 
                 $("#search_product").val("");
                 $("#cancel_sale").show();
@@ -205,7 +297,7 @@ function reset() {
     $("#sub_price").val("");
     $("#cancel_sale").hide();
 }
-function EditAccionFormatter(value,row){
+function EditAccionFormatter(value, row) {
     console.log(row);
     var html = "";
     html = '<a href="javascript:void(0);" onclick="eliminarProducto(' + row.id + ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' + "<script>$('[data-toggle=" + '"' + "tooltip" + '"' + "]').tooltip() </script>";
