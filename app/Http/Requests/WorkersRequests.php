@@ -13,7 +13,7 @@ class WorkersRequests extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class WorkersRequests extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'password' => ['string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'max:10'],
+            'code_user' => ['min:8'],
         ];
     }
 }

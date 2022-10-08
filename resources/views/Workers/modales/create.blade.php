@@ -1,17 +1,17 @@
-<div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addColaborator" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Cliente</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Agregar Colaborador</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('user.store') }}" method="POST" name="user-add" id="user-add">
+                <form action="{{ route('workers.store') }}" method="POST" name="user-add" id="user-add">
                     @csrf
 
                     <div class="col-md-12">
-                        <label for=""><b>Nombre Cliente *</b> </label>
+                        <label for=""><b>Nombre Colaborador *</b> </label>
                         <div class="row">
                             <div class="col-md">
                                 <label for=""> Nombre(s) *</label>
@@ -41,7 +41,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-md-12">
                         <div class="row">
@@ -97,7 +96,8 @@
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative mb-4">
                                         <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                        <input class="form-control" type="date" name="born" id="born" value="{{old('born')}}">
+                                        <input class="form-control" type="date" name="born" id="born"
+                                            value="{{ old('born') }}">
                                     </div>
                                 </div>
                             </div>
@@ -126,6 +126,5 @@
             </div>
             </form>
         </div>
-
     </div>
 </div>

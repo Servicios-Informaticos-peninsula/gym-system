@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('mensajes.mensajes')
+    @include('mensajes.mensajes')
 
 
     <div class="container-fluid">
@@ -33,7 +33,7 @@
                                         <table class="table table-striped align-items-center mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Codigo de Cliente</th>
+                                                    <th>Codigo de Colaborador</th>
                                                     <th>Nombre (s)</th>
                                                     <th>Apellidos</th>
                                                     <th>Usuario</th>
@@ -43,62 +43,68 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($user as $row )
-                                                <tr>
-                                                    <td class="text-bold-500">{{$row->code_user}}</td>
-                                                    <td class="text-bold-500">{{$row->name}}</td>
-                                                    <td class="text-bold-500">{{$row->surnames}}</td>
-                                                    <td class="text-bold-500">{{$row->username}}</td>
-                                                    <td>{{$row->phone}}</td>
-                                                    <td class="text-bold-500">{{$row->email}}</td>
-                                                    <td class="text-bold-500">  <div class="row">
-                                                        <div class="col-md-4">
-                                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser-{{$row->id}}" title="Editar Proveedor">
+                                                @foreach ($workers as $worker)
+                                                    <tr>
+                                                        <td class="text-bold-500">{{ $worker->code_user }}</td>
+                                                        <td class="text-bold-500">{{ $worker->name }}</td>
+                                                        <td class="text-bold-500">{{ $worker->surnames }}</td>
+                                                        <td class="text-bold-500">{{ $worker->username }}</td>
+                                                        <td>{{ $worker->phone }}</td>
+                                                        <td class="text-bold-500">{{ $worker->email }}</td>
+                                                        <td class="text-bold-500">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editColaborator-{{ $worker->id }}"
+                                                                        title="Editar Colaborador">
 
+                                                                        <i class="bi bi-pencil"></i></a>
+                                                                        @include('Workers.modales.edit')
+                                                                </div>
 
-                                                                <i class="bi bi-pencil"></i></a>
-                                                        </div>
-                                                        @include('user.modales.edit')
-                                                        <div class="col-md-4">
-                                                            <form action="{{route('user.destroy',$row->id)}}" method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-icon btn-danger" title="Eliminar Usuario"><i class="bi bi-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        {{-- <div class="col-md-4">
-                                                            <form action="{{route('user.destroy',$row->id)}}" method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-icon btn-info" title="Ver Expediente Usuario"><i class="bi bi-list-check"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div> --}}
-                                                    </div></td>
+                                                                <div class="col-md-4">
+                                                                    <button type="button" class="btn btn-warning"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editPermisisons-{{ $worker->id }}"
+                                                                        title="Editar Permissions">
 
+                                                                        <i class="bi bi-pencil"></i></a>
+                                                                        @include('Workers.modales.permissions')
+                                                                </div>
 
-                                                </tr>
+                                                                <div class="col-md-4">
+                                                                    <form
+                                                                        action="{{ route('workers.destroy', $worker->id) }}"
+                                                                        method="post">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-icon btn-danger"
+                                                                            title="Eliminar Colaborador"><i
+                                                                                class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
-
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                {{$user->links('vendor.pagination.bootstrap-4')}}
+                                {{ $workers->links('vendor.pagination.bootstrap-4') }}
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
 
     </div>
     {{-- section modales --}}
-    @include('user.modales.create')
+    @include('Workers.modales.create')
 @endsection
