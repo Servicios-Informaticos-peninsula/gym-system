@@ -39,15 +39,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($membership as $membership)
+                                        @foreach ($Membership as $membership)
                                             <tr>
-                                                <td class="text-bold-500">{{ $membership->name }}</td>
+                                                <td class="text-bold-500">{{ $membership->user->name }}</td>
 
-                                                <td>{{ $membership->type }}</td>
+                                                <td>{{ $membership->MembershipType->name }}</td>
 
-                                                <td>{{ $membership->min('created_at') }}</td>
+                                                <td>{{ $membership->min('init_date') }}</td>
 
-                                                <td>{{ $membership->max('created_at') }}</td>
+                                                <td>{{ $membership->max('expiration_date') }}</td>
 
                                                 <td>{{ $membership->created_at }}</td>
 
@@ -56,12 +56,12 @@
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#membership-{{ $membership->id }}"
+                                                                data-bs-target="#membershiptype-{{ $membership->id }}"
                                                                 title="Editar membresia">
 
                                                                 <i class="bi bi-pencil"></i></button>
 
-                                                            {{-- @include('Membership-type.modals.edit') --}}
+                                                            @include('Membership-type.modals.edit')
                                                         </div>
 
 
@@ -80,6 +80,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
+
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -87,7 +88,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        {{-- {{ $membership->links('vendor.pagination.bootstrap-4') }} --}}
+                        {{ $Membership->links('vendor.pagination.bootstrap-4') }}
                     </div>
 
                 </div>

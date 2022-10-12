@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembershipPaysTable extends Migration
+class CreateCartsHasProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateMembershipPaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('membership_pays', function (Blueprint $table) {
+        Schema::create('carts_has_products', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_line');
-            $table->string('estatus')->default('PE');
-
-
-
+            $table->foreignId('carts_id')->constrained();
+            $table->foreignId('products_id');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateMembershipPaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membership_pays');
+        Schema::dropIfExists('carts_has_products');
     }
 }

@@ -14,16 +14,19 @@ class Membership extends Model
      *
      * @var array<int, string>
      */
-     protected $fillable = [
-        'users_id',
-        'membership_types_id',
-        'init_date',
-        'expiration_date',
-        'asigned_by',
-        'estatus_membresia'
-    ];
-    public function Membership_pay()
+    protected $fillable = ['users_id', 'membership_types_id', 'init_date', 'expiration_date', 'asigned_by'];
+
+    /**
+     * Get the MembershipType associated with the Membership
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function MembershipType()
     {
-        return $this->belongsToMany(MembershipPay::class, 'memberships_id', 'membership_pays_id')->withPivot('membership_membership_pays');
+        return $this->hasOne(MembershipType::class, 'id', 'membership_types_id');
+    }
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'users_id');
     }
 }

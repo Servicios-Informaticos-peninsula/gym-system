@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProviderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +22,13 @@ Route::get('/acceso/usuarios', function () {
 });
 
 Auth::routes(['register' => true, 'login' => true, 'password/confirm' => false, 'password/reset' => false]);
-
+require __DIR__ . '/ajax/rutas.php';
 /*
  * Home Routes
  */
+Route::get('perfil/actualizar', ['as' => 'perfil.edit', 'uses' => 'UserController@edit_user']);
+Route::patch('perfil/actualizar', ['as' => 'perfil.update', 'uses' => 'UserController@update_user']);
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
@@ -67,10 +69,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('Membership', MembershipController::class);
 
     Route::resource('products', ProductController::class);
-    require (__DIR__ . '/ajax/rutas.php');
+
     Route::resource('product-units', ProductUnitController::class);
     Route::resource('product-categories', ProductCategoryController::class);
 
     Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
     Route::resource('inventory', InventoryController::class);
+
+    Route::resource('workers', WorkersController::class);
 });

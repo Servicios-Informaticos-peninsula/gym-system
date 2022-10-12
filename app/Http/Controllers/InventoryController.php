@@ -42,18 +42,19 @@ class InventoryController extends Controller
      */
     public function store(InventoryRequest $request)
     {
+
         try {
-            Inventory::create([
+          $inventory= Inventory::create([
                 'products_id' => $request->product,
                 'quantity' => $request->quantity,
                 'minimum_alert' => $request->minimum_alert,
                 'maximun_alert' => $request->maximun_alert,
                 'purchase_price' => $request->purchase_price,
-                'sales_price' => $request->seles_price,
+                'sales_price' => $request->sales_price,
                 'asigned_by' => Auth::id(),
                 'status' => $request->product_status
             ]);
-
+           // dd( $inventory);
             return redirect()
                 ->back()
                 ->with('success', 'Registro Éxitoso!');

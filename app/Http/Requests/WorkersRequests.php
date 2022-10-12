@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class WorkersRequests extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,14 +29,6 @@ class UserRequest extends FormRequest
             'password' => ['string', 'min:8', 'confirmed'],
             'phone' => ['required', 'max:10'],
             'code_user' => ['min:8'],
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'name.required' => 'El campo nombre del cliente es obligatorio',
-            //'code_user.required' => 'El campo numero de telefono es obligatorio',
-            'phone.required' => 'El campo numero de telefono es obligatorio',
         ];
     }
 }

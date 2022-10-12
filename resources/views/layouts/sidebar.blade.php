@@ -100,27 +100,50 @@
                     <span>Panel</span>
                 </a>
             </li>
-
-            <li class="sidebar-item">
-                <a href="{{ route('Membership.index') }}" class="sidebar-link">
-                    <i class="bi bi-credit-card-fill"></i>
-                    <span>Membresias</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="{{ route('Membership-type.index') }}" class="sidebar-link">
-                    <i class="bi bi-speedometer"></i>
-                    <span>Tipo Membresias</span>
+            <li class="sidebar-item  ">
+                <a href="application-email.html" class="sidebar-link">
+                    <i class="bi bi-cash"></i>
+                    <span>Corte Caja</span>
                 </a>
             </li>
 
             <li class="sidebar-item  ">
+                <a href="application-chat.html" class="sidebar-link">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Estadisticas</span>
+                </a>
+            </li>
+            <li class="sidebar-item  has-sub">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Membresias</span>
+                </a>
+
+                <ul class="submenu" style="display: none;">
+                    <li class="sidebar-item">
+                        <a href="{{ route('Membership.index') }}" class="sidebar-link">
+                            <i class="bi bi-credit-card-fill"></i>
+                            <span>Ver Membresias</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="{{ route('Membership-type.index') }}" class="sidebar-link">
+                            <i class="bi bi-speedometer"></i>
+                            <span>Tipo Membresias</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+            {{-- <li class="sidebar-item  ">
                 <a href="{{ route('Membership.index') }}" class="sidebar-link">
                     <i class="bi bi-credit-card-fill"></i>
                     <span>Membresias</span>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- <li class="sidebar-item  has-sub">
                     <a href="#" class="sidebar-link">
@@ -143,12 +166,7 @@
                     </ul>
                 </li> --}}
 
-            <li class="sidebar-item">
-                <a href="{{ route('provider.index') }}" class="sidebar-link">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Proveedores</span>
-                </a>
-            </li>
+
 
             <li class="sidebar-item  has-sub">
                 <a href="#" class="sidebar-link">
@@ -167,6 +185,12 @@
 
                     <li class="submenu-item">
                         <a href="{{ route('product-units.index') }}">Unidades de Medida</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="{{ route('provider.index') }}" class="sidebar-link">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Proveedores</span>
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -248,19 +272,7 @@
 
             {{-- <li class="sidebar-title">Pages</li> --}}
 
-            <li class="sidebar-item  ">
-                <a href="application-email.html" class="sidebar-link">
-                    <i class="bi bi-cash"></i>
-                    <span>Corte Caja</span>
-                </a>
-            </li>
 
-            <li class="sidebar-item  ">
-                <a href="application-chat.html" class="sidebar-link">
-                    <i class="bi bi-bar-chart"></i>
-                    <span>Estadisticas</span>
-                </a>
-            </li>
 
             <li class="sidebar-item  ">
                 <a href="{{ route('user.index') }}" class="sidebar-link">
