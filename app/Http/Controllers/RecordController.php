@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PsychobiologicalHabits;
 use App\Models\Record;
+use App\Models\Product;
+use App\Models\Inventory;
 use App\Models\RecordPhoto;
 use App\Models\User;
 use App\Models\WeightControl;
@@ -34,6 +36,8 @@ class RecordController extends Controller
             ->distinct()
             ->where('expediente', 0)
             ->get();
+
+
 
         return view('records.index', compact('user'));
     }
