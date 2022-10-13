@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <label class="@error('providers_id') border-danger text-danger @enderror">Proveedor</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-4">
                             <label
                                 class="@error('product_category') border-danger text-danger @enderror">Categoria</label>
                             <div class="form-group mb-4">
@@ -130,6 +130,23 @@
                                     </select>
                                 </div>
                                 @error('product_category')
+                                    <strong class="text-danger">{{ $message }}</strong>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="@error('requireInventory') border-danger text-danger @enderror">¿Este
+                                Producto Necesita Inventario?</label>
+                            <div class="form-group mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                        name="requireInventory">
+                                    <label class="form-check-label" for="requireInventory">
+                                        Inventariar
+                                    </label>
+                                </div>
+                                @error('requireInventory')
                                     <strong class="text-danger">{{ $message }}</strong>
                                 @enderror
                             </div>
