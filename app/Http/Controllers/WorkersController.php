@@ -17,7 +17,7 @@ class WorkersController extends Controller
      */
     public function index()
     {
-        $workers = User::role('Empleado')->get();
+        $workers = User::role('Empleado')->paginate(10);
 
         return view('Workers.index', compact('workers'));
     }

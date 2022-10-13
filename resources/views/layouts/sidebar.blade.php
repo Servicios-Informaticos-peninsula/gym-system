@@ -281,6 +281,12 @@
                 </a>
             </li>
             <li class="sidebar-item  ">
+                <a href="{{ route('workers.index') }}" class="sidebar-link">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span>Empleados</span>
+                </a>
+            </li>
+            <li class="sidebar-item  ">
                 <a href="{{ route('record.index') }}" class="sidebar-link">
                     <i class="bi bi-list-check"></i>
                     <span>Expedientes</span>
