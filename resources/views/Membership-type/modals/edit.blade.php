@@ -1,4 +1,4 @@
-<div class="modal fade" id="membershiptype-{{ $membership->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="membershiptype-{{ $membershipType->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
-            <form action="{{ route('provider.update', $membership->id) }}" method="POST">
+            <form action="{{ route('provider.update', $membershipType->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     @method('PUT')
