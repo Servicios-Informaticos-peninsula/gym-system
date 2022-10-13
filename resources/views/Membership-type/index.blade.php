@@ -46,10 +46,10 @@
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">
                                                         <div class="pe-1">
-                                                            <button type="button" class="btn btn-icon btn-primary"
+                                                            {{-- <button type="button" class="btn btn-icon btn-primary"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#membershiptype-{{ $membershipType->id }}"
-                                                                title="Editar tipo membresia">
+                                                                title="Editar tipo membresia"> --}}
 
                                                                 <i class="bi bi-pencil"></i></button>
 

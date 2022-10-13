@@ -151,37 +151,45 @@ function selectProducto() {
                 console.log(table);
                 if (table.length == 0) {
                     var num = $("#gridSale").bootstrapTable("getData").length;
-                    $("#gridSale").bootstrapTable("insertRow", {
-                        index: num + 1,
-                        row: {
-                            id: num + 1,
-                            name: r[0].name,
-                            id_product:r[0].id_product,
-                            cantidad: r[0].cantidad,
+                    r.forEach(function (product) {
+                        $("#gridSale").bootstrapTable("insertRow", {
+                            index: num + 1,
+                            row: {
+                                id: num + 1,
+                                name: product.name,
+                                id_product:product.id_product,
+                                cantidad: product.cantidad,
+                                quantity:product.quantity,
 
-                            sales_price: r[0].sales_price,
+                                sales_price: product.sales_price,
 
-                        },
+                            },
+                        });
+
                     });
+
                 } else {
+                    console.log("lista",table, "producto,",r[0].id_product);
 
-
-                    if(r[0].lMembresia == false){
+                    if(r[0].lmembresia == false){
 
 
                     let i = 0;
                     let cambio;
+
                     table.forEach(function (lst) {
 
                                 if (lst.id_product == r[0].id_product) {
                                     cambio = true;
+                                    let cantidad = lst.quantity;
                                     $("#gridSale").bootstrapTable('updateRow', {
 
                                         index: i,
                                         row: {
                                             cantidad: lst.cantidad+1,
 
-                                            sales_price: ((lst.cantidad + 1) * lst.sales_price)
+                                            sales_price: ((lst.cantidad + 1) * r[0].sales_price),
+                                            quantity: cantidad-1,
                                         }
                                     })
 
@@ -213,19 +221,22 @@ function selectProducto() {
                 }else{
 
                     var num = $("#gridSale").bootstrapTable("getData").length;
+                    r.forEach(function (product) {
                         $("#gridSale").bootstrapTable("insertRow", {
                             index: num + 1,
                             row: {
                                 id: num + 1,
-                                id_product:r[0].id_product,
-                                name: r[0].name,
-                                cantidad: r[0].cantidad,
+                                name: product.name,
+                                id_product:product.id_product,
+                                cantidad: product.cantidad,
+                                quantity:product.quantity,
 
-                                sales_price: r[0].sales_price,
+                                sales_price: product.sales_price,
 
                             },
                         });
 
+                    });
 
                 }
 
