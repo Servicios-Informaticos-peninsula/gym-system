@@ -61,7 +61,7 @@
 
                                                                 <i class="bi bi-pencil"></i></button>
 
-                                                            @include('Membership-type.modals.edit')
+                                                            @include('Membership.modals.edit')
                                                         </div>
 
 
