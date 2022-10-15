@@ -68,7 +68,11 @@ class SalesController extends Controller
 
             ]);
 
-            if($pro->lmembresia){
+            // dd($pro->lmembresia);
+
+
+            if($pro->lmembresia == "true"){
+
 
                 $membresia = Membership::select('memberships.id as id','membership_pays.reference_line as lineReference')
                 ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
@@ -90,15 +94,13 @@ class SalesController extends Controller
                 ]);
 
 
-
-
-
-
-
             }else{
 
 
+
             $requireInventory = Product::where('id',$pro->id_product)->first();
+
+
 
             if($requireInventory->requireInventory){
                 $cantidad= Inventory::where('products_id', $pro->id_product)->first();
@@ -106,7 +108,7 @@ class SalesController extends Controller
             ->update([
                 'quantity' => ($cantidad->quantity)-($pro->cantidad),
             ]);
-
+            // dd($requireInventory->requireInventory);
             }
 
 
