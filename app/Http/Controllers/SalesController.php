@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use Auth;
 use App\Models\Membership;
 use App\Models\Carts;
+use App\Models\Product;
 use App\Models\Voucher;
 use App\Models\MemberShipMembershipPay;
 use App\Models\MembershipPay;
