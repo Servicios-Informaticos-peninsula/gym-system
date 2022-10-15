@@ -96,11 +96,19 @@ class SalesController extends Controller
 
             }else{
 
-            $cantidad= Inventory::where('products_id', $pro->id_product)->first();
+
+            $requireInventory = Product::where('id',$pro->id_product)->first();
+
+            if($requireInventory->requireInventory){
+                $cantidad= Inventory::where('products_id', $pro->id_product)->first();
             Inventory::where('products_id', $pro->id_product)
             ->update([
                 'quantity' => ($cantidad->quantity)-($pro->cantidad),
             ]);
+
+            }
+
+
 
             }
 
