@@ -18,6 +18,7 @@ class CreateCartsHasProductsTable extends Migration
             $table->foreignId('carts_id')->constrained();
             $table->foreignId('products_id');
             $table->integer('quantity');
+            $table->boolean('lMembresia');
             $table->timestamps();
         });
     }

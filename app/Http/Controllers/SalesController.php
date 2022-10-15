@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use Auth;
 use App\Models\Membership;
+use App\Models\Carts;
+use App\Models\Voucher;
 use App\Models\MemberShipMembershipPay;
 use App\Models\MembershipPay;
+use App\Models\Carts_has_products;
 use Illuminate\Http\Request;
 use stdClass;
+use Exception;
+
+use Illuminate\Support\Facades\DB as DB;
 
 class SalesController extends Controller
 {
@@ -20,6 +27,91 @@ class SalesController extends Controller
     {
 
     }
+
+    public function cashPayment(Request $request)
+    {
+
+        try{
+            DB::beginTransaction();
+
+         $userID = Auth::user()->id; //se debe guardar el id del  cliente o no pero no se a definido
+
+        $numVenta = carts::count(); //numero de venta por definir como se generara
+
+        // dd($request->all());
+
+        $cart = Carts::create([
+            'clients_id' => $userID,
+            'numero_venta' => 1,
+
+        ]);
+
+        $productos = $request->productos;
+
+
+
+        foreach ($request->productos as $lst) {
+            $jsonEncode = json_encode($lst);
+            $pro = json_decode($jsonEncode);
+
+
+
+
+            Carts_has_products::create([
+                'carts_id' => $cart->id,
+                'products_id' => $pro->id_product,
+                'quantity' => $pro->cantidad,
+                'lMembresia' => $pro->lmembresia == 1? true:false,
+
+
+            ]);
+
+            $cantidad= Inventory::where('products_id', $pro->id_product)->first();
+
+
+            Inventory::where('products_id', $pro->id_product)
+            ->update([
+                'quantity' => ($cantidad->quantity)-($pro->cantidad),
+            ]);
+
+
+
+        }
+
+        Voucher::create([
+            'carts_id' => $cart->id,
+            'quantity' => $request->totalproductos,
+            'price_total' => $request->precioTotal,
+            'vendendor' => $userID,
+            'tipo_pago' => "EFECTIVO",
+            'cantidad_pagada' => $request->pago,
+            'cambio' => $request->cambio,
+            'estatus'=>"P"
+
+        ]);
+        DB::commit();
+
+
+        return response()->json([
+            'lSuccess' => true,
+            'cMensaje' => "",
+        ]);
+
+
+
+    } catch (\Throwable $th) {
+        DB::rollback();
+        return response()->json([
+            'lSuccess' => false,
+            'cMensaje' => $th->getMessage(),
+        ]);
+    }
+
+
+
+
+    }
+
 
     public function search(Request $request)
     {
@@ -49,6 +141,7 @@ class SalesController extends Controller
                     $list->sales_price = $pro->sales_price;
                     $list->quantity = $pro->quantity;
                     $list->lmembresia = false;
+                    $list->lineReference = "noaplica";
 
 
                     $gridProductos[] = $list;
@@ -67,14 +160,15 @@ class SalesController extends Controller
                 // $lstpay = MemberShipMembershipPay::where('membership_pays_id',$membresiaRef->id)
                 // ->get();
 
-                $membresia = Membership::select('memberships.id as id','membership_types.name as name','membership_types.price as price',)
+                $membresia = Membership::select('memberships.id as id','membership_types.name as name','membership_types.price as price','membership_pays.reference_line as lineReference')
                 ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
                 ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
                 ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
                 ->where('membership_pays.reference_line',$request->producto)
                 ->get();
 
-                // dd($membresia);
+                 //dd($membresia);
+
 
 
 
@@ -89,6 +183,7 @@ class SalesController extends Controller
                     $list->sales_price = $memb->price;
                     $list->quantity = "no aplica";
                     $list->lmembresia = true;
+                    $list->lineReference = $memb->lineReference;
                     $gridProductos[] = $list;
 
                 }
@@ -174,5 +269,6 @@ class SalesController extends Controller
     public function destroy($id)
     {
         //
+
     }
 }
