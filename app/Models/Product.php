@@ -14,7 +14,7 @@ class Product extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['bar_code', 'name', 'product_units_id', 'description', 'providers_id', 'category_products_id'];
+    protected $fillable = ['bar_code', 'name', 'product_units_id', 'description', 'providers_id', 'requireInventory', 'category_products_id'];
 
     /*
      * Get all of the Units for the Product
