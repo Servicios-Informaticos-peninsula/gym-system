@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+
 use Auth;
 use App\Models\Membership;
 use App\Models\Carts;
@@ -66,13 +67,44 @@ class SalesController extends Controller
 
             ]);
 
+            if($pro->lmembresia){
+
+                $membresia = Membership::select('memberships.id as id','membership_pays.reference_line as lineReference')
+                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
+                ->where('membership_pays.reference_line',$pro->lineReference)
+                ->first();
+
+// dd($membresia->lineReference);
+
+                //asignacion de carrito a membresia de usuario y cambio de estado de pago
+                Membership::where('memberships.id', $membresia->id)
+                ->update([
+                    'carts_id' => $cart->id,
+                ]);
+
+                MembershipPay::where('reference_line', $membresia->lineReference)
+                ->update([
+                    'estatus' => 'P',
+                ]);
+
+
+
+
+
+
+
+            }else{
+
             $cantidad= Inventory::where('products_id', $pro->id_product)->first();
-
-
             Inventory::where('products_id', $pro->id_product)
             ->update([
                 'quantity' => ($cantidad->quantity)-($pro->cantidad),
             ]);
+
+            }
+
+
 
 
 
@@ -165,6 +197,7 @@ class SalesController extends Controller
                 ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
                 ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
                 ->where('membership_pays.reference_line',$request->producto)
+                ->whereNotIn('membership_pays.estatus', ['P'])
                 ->get();
 
                  //dd($membresia);

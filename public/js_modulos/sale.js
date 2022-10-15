@@ -463,7 +463,12 @@ function cobrarEfectivo(){
                 $("#cantidad_pagada").val("");
                 $("#cambio").val("");
                 $("#modalEfectivo").hide();
+                if ($('.modal-backdrop').is(':visible')) {
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                  };
                 reset();
+
 
             }
 
