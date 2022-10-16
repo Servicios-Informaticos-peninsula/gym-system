@@ -154,7 +154,7 @@
                                 </tr>
                                 <tr id="cash">
                                     <th>Efectivo</th>
-                                    <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    <td> <button id="modEfectivo" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalEfectivo">
                                             <i class="bi bi-cash"></i>
                                         </button></td>
@@ -189,7 +189,9 @@
 
 @section('scripts')
     <script>
-        let search = '{{ route('search.products') }}'
+        let search = '{{ route('search.products') }}';
+        let cashPayment = '{{ route('cash.payment') }}';
+
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection

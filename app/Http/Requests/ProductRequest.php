@@ -25,15 +25,14 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'bar_code' => [
-                'required', 'numeric', 'min:5',
-                Rule::unique('products', 'bar_code')->ignore($this->id)
-            ],
-            'product_name' => 'required|min:2',
+            'bar_code' => ['required', 'numeric', 'min:5', Rule::unique('products', 'bar_code')->ignore($this->id)],
+            'product_name' => ['required', 'min:2', Rule::unique('products', 'name')->ignore($this->id)],
             'product_unit' => 'required',
             'providers_id' => 'nullable',
             'product_category' => 'required',
+            'requireInventory' => 'nullable|boolean',
             'product_description' => 'nullable|min:6|max:2000',
+
         ];
     }
 }

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\CategoryProduct;
+use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Models\Provider;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as DB;
 
 class ProductController extends Controller
 {
@@ -44,19 +47,39 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+
         try {
-            Product::create([
+            $producto = Product::create([
                 'bar_code' => $request->bar_code,
                 'name' => $request->product_name,
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
-                'providers_id' => $request->providers_id,
-                'category_products_id' => $request->product_category
+                'providers_id' => (is_null($request->providers_id) ? "S/P" : $request->providers_id),
+                'requireInventory' => ($request->requireInventory != null) ? 1 : 0,
+                'category_products_id' => $request->product_category,
             ]);
+            if ($producto->requireInventory == true || $producto->requireInventory == 1) {
+                $inventory = Inventory::create([
+                    'products_id' => $producto->id,
+                    'quantity' => 0,
+                    'minimum_alert' => 0,
+                    'maximun_alert' =>0,
+                    'purchase_price' => 0,
+                    'sales_price' => $request->sales_price,
+                    'asigned_by' => Auth::id(),
+                    'status' => $request->status,
+                ]);
+            }
 
-            return redirect()->back()->with('success', 'Registro Éxitoso!');
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
+
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Hubo un problema!');
+
+            return redirect()
+                ->back()
+                ->with('error', 'Hubo un problema!');
         }
     }
 
@@ -98,12 +121,17 @@ class ProductController extends Controller
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
                 'providers_id' => $request->providers_id,
-                'category_products_id' => $request->product_category
+                'requireInventory' => $request->requireInventory != null ? 1 : 0,
+                'category_products_id' => $request->product_category,
             ]);
 
-            return redirect()->back()->with('success', 'Actualización Éxitosa!');
+            return redirect()
+                ->back()
+                ->with('success', 'Actualización Éxitosa!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e);
+            return redirect()
+                ->back()
+                ->with('error', $e);
         }
     }
 
@@ -118,9 +146,13 @@ class ProductController extends Controller
         try {
             Product::find($id)->delete();
 
-            return redirect()->back()->with('success', 'Eliminación Éxitosa!');
+            return redirect()
+                ->back()
+                ->with('success', 'Eliminación Éxitosa!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e);
+            return redirect()
+                ->back()
+                ->with('error', $e);
         }
     }
 }

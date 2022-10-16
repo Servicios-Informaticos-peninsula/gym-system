@@ -23,6 +23,14 @@ class CreateMembershipsTable extends Migration
             $table->foreignId('asigned_by')->constrained('users');
             $table->boolean('estatus_membresia')->default(0);
 
+
+
+            // $table->string('reference_line');
+            // $table->string('estatus')->default('PE');
+            // $table->foreignId('memberships_id')->constrained();
+
+
+
             $table->timestamps();
         });
     }

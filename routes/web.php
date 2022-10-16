@@ -75,4 +75,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
     Route::resource('inventory', InventoryController::class);
+
+    Route::resource('workers', WorkersController::class);
 });

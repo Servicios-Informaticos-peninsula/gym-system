@@ -19,7 +19,7 @@ class InventoryController extends Controller
     public function index()
     {
         $inventories = Inventory::paginate(20);
-        $products = Product::all();
+        $products = Product::where('requireInventory', false)->get();
 
         return view('Inventory.index', compact('inventories', 'products'));
     }
