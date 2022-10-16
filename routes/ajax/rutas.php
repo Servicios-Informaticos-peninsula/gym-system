@@ -12,4 +12,4 @@ Route::get('pdf/expediente/{id}', 'RecordController@show')->name('expediente.pdf
 Route::get('fotos/pdf/expediente/{id}', 'RecordController@showImg')->name('expediente.fotos');
 Route::post('products/sale', 'SalesController@search')->name('search.products');
 Route::post('products/cashPayment', 'SalesController@cashPayment')->name('cash.payment');
-Route::post('sales/tickets/', 'SalesController@show')->name('sales.ticket');
+Route::get('sales/tickets/{id}', 'SalesController@show');

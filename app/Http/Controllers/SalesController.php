@@ -240,28 +240,38 @@ class SalesController extends Controller
      */
     public function show(Request $request)
     {
-        dd($request->all());
-try {
 
-    $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
             ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
             ->join('products', 'carts_has_products.products_id', '=', 'products.id')
             ->join('users', 'carts.clients_id', '=', 'users.id')
             ->where('vouchers.id', $request->id)
 
             ->get();
-            dd( $cart);
+
         $pdf = PDF::loadView('sales/pdf/ticket', compact('cart'))
             ->setPaper('b7', 'portrait');
         $pdf->output();
 
+        /**PHP indicara que se obtiene el pdf */
+        //S $pdf->getDomPDF()->set_option("enable_php", true);
+        // $canvas = $pdf->getCanvas();
+        // $w = $canvas->get_width();
+        // $h = $canvas->get_height();
+        // $imageURL = 'img/logo-remo.png';
+        // //dd( $imageURL);
+        // $imgWidth = 200;
+        // $imgHeight = 200;
+
+        // $canvas->set_opacity(.2);
+        // $x = (($w - $imgWidth) / 2);
+        // $y = (($h - $imgHeight) / 2);
+
+        // $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
+        // dd($imageURL, $x, $y, $imgWidth, $imgHeight);
+
         $filename = "ticket.pdf";
-      $pdf->stream($filename);
-
-} catch (\Throwable $th) {
-    dd($th, $th->getMessage());
-}
-
+        return $pdf->stream($filename);
     }
 
     /**
@@ -270,14 +280,6 @@ try {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-     public function print(){
-
-
-
-
-
-    }
     public function edit($id)
     {
         //

@@ -139,7 +139,7 @@ function selectProducto() {
         swal.fire({
             title: "Aviso",
             text: "Ingrese  Producto",
-            type: "warning",
+            icon: "warning",
             showConfirmButton: true,
             confirmButtonClass: "btn btn-success btn-round",
             confirmButtonText: "Aceptar",
@@ -160,7 +160,7 @@ function selectProducto() {
                 text: "Consultando la base de informacion.",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                onOpen: () => {
+                didOpen: () => {
                     swal.showLoading();
                 },
             });
@@ -376,7 +376,7 @@ function calcularCambio() {
                 swal.fire({
                     title: "Aviso",
                     text: "Ingrese  pago valido",
-                    type: "warning",
+                    icon: "warning",
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-success btn-round",
                     confirmButtonText: "Aceptar",
@@ -437,15 +437,18 @@ function cobrarEfectivo(){
             swal.fire({
                 title: "Procesando",
                 text: "Pago en Efectivo",
+
+                icon:'warning',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                onOpen: () => {
+                didOpen: () => {
                     swal.showLoading();
                 },
             });
         },
         success: function (r) {
-
+            console.log(r.voucher.id);
+let id = r.voucher.id;
             NProgress.done();
             swal.close();
 
@@ -453,13 +456,14 @@ function cobrarEfectivo(){
                 swal.fire({
                     title: "Listo",
                     text: "cobro realizado",
-                    type: "warning",
+                    icon: "success",
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-success btn-round",
                     confirmButtonText: "Aceptar",
                     buttonsStyling: false,
-                });
-
+                }).then((result) => {
+window.location.reload();
+                })
                 $("#cantidad_pagada").val("");
                 $("#cambio").val("");
                 $("#modalEfectivo").hide();
@@ -467,6 +471,8 @@ function cobrarEfectivo(){
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                   };
+                  ticket(id);
+
                 reset();
 
 
@@ -486,3 +492,31 @@ function cobrarEfectivo(){
 
 }
 
+function ticket(id) {
+    console.log(id, window.url);
+    $.fancybox.open({
+        src: "/sales/tickets/" + id + "/",
+        type: 'iframe',
+        iframe: {
+            css: {
+                height: '100%',
+                width: '90%'
+            }
+        },
+        //baseClass: "fancybox-custom-layout",
+        infobar: true,
+        touch: {
+            vertical: false
+        },
+        buttons: ["close"],
+        animationEffect: "fade",
+        transitionEffect: "fade",
+        preventCaptionOverlap: false,
+        idleTime: false,
+        gutter: 0,
+        // Customize caption area
+        caption: function (instance) {
+            return '';
+        }
+    });
+}
