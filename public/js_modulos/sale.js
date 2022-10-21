@@ -18,6 +18,17 @@ $(function ($) {
 
     });
 
+    if($("#origenMembresias").val() == true){
+        console.log("true");
+        console.log($("#referenciaMembresia").val());
+        $("#search_product").val($("#referenciaMembresia").val());
+        $("#origenMembresias").val(false);
+        $("#referenciaMembresia").val("");
+
+        selectProducto();
+
+    }
+
     const $codigo = document.querySelector("#search_product");
     $codigo.addEventListener("keydown", evento => {
         if (evento.keyCode === 13) {
@@ -94,8 +105,7 @@ $(function ($) {
             visible: true,
         }, {
             field: "cAccion",
-            title: "",
-
+            title: "Opciones",
             visible: true,
             formatter: "EditAccionFormatter",
         }],
@@ -135,6 +145,7 @@ $(function ($) {
 });
 
 function selectProducto() {
+
     if ($("#search_product").val() == 0) {
         swal.fire({
             title: "Aviso",
@@ -402,17 +413,25 @@ function reset() {
 function EditAccionFormatter(value, row) {
     // console.log(row);
     var html = "";
-    html = '<a href="javascript:void(0);" onclick="eliminarProducto(' + row.id + ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' + "<script>$('[data-toggle=" + '"' + "tooltip" + '"' + "]').tooltip() </script>";
+    html = '<a href="javascript:void(0);" onclick="eliminarProducto(' + row.id+","+row.sales_price+ ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' + "<script>$('[data-toggle=" + '"' + "tooltip" + '"' + "]').tooltip() </script>";
     return html;
 }
-function eliminarProducto(id) {
+function eliminarProducto(id, price) {
     console.log(id);
     $(".tooltip").hide();
     $("#gridSale").bootstrapTable("removeByUniqueId", id);
+
+    let total = $("#price").val();
+
+    let precioTotal =  (Number(total)) - (Number(price));
+    $("#price").val(precioTotal);
+    $("#price_total").val(precioTotal);
+    $("#sub_price").val(precioTotal);
 }
 
 function cobrarEfectivo(){
     let total = $("#gridSale").bootstrapTable("getData");
+    console.log(total);
     let precioTotal = 0;
     let totalproductos = 0;
     total.forEach(function (lst) {

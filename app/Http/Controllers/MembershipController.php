@@ -27,6 +27,8 @@ class MembershipController extends Controller
         $membership_types = MembershipType::all();
         $clients = User::role('Cliente')->get();
 
+        // dd($membership_types);
+
         return view('Membership.index', compact('Membership', 'membership_types', 'clients'));
     }
 
@@ -50,8 +52,9 @@ class MembershipController extends Controller
     {
 
         try {
-            DB::beginTransaction();
             $reference = mt_rand(00000000001, 9999999990);
+
+            DB::beginTransaction();
 
             $Membership = Membership::create([
                 'users_id' => $request->users_id,
@@ -84,7 +87,13 @@ class MembershipController extends Controller
             //     'membership_pays_id' => $pay->id,
             // ]);
             DB::commit();
-            return redirect()->back()->with('success', 'Registro Éxitoso!');
+
+            $origenMembresias = true;
+            $referenciaMembresia =$pay->reference_line;
+            // dd();
+            //return redirect()->back()->with('success', 'Registro Éxitoso!');
+            return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
+
         } catch (Exception $e) {
             DB::rollback();
             dd($e);

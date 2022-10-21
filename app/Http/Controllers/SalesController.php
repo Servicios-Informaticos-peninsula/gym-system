@@ -9,6 +9,7 @@ use App\Models\Membership;
 use App\Models\Carts;
 use App\Models\Product;
 use App\Models\Voucher;
+
 use App\Models\MemberShipMembershipPay;
 use App\Models\MembershipPay;
 use App\Models\Carts_has_products;
@@ -32,6 +33,8 @@ class SalesController extends Controller
 
     public function cashPayment(Request $request)
     {
+        // dd($request->all());
+
 
         try{
             DB::beginTransaction();
@@ -40,7 +43,6 @@ class SalesController extends Controller
 
         $numVenta = carts::count(); //numero de venta por definir como se generara
 
-        // dd($request->all());
 
         $cart = Carts::create([
             'clients_id' => $userID,
@@ -50,30 +52,35 @@ class SalesController extends Controller
 
         $productos = $request->productos;
 
+        // dd($productos);
 
 
-        foreach ($request->productos as $lst) {
+
+        foreach ($productos as $lst) {
             $jsonEncode = json_encode($lst);
             $pro = json_decode($jsonEncode);
+
+            // dd($pro);
+
 
 
 
 
             Carts_has_products::create([
-                'carts_id' => $cart->id,
-                'products_id' => $pro->id_product,
+                'carts_id' => (int)$cart->id,
+                'products_id' => (int)$pro->id_product,
                 'quantity' => $pro->cantidad,
-                'lMembresia' => $pro->lmembresia == 1? true:false,
+                'lMembresia' => $pro->lmembresia == "true"? true:false,
 
 
             ]);
 
-            // dd($pro->lmembresia);
+
 
 
             if($pro->lmembresia == "true"){
 
-
+                //  dd("hola");
                 $membresia = Membership::select('memberships.id as id','membership_pays.reference_line as lineReference')
                 ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
                 ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
@@ -132,6 +139,8 @@ class SalesController extends Controller
             'estatus'=>"P"
 
         ]);
+
+
         DB::commit();
 
 
@@ -165,9 +174,14 @@ class SalesController extends Controller
 
             $producto = Inventory::join('products', 'inventories.products_id', '=', 'products.id')
                 ->where('products.bar_code', $request->producto)
-                ->orWhere('products.name', $request->producto)
+                ->where(function ($query) use ($request) {
+                    $query->orWhere('products.name', $request->producto);
+                    $query->orWhere('products.bar_code', $request->producto);
+                })
+
 
                 ->where('inventories.status', 'Disponible')
+                ->where('inventories.quantity','>=' ,1)
                 ->get();
 
 //declaracion negativa
@@ -211,7 +225,7 @@ class SalesController extends Controller
                 ->whereNotIn('membership_pays.estatus', ['P'])
                 ->get();
 
-                 //dd($membresia);
+                //  dd($membresia);
 
 
 

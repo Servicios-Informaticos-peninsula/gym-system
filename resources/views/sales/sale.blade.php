@@ -26,6 +26,12 @@
                                 <input class="form-control" type="date-local" name="" readonly id=""
                                     value="<?php echo date('Y-m-d'); ?>">
 
+                                <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
+                                    value="{{ $origenMembresias }}">
+                                <input class="form-control" type="date-local" name="referenciaMembresia" readonly id="referenciaMembresia"
+                                    value="{{ $referenciaMembresia }}">
+
+
                             </div>
 
                         </div>

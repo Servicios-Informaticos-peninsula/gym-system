@@ -23,7 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('sales.sale');
+        $origenMembresias = false;
+        $referenciaMembresia = "";
+        return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
     }
     public function home()
     {
