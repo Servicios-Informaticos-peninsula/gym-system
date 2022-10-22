@@ -25,7 +25,8 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('product_name') is-invalid @enderror"
-                                        type="text" name="product_name" placeholder="Nombre Producto">
+                                        type="text" name="product_name" value="{{ old('product_name') }}"
+                                        placeholder="Nombre Producto">
                                 </div>
                                 @error('product_name')
                                     <strong class="text-danger">{{ $message }}</strong>
@@ -71,7 +72,9 @@
                                     <select class="form-control" name="product_unit">
                                         <option value="">SELECIONE UNIDAD</option>
                                         @foreach ($productUnits as $productUnit)
-                                            <option value="{{ $productUnit->id }}">{{ $productUnit->name }}</option>
+                                            <option value="{{ $productUnit->id }}"
+                                                {{ old('product_unit') == $productUnit->id ? 'selected' : '' }}>
+                                                {{ $productUnit->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -98,7 +101,9 @@
                                     <select class="form-control" name="providers_id">
                                         <option value="">SELECIONE PROVEDOR</option>
                                         @foreach ($providers as $provider)
-                                            <option value="{{ $provider->id }}">{{ $provider->name }}</option>
+                                            <option value="{{ $provider->id }}"
+                                                {{ old('providers_id') == $provider->id ? 'selected' : '' }}>
+                                                {{ $provider->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -124,7 +129,9 @@
                                     <select class="form-control" name="product_category">
                                         <option value="">SELECIONE UNIDAD</option>
                                         @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}">{{ $productCategory->name }}
+                                            <option value="{{ $productCategory->id }}"
+                                                {{ old('product_category') == $productCategory->id ? 'selected' : '' }}>
+                                                {{ $productCategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -156,7 +163,7 @@
                     <div>
                         <label class="@error('product_description') border-danger text-danger @enderror">Descripción
                             Producto</label>
-                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10"></textarea>
+                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10">{{ old('product_description') }}</textarea>
                     </div>
                 </div>
 
