@@ -12,3 +12,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::get('fotos/pdf/expediente/{id}','RecordController@showImg')->name('expediente.fotos');
     Route::post('products/sale', 'SalesController@search')->name('search.products');
     Route::post('products/cashPayment', 'SalesController@cashPayment')->name('cash.payment');
+    Route::get('sales/tickets/{id}', 'SalesController@show');
