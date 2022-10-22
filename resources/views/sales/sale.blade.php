@@ -170,7 +170,7 @@
                                 <tr id="transfer">
                                     <th style="background:white;">Transferencia</th>
                                     <td style="background:white;">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button id="modTransferencia" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalTransferencia">
                                             <i class="bi bi-credit-card"></i>
                                         </button>

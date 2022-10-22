@@ -32,6 +32,7 @@ Route::patch('perfil/actualizar', ['as' => 'perfil.update', 'uses' => 'UserContr
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
+        Route::get('/punto/venta/2', [App\Http\Controllers\HomeController::class, 'index2'])->name('sales.point2');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     });
 

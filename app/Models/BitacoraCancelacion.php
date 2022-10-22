@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class BitacoraCancelacion extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'motivo',
+        'carts_id',
+        'userCreator',
+
+
+    ];
+    protected $table = "bitacora_cancelacions";
 }

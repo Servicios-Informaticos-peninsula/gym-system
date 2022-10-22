@@ -27,6 +27,13 @@ class HomeController extends Controller
         $referenciaMembresia = "";
         return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
     }
+    public function index2(Request $request)
+    {
+        $origenMembresias = $request->origenMembresias;
+        $referenciaMembresia = $request->referenciaMembresia;
+
+        return view('sales.sale',compact('origenMembresias','referenciaMembresia'));
+    }
     public function home()
     {
         return view('home');

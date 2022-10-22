@@ -89,10 +89,11 @@ class MembershipController extends Controller
             DB::commit();
 
             $origenMembresias = true;
-            $referenciaMembresia =$pay->reference_line;
+            $referenciaMembresia=$pay->reference_line;
             // dd();
             //return redirect()->back()->with('success', 'Registro Éxitoso!');
-            return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
+            return redirect()->route('sales.point2',compact('origenMembresias','referenciaMembresia'));
+            // return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
 
         } catch (Exception $e) {
             DB::rollback();
