@@ -9,6 +9,7 @@
 
             <form action="{{ route('product-categories.update', $productCategory->id) }}" method="POST">
                 <div class="modal-body">
+                    @method('PUT')
                     @csrf
                     <div class="row">
                         <div>
@@ -25,7 +26,7 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('category_name') is-invalid @enderror"
-                                        type="text" name="category_name" value="{{ old('category_name') }}"
+                                        type="text" name="category_name" value="{{ old('category_name', $productCategory->name) }}"
                                         placeholder="Nombre Categoría">
                                 </div>
                                 @error('category_name')
@@ -50,7 +51,7 @@
 
 
                                     <textarea style="resize: none;" class="form-control @error('category_description') is-invalid @enderror"
-                                        name="category_description" placeholder="Valor" cols="10" rows="8">{{ old('category_description') }}</textarea>
+                                        name="category_description" placeholder="Valor" cols="10" rows="8">{{ old('category_description', $productCategory->description) }}</textarea>
                                 </div>
                                 @error('category_description')
                                     <strong class="text-danger">{{ $message }}</strong>
