@@ -16,6 +16,8 @@ class Voucher extends Model
         'vendendor',
         'tipo_pago',
         'cantidad_pagada',
+        'claveo_rastreo',
+        'folio_transferencia',
         'cambio' ,
         'estatus',
 

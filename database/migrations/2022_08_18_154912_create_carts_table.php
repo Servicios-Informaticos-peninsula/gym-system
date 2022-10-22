@@ -17,7 +17,6 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->foreignId('clients_id')->nullable()->constrained('users');
             $table->string('numero_venta');
-
             $table->timestamps();
         });
     }
