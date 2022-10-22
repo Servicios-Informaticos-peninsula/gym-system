@@ -9,12 +9,12 @@ use App\Models\Membership;
 use App\Models\MembershipPay;
 use App\Models\Product;
 use App\Models\Voucher;
-use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
+use PDF;
 use stdClass;
 
 class SalesController extends Controller
@@ -238,42 +238,59 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
-    {
+    // public function show(Request $request)
+    // {
 
+    //     $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+    //         ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+    //         ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+    //         ->join('users', 'carts.clients_id', '=', 'users.id')
+    //         ->where('vouchers.id', $request->id)
+
+    //         ->get();
+
+    //     $pdf = PDF::loadView('sales/pdf/ticket', compact('cart'))
+    //         ->setPaper('A4', 'portrait');
+    //     $pdf->output();
+
+    //     $pdf->render();
+
+    //     return $pdf->stream();
+    //     // dd($pdf);
+
+    // }
+
+    public function show(Request $request){
+        $data= DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+        ->join('users', 'carts.clients_id', '=', 'users.id')
+        ->where('vouchers.id', $request->id)
+
+        ->first();
         $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-            ->join('users', 'carts.clients_id', '=', 'users.id')
-            ->where('vouchers.id', $request->id)
+                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+                ->join('users', 'carts.clients_id', '=', 'users.id')
+                ->where('vouchers.id', $request->id)
+->select('products.name','carts_has_products.quantity','inventories.sales_price')
+                ->get();
 
-            ->get();
 
-        $pdf = PDF::loadView('sales/pdf/ticket', compact('cart'))
-            ->setPaper('b7', 'portrait');
-        $pdf->output();
+       $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
+                    ->set_option('dpi', 58)
+                 ->setPaper('portrait');
 
-        /**PHP indicara que se obtiene el pdf */
-        //S $pdf->getDomPDF()->set_option("enable_php", true);
-        // $canvas = $pdf->getCanvas();
-        // $w = $canvas->get_width();
-        // $h = $canvas->get_height();
-        // $imageURL = 'img/logo-remo.png';
-        // //dd( $imageURL);
-        // $imgWidth = 200;
-        // $imgHeight = 200;
 
-        // $canvas->set_opacity(.2);
-        // $x = (($w - $imgWidth) / 2);
-        // $y = (($h - $imgHeight) / 2);
+           return $pdf->stream();
 
-        // $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
-        // dd($imageURL, $x, $y, $imgWidth, $imgHeight);
 
-        $filename = "ticket.pdf";
-        return $pdf->stream($filename);
+
+        // // dd($pdf);
+
     }
-
     /**
      * Show the form for editing the specified resource.
      *
