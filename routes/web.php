@@ -54,6 +54,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::delete('eliminar/{id}', 'destroy')->name('user.destroy');
         });
 
+    Route::controller('EstadisticasController')
+        ->prefix('Estadisticas/')
+        ->group(function () {
+            Route::get('lista', 'index')->name('bestSellers.index');
+            // Route::post('registro', 'store')->name('user.store');
+            // Route::put('modificar/{id}', 'update')->name('user.update');
+            // Route::delete('eliminar/{id}', 'destroy')->name('user.destroy');
+        });
+
+
     Route::controller('RecordController')
         ->prefix('expediente/')
         ->group(function () {

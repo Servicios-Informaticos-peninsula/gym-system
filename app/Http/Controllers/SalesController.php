@@ -218,6 +218,8 @@ class SalesController extends Controller
                 ->where('inventories.quantity','>=' ,1)
                 ->get();
 
+                // dd(sizeof($producto));
+
 //declaracion negativa
 
             if(sizeof($producto) > 0 ){
