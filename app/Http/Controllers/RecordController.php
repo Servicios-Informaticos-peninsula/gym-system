@@ -1,4 +1,4 @@
-<?php
+b<?php
 
 namespace App\Http\Controllers;
 
@@ -417,7 +417,7 @@ try {
         return redirect()->route('record.index')->with('success', '¡Se agrego el expediente del usuario de forma exitosa!');
     }
 } catch (\Throwable $th) {
-    dd($th->getMessage());
+
     return back()->with('error', 'Hubo un error al agregar los datos. Verifique los datos.');
 }
 
