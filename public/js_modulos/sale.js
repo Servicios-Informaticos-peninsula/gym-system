@@ -471,7 +471,8 @@ window.location.reload();
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                   };
-                  ticket(id);
+
+                  window.open("/sales/tickets/" + id + "/", '_blank');
 
                 reset();
 
@@ -493,8 +494,9 @@ window.location.reload();
 }
 
 function ticket(id) {
-    console.log(id, window.url);
+
     $.fancybox.open({
+
         src: "/sales/tickets/" + id + "/",
         type: 'iframe',
         iframe: {
@@ -516,7 +518,7 @@ function ticket(id) {
         gutter: 0,
         // Customize caption area
         caption: function (instance) {
-            return '';
+            window.print("/sales/tickets/" + id + "/");
         }
     });
 }

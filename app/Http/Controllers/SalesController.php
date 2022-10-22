@@ -9,12 +9,14 @@ use App\Models\Membership;
 use App\Models\MembershipPay;
 use App\Models\Product;
 use App\Models\Voucher;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
+use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
-use PDF;
 use stdClass;
 
 class SalesController extends Controller
@@ -260,35 +262,27 @@ class SalesController extends Controller
 
     // }
 
-    public function show(Request $request){
-        $data= DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-        ->join('users', 'carts.clients_id', '=', 'users.id')
-        ->where('vouchers.id', $request->id)
+    public function show(Request $request)
+    {
+        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
+            ->where('vouchers.id', $request->id)
 
-        ->first();
+            ->first();
         $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-                ->join('users', 'carts.clients_id', '=', 'users.id')
-                ->where('vouchers.id', $request->id)
-->select('products.name','carts_has_products.quantity','inventories.sales_price')
-                ->get();
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
+            ->where('vouchers.id', $request->id)
+            ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+            ->get();
 
+return view('sales.pdf.ticket',compact('data','cart'));
 
-       $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
-                    ->set_option('dpi', 58)
-                 ->setPaper('portrait');
-
-
-           return $pdf->stream();
-
-
-
-        // // dd($pdf);
 
     }
     /**
@@ -297,6 +291,23 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    function print() {
+        $nombreImpresora = "Tickets";
+        $profile = CapabilityProfile::load("simple");
+        $connector = new WindowsPrintConnector("smb://computer/Tickets");
+        $impresora = new Printer($connector, $profile);
+        $impresora->setJustification(Printer::JUSTIFY_CENTER);
+        $impresora->setTextSize(2, 2);
+        $impresora->text("Imprimiendo\n");
+        $impresora->text("ticket\n");
+        $impresora->text("desde\n");
+        $impresora->text("Laravel\n");
+        $impresora->setTextSize(1, 1);
+        $impresora->text("https://parzibyte.me");
+        $impresora->feed(5);
+
+        $impresora->close();
+    }
     public function edit($id)
     {
         //

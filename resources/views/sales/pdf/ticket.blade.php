@@ -1,6 +1,11 @@
 <!DOCTYPE html>
+
+
+
 <html>
 
+
+<div id="imprimir">
 <body>
     <style>
         .hr {
@@ -108,5 +113,8 @@
         </div>
     </div>
 </body>
+</div>
 
 </html>
+
+
