@@ -15,12 +15,11 @@ use App\Models\MembershipPay;
 use App\Models\Carts_has_products;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
-use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
+use PDF;
 use stdClass;
 
 class SalesController extends Controller
@@ -47,34 +46,7 @@ class SalesController extends Controller
 
             $numVenta = carts::count(); //numero de venta por definir como se generara
 
-
-        $cart = Carts::create([
-            'clients_id' => $userID,
-            'numero_venta' => 1,
-
-        ]);
-
-        $productos = $request->productos;
-
-        // dd($productos);
-
-
-
-        foreach ($productos as $lst) {
-            $jsonEncode = json_encode($lst);
-            $pro = json_decode($jsonEncode);
-
-            // dd($pro);
-
-
-
-
-
-            Carts_has_products::create([
-                'carts_id' => (int)$cart->id,
-                'products_id' => (int)$pro->id_product,
-                'quantity' => $pro->cantidad,
-                'lMembresia' => $pro->lmembresia == "true"? true:false,
+            // dd($request->all());
 
             $cart = Carts::create([
                 'clients_id' => $userID,
@@ -82,30 +54,13 @@ class SalesController extends Controller
 
             ]);
 
-
-            if($request->tipoPago != 3){
-                // dd($request->tipo_pago);
-
-
+            $productos = $request->productos;
 
             foreach ($request->productos as $lst) {
                 $jsonEncode = json_encode($lst);
                 $pro = json_decode($jsonEncode);
 
-            if($pro->lmembresia == "true"){
-
-                //  dd("hola");
-                $membresia = Membership::select('memberships.id as id','membership_pays.reference_line as lineReference')
-                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
-                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
-                ->where('membership_pays.reference_line',$pro->lineReference)
-                ->first();
-
-// dd($membresia->lineReference);
-
-                //asignacion de carrito a membresia de usuario y cambio de estado de pago
-                Membership::where('memberships.id', $membresia->id)
-                ->update([
+                Carts_has_products::create([
                     'carts_id' => $cart->id,
                     'products_id' => $pro->id_product,
                     'quantity' => $pro->cantidad,
@@ -164,15 +119,7 @@ class SalesController extends Controller
                 'estatus' => "P",
 
             ]);
-            // dd($requireInventory->requireInventory);
-            }
-
-
-
-            }
-        }
-
-
+            DB::commit();
 
             return response()->json([
                 'lSuccess' => true,
@@ -229,23 +176,6 @@ class SalesController extends Controller
                 break;
             }
 
-
-        DB::commit();
-
-
-        return response()->json([
-            'lSuccess' => true,
-            'cMensaje' => "",
-        ]);
-
-
-
-    } catch (\Throwable $th) {
-        DB::rollback();
-        return response()->json([
-            'lSuccess' => false,
-            'cMensaje' => $th->getMessage(),
-        ]);
     }
 
     public function search(Request $request)
@@ -266,9 +196,7 @@ class SalesController extends Controller
                 ->where('inventories.quantity','>=' ,1)
                 ->get();
 
-                // dd(sizeof($producto));
-
-//declaracion negativa
+            //declaracion negativa
 
             if (sizeof($producto) > 0) {
 
@@ -298,18 +226,13 @@ class SalesController extends Controller
                 // $lstpay = MemberShipMembershipPay::where('membership_pays_id',$membresiaRef->id)
                 // ->get();
 
-                $membresia = Membership::select('memberships.id as id','membership_types.name as name','membership_types.price as price','membership_pays.reference_line as lineReference')
-                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
-                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
-                ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
-                ->where('membership_pays.reference_line',$request->producto)
-                ->whereNotIn('membership_pays.estatus', ['P'])
-                ->get();
-
-                //  dd($membresia);
-
-
-
+                $membresia = Membership::select('memberships.id as id', 'membership_types.name as name', 'membership_types.price as price', 'membership_pays.reference_line as lineReference')
+                    ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                    ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
+                    ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
+                    ->where('membership_pays.reference_line', $request->producto)
+                    ->whereNotIn('membership_pays.estatus', ['P'])
+                    ->get();
 
                 //dd($membresia);
 
@@ -390,27 +313,35 @@ class SalesController extends Controller
 
     // }
 
-    public function show(Request $request)
-    {
-        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-            ->join('users', 'carts.clients_id', '=', 'users.id')
-            ->where('vouchers.id', $request->id)
+    public function show(Request $request){
+        $data= DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+        ->join('users', 'carts.clients_id', '=', 'users.id')
+        ->where('vouchers.id', $request->id)
 
-            ->first();
+        ->first();
         $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-            ->join('users', 'carts.clients_id', '=', 'users.id')
-            ->where('vouchers.id', $request->id)
-            ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
-            ->get();
+                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+                ->join('users', 'carts.clients_id', '=', 'users.id')
+                ->where('vouchers.id', $request->id)
+->select('products.name','carts_has_products.quantity','inventories.sales_price')
+                ->get();
 
 return view('sales.pdf.ticket',compact('data','cart'));
+    //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
+    //                 ->set_option('dpi', 58)
+    //              ->setPaper('portrait');
 
+
+    //        return $pdf->stream();
+
+
+
+        // // dd($pdf);
 
     }
     /**
@@ -419,23 +350,6 @@ return view('sales.pdf.ticket',compact('data','cart'));
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    function print() {
-        $nombreImpresora = "Tickets";
-        $profile = CapabilityProfile::load("simple");
-        $connector = new WindowsPrintConnector("smb://computer/Tickets");
-        $impresora = new Printer($connector, $profile);
-        $impresora->setJustification(Printer::JUSTIFY_CENTER);
-        $impresora->setTextSize(2, 2);
-        $impresora->text("Imprimiendo\n");
-        $impresora->text("ticket\n");
-        $impresora->text("desde\n");
-        $impresora->text("Laravel\n");
-        $impresora->setTextSize(1, 1);
-        $impresora->text("https://parzibyte.me");
-        $impresora->feed(5);
-
-        $impresora->close();
-    }
     public function edit($id)
     {
         //

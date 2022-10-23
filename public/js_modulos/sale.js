@@ -425,18 +425,6 @@ function calcularCambio() {
 
         cambio = Number($("#cantidad_pagada").val()) - Number($("#price_total").val());
 
-<<<<<<< HEAD
-            if(cambio<0){
-                swal.fire({
-                    title: "Aviso",
-                    text: "Ingrese  pago valido",
-                    icon: "warning",
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-success btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                });
-=======
         if (cambio < 0) {
             swal.fire({
                 title: "Aviso",
@@ -447,7 +435,6 @@ function calcularCambio() {
                 confirmButtonText: "Aceptar",
                 buttonsStyling: false,
             });
->>>>>>> origin/cosme_cambios
 
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
@@ -518,13 +505,7 @@ function cobrar() {
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
-<<<<<<< HEAD
-                text: "Pago en Efectivo",
-
-                icon:'warning',
-=======
                 text: "",
->>>>>>> origin/cosme_cambios
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 didOpen: () => {
@@ -541,13 +522,8 @@ let id = r.voucher.id;
             if (r.lSuccess) {
                 swal.fire({
                     title: "Listo",
-<<<<<<< HEAD
-                    text: "cobro realizado",
-                    icon: "success",
-=======
                     text: tipoPago != 3?"cobro realizado":"cancelado",
                     type: "warning",
->>>>>>> origin/cosme_cambios
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-success btn-round",
                     confirmButtonText: "Aceptar",
@@ -558,16 +534,6 @@ window.location.reload();
                 $("#cantidad_pagada").val("");
                 $("#claveo_rastreo").val("");
                 $("#cambio").val("");
-<<<<<<< HEAD
-                $("#modalEfectivo").hide();
-                if ($('.modal-backdrop').is(':visible')) {
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                  };
-
-                  window.open("/sales/tickets/" + id + "/", '_blank');
-
-=======
                 $('#modalEfectivo').modal('hide')
                 $('#modalTransferencia').modal('hide')
                 // $("#modalEfectivo").hide();
@@ -579,7 +545,6 @@ window.location.reload();
                 //     $('body').removeClass('modal-open');
                 //     $('.modal-backdrop').remove();
                 //   };
->>>>>>> origin/cosme_cambios
                 reset();
 
 
@@ -599,36 +564,3 @@ window.location.reload();
 
 }
 
-<<<<<<< HEAD
-function ticket(id) {
-
-    $.fancybox.open({
-
-        src: "/sales/tickets/" + id + "/",
-        type: 'iframe',
-        iframe: {
-            css: {
-                height: '100%',
-                width: '90%'
-            }
-        },
-        //baseClass: "fancybox-custom-layout",
-        infobar: true,
-        touch: {
-            vertical: false
-        },
-        buttons: ["close"],
-        animationEffect: "fade",
-        transitionEffect: "fade",
-        preventCaptionOverlap: false,
-        idleTime: false,
-        gutter: 0,
-        // Customize caption area
-        caption: function (instance) {
-            window.print("/sales/tickets/" + id + "/");
-        }
-    });
-}
-=======
-
->>>>>>> origin/cosme_cambios
