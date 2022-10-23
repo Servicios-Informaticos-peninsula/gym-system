@@ -438,7 +438,7 @@ function calcularCambio() {
 
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
-
+//
         } else {
             $("#cambio").val(Number(cambio).toFixed(2));
         }
