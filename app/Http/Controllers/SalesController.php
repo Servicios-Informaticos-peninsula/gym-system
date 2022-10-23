@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carts;
-use App\Models\Carts_has_products;
+
 use App\Models\Inventory;
 use App\Models\Membership;
 use App\Models\MembershipPay;
@@ -11,7 +11,7 @@ use App\Models\Product;
 use App\Models\Voucher;
 use App\Models\BitacoraCancelacion;
 use App\Models\MemberShipMembershipPay;
-use App\Models\MembershipPay;
+
 use App\Models\Carts_has_products;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
