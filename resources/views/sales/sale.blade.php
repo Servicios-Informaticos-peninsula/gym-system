@@ -26,6 +26,12 @@
                                 <input class="form-control" type="date-local" name="" readonly id=""
                                     value="<?php echo date('Y-m-d'); ?>">
 
+                                <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
+                                    value="{{ $origenMembresias }}">
+                                <input class="form-control" type="date-local" name="referenciaMembresia" readonly id="referenciaMembresia"
+                                    value="{{ $referenciaMembresia }}">
+
+
                             </div>
 
                         </div>
@@ -164,7 +170,7 @@
                                 <tr id="transfer">
                                     <th style="background:white;">Transferencia</th>
                                     <td style="background:white;">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button id="modTransferencia" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalTransferencia">
                                             <i class="bi bi-credit-card"></i>
                                         </button>
