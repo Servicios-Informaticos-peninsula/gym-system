@@ -423,17 +423,17 @@ function calcularCambio() {
 
         cambio = Number($("#cantidad_pagada").val()) - Number($("#price_total").val());
 
-        if (cambio < 0) {
-            swal.fire({
-                title: "Aviso",
-                text: "Ingrese  pago valido",
-                type: "warning",
-                showConfirmButton: true,
-                confirmButtonClass: "btn btn-success btn-round",
-                confirmButtonText: "Aceptar",
-                buttonsStyling: false,
-            });
-s
+            if(cambio<0){
+                swal.fire({
+                    title: "Aviso",
+                    text: "Ingrese  pago valido",
+                    icon: "warning",
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-success btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                });
+
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
 
@@ -503,7 +503,9 @@ function cobrar() {
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
-                text: "",
+                text: "Pago en Efectivo",
+
+                icon:'warning',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 didOpen: () => {
@@ -520,8 +522,8 @@ let id = r.voucher.id;
             if (r.lSuccess) {
                 swal.fire({
                     title: "Listo",
-                    text: tipoPago != 3?"cobro realizado":"cancelado",
-                    type: "warning",
+                    text: "cobro realizado",
+                    icon: "success",
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-success btn-round",
                     confirmButtonText: "Aceptar",
@@ -532,14 +534,11 @@ window.location.reload();
                 $("#cantidad_pagada").val("");
                 $("#claveo_rastreo").val("");
                 $("#cambio").val("");
-                $('#modalEfectivo').modal('hide')
-                $('#modalTransferencia').modal('hide')
-                // $("#modalEfectivo").hide();
-                // $("#modalTransferencia").hide();
-                $("#cash").hide();
-                $("#transfer").hide();
-                $("#tipo_pago").hide();
-
+                $("#modalEfectivo").hide();
+                if ($('.modal-backdrop').is(':visible')) {
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                  };
 
                   window.open("/sales/tickets/" + id + "/", '_blank');
 

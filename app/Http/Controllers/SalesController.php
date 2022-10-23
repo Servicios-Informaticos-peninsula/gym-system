@@ -9,10 +9,6 @@ use App\Models\Membership;
 use App\Models\MembershipPay;
 use App\Models\Product;
 use App\Models\Voucher;
-use App\Models\BitacoraCancelacion;
-
-use App\Models\MemberShipMembershipPay;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
@@ -45,64 +41,21 @@ class SalesController extends Controller
 
             $numVenta = carts::count(); //numero de venta por definir como se generara
 
+            // dd($request->all());
 
-        $cart = Carts::create([
-            'clients_id' => $userID,
-            'numero_venta' => 1,
-
-        ]);
-
-        $productos = $request->productos;
-
-        // dd($productos);
-
-
-
-        foreach ($productos as $lst) {
-            $jsonEncode = json_encode($lst);
-            $pro = json_decode($jsonEncode);
-
-            // dd($pro);
-
-
-
-
-
-            Carts_has_products::create([
-                'carts_id' => (int)$cart->id,
-                'products_id' => (int)$pro->id_product,
-                'quantity' => $pro->cantidad,
-                'lMembresia' => $pro->lmembresia == "true"? true:false,
-
-
+            $cart = Carts::create([
+                'clients_id' => $userID,
+                'numero_venta' => $numVenta + 1,
 
             ]);
 
             $productos = $request->productos;
 
-            if($request->tipoPago != 3){
-                // dd($request->tipo_pago);
-
-
-
             foreach ($request->productos as $lst) {
                 $jsonEncode = json_encode($lst);
                 $pro = json_decode($jsonEncode);
 
-            if($pro->lmembresia == "true"){
-
-                //  dd("hola");
-                $membresia = Membership::select('memberships.id as id','membership_pays.reference_line as lineReference')
-                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
-                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
-                ->where('membership_pays.reference_line',$pro->lineReference)
-                ->first();
-
-// dd($membresia->lineReference);
-
-                //asignacion de carrito a membresia de usuario y cambio de estado de pago
-                Membership::where('memberships.id', $membresia->id)
-                ->update([
+                Carts_has_products::create([
                     'carts_id' => $cart->id,
                     'products_id' => $pro->id_product,
                     'quantity' => $pro->cantidad,
@@ -110,7 +63,28 @@ class SalesController extends Controller
 
                 ]);
 
+                // dd($pro->lmembresia);
 
+                if ($pro->lmembresia == "true") {
+
+                    $membresia = Membership::select('memberships.id as id', 'membership_pays.reference_line as lineReference')
+                        ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                        ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
+                        ->where('membership_pays.reference_line', $pro->lineReference)
+                        ->first();
+
+                    // dd($membresia->lineReference);
+
+                    //asignacion de carrito a membresia de usuario y cambio de estado de pago
+                    Membership::where('memberships.id', $membresia->id)
+                        ->update([
+                            'carts_id' => $cart->id,
+                        ]);
+
+                    MembershipPay::where('reference_line', $membresia->lineReference)
+                        ->update([
+                            'estatus' => 'P',
+                        ]);
 
                 } else {
 
@@ -127,7 +101,34 @@ class SalesController extends Controller
 
                 }
 
-            }}}
+            }
+
+            $voucher = Voucher::create([
+                'carts_id' => $cart->id,
+                'quantity' => $request->totalproductos,
+                'price_total' => $request->precioTotal,
+                'vendendor' => $userID,
+                'tipo_pago' => "EFECTIVO",
+                'cantidad_pagada' => $request->pago,
+                'cambio' => $request->cambio,
+                'estatus' => "P",
+
+            ]);
+            DB::commit();
+
+            return response()->json([
+                'lSuccess' => true,
+                'cMensaje' => "",
+                'voucher' => $voucher,
+            ]);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'lSuccess' => false,
+                'cMensaje' => $th->getMessage(),
+            ]);
+        }
         switch ($request->tipoPago) {
             case 1:
                 Voucher::create([
@@ -170,24 +171,7 @@ class SalesController extends Controller
                 break;
             }
 
-
-        DB::commit();
-
-
-        return response()->json([
-            'lSuccess' => true,
-            'cMensaje' => "",
-        ]);
-
-
-
-    } catch (\Throwable $th) {
-        DB::rollback();
-        return response()->json([
-            'lSuccess' => false,
-            'cMensaje' => $th->getMessage(),
-        ]);
-    }}
+    }
 
     public function search(Request $request)
     {
@@ -207,9 +191,7 @@ class SalesController extends Controller
                 ->where('inventories.quantity','>=' ,1)
                 ->get();
 
-                // dd(sizeof($producto));
-
-//declaracion negativa
+            //declaracion negativa
 
             if (sizeof($producto) > 0) {
 
@@ -239,18 +221,13 @@ class SalesController extends Controller
                 // $lstpay = MemberShipMembershipPay::where('membership_pays_id',$membresiaRef->id)
                 // ->get();
 
-                $membresia = Membership::select('memberships.id as id','membership_types.name as name','membership_types.price as price','membership_pays.reference_line as lineReference')
-                ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
-                ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
-                ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
-                ->where('membership_pays.reference_line',$request->producto)
-                ->whereNotIn('membership_pays.estatus', ['P'])
-                ->get();
-
-                //  dd($membresia);
-
-
-
+                $membresia = Membership::select('memberships.id as id', 'membership_types.name as name', 'membership_types.price as price', 'membership_pays.reference_line as lineReference')
+                    ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                    ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
+                    ->join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
+                    ->where('membership_pays.reference_line', $request->producto)
+                    ->whereNotIn('membership_pays.estatus', ['P'])
+                    ->get();
 
                 //dd($membresia);
 
@@ -349,13 +326,13 @@ class SalesController extends Controller
 ->select('products.name','carts_has_products.quantity','inventories.sales_price')
                 ->get();
 
+return view('sales.pdf.ticket',compact('data','cart'));
+    //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
+    //                 ->set_option('dpi', 58)
+    //              ->setPaper('portrait');
 
-       $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
-                    ->set_option('dpi', 58)
-                 ->setPaper('portrait');
 
-
-           return $pdf->stream();
+    //        return $pdf->stream();
 
 
 
