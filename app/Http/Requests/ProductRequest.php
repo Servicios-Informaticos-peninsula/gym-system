@@ -32,6 +32,7 @@ class ProductRequest extends FormRequest
             'product_category' => 'required',
             'requireInventory' => 'nullable|boolean',
             'product_description' => 'nullable|min:6|max:2000',
+
         ];
     }
 }

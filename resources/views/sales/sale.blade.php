@@ -197,6 +197,7 @@
     <script>
         let search = '{{ route('search.products') }}';
         let cashPayment = '{{ route('cash.payment') }}';
+
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection

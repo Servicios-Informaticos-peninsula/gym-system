@@ -190,7 +190,7 @@ function selectProducto() {
         swal.fire({
             title: "Aviso",
             text: "Ingrese  Producto",
-            type: "warning",
+            icon: "warning",
             showConfirmButton: true,
             confirmButtonClass: "btn btn-success btn-round",
             confirmButtonText: "Aceptar",
@@ -211,7 +211,7 @@ function selectProducto() {
                 text: "Consultando la base de informacion.",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                onOpen: () => {
+                didOpen: () => {
                     swal.showLoading();
                 },
             });
@@ -423,20 +423,20 @@ function calcularCambio() {
 
         cambio = Number($("#cantidad_pagada").val()) - Number($("#price_total").val());
 
-        if (cambio < 0) {
-            swal.fire({
-                title: "Aviso",
-                text: "Ingrese  pago valido",
-                type: "warning",
-                showConfirmButton: true,
-                confirmButtonClass: "btn btn-success btn-round",
-                confirmButtonText: "Aceptar",
-                buttonsStyling: false,
-            });
+            if(cambio<0){
+                swal.fire({
+                    title: "Aviso",
+                    text: "Ingrese  pago valido",
+                    icon: "warning",
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-success btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                });
 
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
-
+//
         } else {
             $("#cambio").val(Number(cambio).toFixed(2));
         }
@@ -503,44 +503,45 @@ function cobrar() {
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
-                text: "",
+                text: "Pago en Efectivo",
+
+                icon:'warning',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                onOpen: () => {
+                didOpen: () => {
                     swal.showLoading();
                 },
             });
         },
         success: function (r) {
-
+            console.log(r.voucher.id);
+let id = r.voucher.id;
             NProgress.done();
             swal.close();
 
             if (r.lSuccess) {
                 swal.fire({
                     title: "Listo",
-                    text: tipoPago != 3?"cobro realizado":"cancelado",
-                    type: "warning",
+                    text: "cobro realizado",
+                    icon: "success",
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-success btn-round",
                     confirmButtonText: "Aceptar",
                     buttonsStyling: false,
-                });
-
+                }).then((result) => {
+window.location.reload();
+                })
                 $("#cantidad_pagada").val("");
                 $("#claveo_rastreo").val("");
                 $("#cambio").val("");
-                $('#modalEfectivo').modal('hide')
-                $('#modalTransferencia').modal('hide')
-                // $("#modalEfectivo").hide();
-                // $("#modalTransferencia").hide();
-                $("#cash").hide();
-                $("#transfer").hide();
-                $("#tipo_pago").hide();
-                // if ($('.modal-backdrop').is(':visible')) {
-                //     $('body').removeClass('modal-open');
-                //     $('.modal-backdrop').remove();
-                //   };
+                $("#modalEfectivo").hide();
+                if ($('.modal-backdrop').is(':visible')) {
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                  };
+
+                  window.open("/sales/tickets/" + id + "/", '_blank');
+
                 reset();
 
 
@@ -560,4 +561,32 @@ function cobrar() {
 
 }
 
+function ticket(id) {
 
+    $.fancybox.open({
+
+        src: "/sales/tickets/" + id + "/",
+        type: 'iframe',
+        iframe: {
+            css: {
+                height: '100%',
+                width: '90%'
+            }
+        },
+        //baseClass: "fancybox-custom-layout",
+        infobar: true,
+        touch: {
+            vertical: false
+        },
+        buttons: ["close"],
+        animationEffect: "fade",
+        transitionEffect: "fade",
+        preventCaptionOverlap: false,
+        idleTime: false,
+        gutter: 0,
+        // Customize caption area
+        caption: function (instance) {
+            window.print("/sales/tickets/" + id + "/");
+        }
+    });
+}
