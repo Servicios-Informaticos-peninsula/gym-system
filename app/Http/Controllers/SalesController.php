@@ -108,17 +108,48 @@ class SalesController extends Controller
 
             }
 
-            $voucher = Voucher::create([
-                'carts_id' => $cart->id,
-                'quantity' => $request->totalproductos,
-                'price_total' => $request->precioTotal,
-                'vendendor' => $userID,
-                'tipo_pago' => "EFECTIVO",
-                'cantidad_pagada' => $request->pago,
-                'cambio' => $request->cambio,
-                'estatus' => "P",
+            switch ($request->tipoPago) {
+                case 1:
+                    Voucher::create([
+                        'carts_id' => $cart->id,
+                        'quantity' => $request->totalproductos,
+                        'price_total' => $request->precioTotal,
+                        'vendendor' => $userID,
+                        'tipo_pago' => "EFECTIVO",
+                        'cantidad_pagada' => $request->pago,
+                        'cambio' => $request->cambio,
+                        'estatus'=>"P"
 
-            ]);
+                    ]);
+                   break;
+
+                case 2:
+                    Voucher::create([
+                        'carts_id' => $cart->id,
+                        'quantity' => $request->totalproductos,
+                        'price_total' => $request->precioTotal,
+                        'vendendor' => $userID,
+                        'tipo_pago' => "TRANSFERENCIA",
+                        'claveo_rastreo' => $request->referenciaPago,
+                        'folio_transferencia' => $request->folioTransferencia,
+                        'estatus'=>"P"
+
+                    ]);
+
+                    break;
+                case 3:
+
+                    BitacoraCancelacion::create([
+                        'motivo' => $request->motivo,
+                        'userCreator' => $userID,
+                        'carts_id' => $cart->id,
+
+                    ]);
+
+
+                    break;
+                }
+
             DB::commit();
 
             return response()->json([
@@ -134,47 +165,6 @@ class SalesController extends Controller
                 'cMensaje' => $th->getMessage(),
             ]);
         }
-        switch ($request->tipoPago) {
-            case 1:
-                Voucher::create([
-                    'carts_id' => $cart->id,
-                    'quantity' => $request->totalproductos,
-                    'price_total' => $request->precioTotal,
-                    'vendendor' => $userID,
-                    'tipo_pago' => "EFECTIVO",
-                    'cantidad_pagada' => $request->pago,
-                    'cambio' => $request->cambio,
-                    'estatus'=>"P"
-
-                ]);
-               break;
-
-            case 2:
-                Voucher::create([
-                    'carts_id' => $cart->id,
-                    'quantity' => $request->totalproductos,
-                    'price_total' => $request->precioTotal,
-                    'vendendor' => $userID,
-                    'tipo_pago' => "TRANSFERENCIA",
-                    'claveo_rastreo' => $request->referenciaPago,
-                    'folio_transferencia' => $request->folioTransferencia,
-                    'estatus'=>"P"
-
-                ]);
-
-                break;
-            case 3:
-
-                BitacoraCancelacion::create([
-                    'motivo' => $request->motivo,
-                    'userCreator' => $userID,
-                    'carts_id' => $cart->id,
-
-                ]);
-
-
-                break;
-            }
 
     }
 
