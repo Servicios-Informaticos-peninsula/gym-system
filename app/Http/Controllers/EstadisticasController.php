@@ -20,6 +20,8 @@ class EstadisticasController extends Controller
         ->orderBy('total','desc')
         ->get()->toArray();
 
+        // dd($productos);
+
         $chart;
         // dd($ventasArray["total"]);
         if(sizeof($productos)>0){
@@ -27,6 +29,12 @@ class EstadisticasController extends Controller
             ->setTitle('Productos mas vendidos')
             ->setSubtitle('Octubre.')
             ->addData($productos[0]["name"], [$productos[0]["total"]])
+
+            ->setXAxis(['octubre','noviembre','diciembre']);
+        }else{
+            $chart = (new LarapexChart)->barChart()
+            ->setTitle('Productos mas vendidos')
+            ->setSubtitle('Octubre.')
 
             ->setXAxis(['octubre','noviembre','diciembre']);
         }

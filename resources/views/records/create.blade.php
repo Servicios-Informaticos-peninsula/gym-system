@@ -45,7 +45,7 @@
                                         <option value="">Seleccione una Opcion</option>
 
                                         @foreach ($user as $row)
-                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                            <option value="{{ $row->id }}">{{ $row->name }} / {{ $row->code_user }}</option>
                                         @endforeach
 
                                     </select>
