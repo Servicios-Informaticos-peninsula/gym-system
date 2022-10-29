@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST" id="product_form">
+            <form action="{{ route('products.store') }}" method="POST" >
                 <div class="modal-body">
                     @csrf
                     <div class="row">
@@ -144,7 +144,7 @@
 
                         <div class="col-4">
                             <label class="@error('requireInventory') border-danger text-danger @enderror">¿Este
-                                Producto No Necesita Inventario?</label>
+                                Producto Necesita Inventario?</label>
                             <div class="form-group mb-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="1" id="requireInventory"

@@ -503,7 +503,9 @@ function cobrar() {
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
-                text: "",
+                text: "Realizando Operacion",
+
+                icon:'warning',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 didOpen: () => {
@@ -512,41 +514,71 @@ function cobrar() {
             });
         },
         success: function (r) {
-            console.log(r.voucher.id);
-let id = r.voucher.id;
-            NProgress.done();
-            swal.close();
-
-            if (r.lSuccess) {
-                swal.fire({
-                    title: "Listo",
-                    text: tipoPago != 3?"cobro realizado":"cancelado",
-                    type: "warning",
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-success btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                }).then((result) => {
-window.location.reload();
-                })
-                $("#cantidad_pagada").val("");
-                $("#claveo_rastreo").val("");
-                $("#cambio").val("");
-                $('#modalEfectivo').modal('hide')
-                $('#modalTransferencia').modal('hide')
-                // $("#modalEfectivo").hide();
-                // $("#modalTransferencia").hide();
-                $("#cash").hide();
-                $("#transfer").hide();
-                $("#tipo_pago").hide();
-                // if ($('.modal-backdrop').is(':visible')) {
-                //     $('body').removeClass('modal-open');
-                //     $('.modal-backdrop').remove();
-                //   };
-                reset();
+            console.log(r);
+           //console.log(r.voucher.id);
+           NProgress.done();
+           swal.close();
+if(r.cobro == true){
+    let id = r.voucher.id;
 
 
-            }
+    if (r.lSuccess) {
+        swal.fire({
+            title: "Listo",
+            text: "cobro realizado",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        }).then((result) => {
+            window.location.reload();
+        })
+        $("#cantidad_pagada").val("");
+        $("#claveo_rastreo").val("");
+        $("#cambio").val("");
+        $("#modalEfectivo").hide();
+        if ($('.modal-backdrop').is(':visible')) {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+          };
+
+          window.open("/sales/tickets/" + id + "/", '_blank');
+
+        reset();
+
+
+    }
+}else{
+    if (r.lSuccess) {
+        swal.fire({
+            title: "Listo",
+            text: "Cancelacion realizada",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        }).then((result) => {
+            window.location.reload();
+        })
+        $("#cantidad_pagada").val("");
+        $("#claveo_rastreo").val("");
+        $("#cambio").val("");
+        $("#modalEfectivo").hide();
+        if ($('.modal-backdrop').is(':visible')) {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+          };
+
+          //window.open("/sales/tickets/" + id + "/", '_blank');
+
+        reset();
+
+
+    }
+}
+
 
 
 

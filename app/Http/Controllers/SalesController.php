@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BitacoraCancelacion;
 use App\Models\Carts;
 use App\Models\Carts_has_products;
 use App\Models\Inventory;
@@ -17,9 +18,6 @@ use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-use Mike42\Escpos\Printer;
-use PDF;
 use stdClass;
 
 class SalesController extends Controller
@@ -37,7 +35,6 @@ class SalesController extends Controller
     public function cashPayment(Request $request)
     {
         //   dd($request->all());
-
 
         try {
             DB::beginTransaction();
@@ -110,7 +107,7 @@ class SalesController extends Controller
 
             switch ($request->tipoPago) {
                 case 1:
-                    Voucher::create([
+                    $voucher = Voucher::create([
                         'carts_id' => $cart->id,
                         'quantity' => $request->totalproductos,
                         'price_total' => $request->precioTotal,
@@ -118,13 +115,13 @@ class SalesController extends Controller
                         'tipo_pago' => "EFECTIVO",
                         'cantidad_pagada' => $request->pago,
                         'cambio' => $request->cambio,
-                        'estatus'=>"P"
+                        'estatus' => "P",
 
                     ]);
-                   break;
+                    break;
 
                 case 2:
-                    Voucher::create([
+                    $voucher = Voucher::create([
                         'carts_id' => $cart->id,
                         'quantity' => $request->totalproductos,
                         'price_total' => $request->precioTotal,
@@ -132,7 +129,7 @@ class SalesController extends Controller
                         'tipo_pago' => "TRANSFERENCIA",
                         'claveo_rastreo' => $request->referenciaPago,
                         'folio_transferencia' => $request->folioTransferencia,
-                        'estatus'=>"P"
+                        'estatus' => "P",
 
                     ]);
 
@@ -143,20 +140,29 @@ class SalesController extends Controller
                         'motivo' => $request->motivo,
                         'userCreator' => $userID,
                         'carts_id' => $cart->id,
+                        'cSistema'=>"Punto de venta web"
 
                     ]);
 
-
                     break;
-                }
-
+            }
             DB::commit();
+            if (isset($voucher)) {
+                return response()->json([
+                    'lSuccess' => true,
+                    'cMensaje' => "",
+                    'cobro' => "true",
+                    'voucher' => $voucher,
+                ]);
 
-            return response()->json([
-                'lSuccess' => true,
-                'cMensaje' => "",
-                'voucher' => $voucher,
-            ]);
+            } else {
+                return response()->json([
+                    'lSuccess' => true,
+                    'cMensaje' => "",
+                    'cobro' => "false",
+
+                ]);
+            }
 
         } catch (\Throwable $th) {
             DB::rollback();
@@ -181,9 +187,8 @@ class SalesController extends Controller
                     $query->orWhere('products.bar_code', $request->producto);
                 })
 
-
                 ->where('inventories.status', 'Disponible')
-                ->where('inventories.quantity','>=' ,1)
+                ->where('inventories.quantity', '>=', 1)
                 ->get();
 
             //declaracion negativa
@@ -303,33 +308,31 @@ class SalesController extends Controller
 
     // }
 
-    public function show(Request $request){
-        $data= DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-        ->join('users', 'carts.clients_id', '=', 'users.id')
-        ->where('vouchers.id', $request->id)
+    public function show(Request $request)
+    {
+        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
+            ->where('vouchers.id', $request->id)
 
-        ->first();
+            ->first();
         $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-                ->join('users', 'carts.clients_id', '=', 'users.id')
-                ->where('vouchers.id', $request->id)
-->select('products.name','carts_has_products.quantity','inventories.sales_price')
-                ->get();
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
+            ->where('vouchers.id', $request->id)
+            ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+            ->get();
 
-return view('sales.pdf.ticket',compact('data','cart'));
-    //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
-    //                 ->set_option('dpi', 58)
-    //              ->setPaper('portrait');
+        return view('sales.pdf.ticket', compact('data', 'cart'));
+        //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
+        //                 ->set_option('dpi', 58)
+        //              ->setPaper('portrait');
 
-
-    //        return $pdf->stream();
-
-
+        //        return $pdf->stream();
 
         // // dd($pdf);
 
