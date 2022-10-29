@@ -12,6 +12,7 @@ class BitacoraCancelacion extends Model
         'motivo',
         'carts_id',
         'userCreator',
+        'cSistema',
 
 
     ];

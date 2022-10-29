@@ -49,16 +49,18 @@ class ProductController extends Controller
     {
 
         try {
+
             $producto = Product::create([
                 'bar_code' => $request->bar_code,
-                'name' => $request->product_name,
+                'product_name' => $request->product_name,
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
                 'providers_id' => (is_null($request->providers_id) ? "S/P" : $request->providers_id),
                 'requireInventory' => ($request->requireInventory != null) ? 1 : 0,
                 'category_products_id' => $request->product_category,
             ]);
-            if ($producto->requireInventory == true || $producto->requireInventory == 1) {
+            if ($producto->requireInventory == false || $producto->requireInventory == 0) {
+
                 $inventory = Inventory::create([
                     'products_id' => $producto->id,
                     'quantity' => 0,
@@ -70,6 +72,7 @@ class ProductController extends Controller
                     'status' => $request->status,
                 ]);
             }
+
 
             return redirect()
                 ->back()
