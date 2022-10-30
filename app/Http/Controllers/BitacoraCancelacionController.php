@@ -14,9 +14,17 @@ class BitacoraCancelacionController extends Controller
      */
     public function index()
     {
-        //
+        return view('bitacoras.cancelacion');
     }
 
+    public function getCancelacion()
+    {
+$bitacora = BitacoraCancelacion::join('carts','bitacora_cancelacions.carts_id','=','carts.id')
+->join('users','bitacora_cancelacions.userCreator','=','users.id')
+->select('users.name','bitacora_cancelacions.cSistema','carts.numero_venta','bitacora_cancelacions.motivo')->get();
+
+return $bitacora;
+    }
     /**
      * Show the form for creating a new resource.
      *

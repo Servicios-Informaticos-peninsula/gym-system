@@ -88,4 +88,5 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('inventory', InventoryController::class);
 
     Route::resource('workers', WorkersController::class);
+    Route::get('bitacora/cancelacion','BitacoraCancelacionController@index')->name('bitacora.cancelacion');
 });
