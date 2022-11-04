@@ -374,7 +374,7 @@
                             <span>Bitacora de cancelacion</span></a>
                     </li>
                     <li class="submenu-item">
-                        <a href="{{route('bitacora.cancelacion')}}"><i class="bi bi-graph-up-arrow"></i>
+                        <a href="{{route('bitacora.ventas')}}"><i class="bi bi-graph-up-arrow"></i>
                             <span>Bitacora Ventas</span></a>
                     </li>
 

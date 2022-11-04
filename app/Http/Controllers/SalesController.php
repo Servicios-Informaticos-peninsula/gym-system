@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\BitacoraCancelacion;
 use App\Models\Carts;
-
+use App\Models\Carts_has_products;
 use App\Models\Inventory;
 use App\Models\Membership;
 use App\Models\MembershipPay;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Voucher;
-use App\Models\BitacoraCancelacion;
-use App\Models\MemberShipMembershipPay;
-
-use App\Models\Carts_has_products;
-use Dompdf\Dompdf;
+use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
@@ -94,10 +91,25 @@ class SalesController extends Controller
 
                     if ($requireInventory->requireInventory) {
                         $cantidad = Inventory::where('products_id', $pro->id_product)->first();
-                        Inventory::where('products_id', $pro->id_product)
+                        $inventory = Inventory::where('products_id', $pro->id_product)
                             ->update([
                                 'quantity' => ($cantidad->quantity) - ($pro->cantidad),
                             ]);
+                        if ($inventory) {
+
+                            $alert = Inventory::where('products_id', $pro->id_product)
+                                ->join('products', 'inventories.products_id', '=', 'products.id')
+                                ->first();
+                            $user = User::role('Admininistrador')->first();
+                            if (!is_null($alert->maximun_alert)) {
+
+                                if ($alert->maximun_alert <= $alert->maximun_alert) {
+
+                                    $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
+                                    $this->sendMessage($mensaje, $user->phone);
+                                }
+                            }
+                        }
                         // dd($requireInventory->requireInventory);
                     }
 
@@ -140,7 +152,7 @@ class SalesController extends Controller
                         'motivo' => $request->motivo,
                         'userCreator' => $userID,
                         'carts_id' => $cart->id,
-                        'cSistema'=>"Punto de venta web"
+                        'cSistema' => "Punto de venta web",
 
                     ]);
 
@@ -264,6 +276,15 @@ class SalesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function sendMessage($message, $recipients)
+    {
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_number = getenv("TWILIO_NUMBER");
+        $client = new Client($account_sid, $auth_token);
+        $client->messages->create($recipients,
+            ['from' => $twilio_number, 'body' => $message]);
+    }
     public function create()
     {
         //

@@ -16,3 +16,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
 
 
     Route::post('cancelacion/index','BitacoraCancelacionController@getCancelacion')->name('cancelacion.index');
+    Route::post('ventas/index','BitacoraCancelacionController@getVentas')->name('ventas.index');
