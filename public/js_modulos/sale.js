@@ -1,6 +1,8 @@
 let tipoPago = 0;
 let motivo = "";
 $(function ($) {
+    //pruebas js
+
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });

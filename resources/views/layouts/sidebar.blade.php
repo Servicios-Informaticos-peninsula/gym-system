@@ -364,16 +364,19 @@
                 <ul class="submenu" style="display: none;">
                     <li class="submenu-item">
 
-                        <a href="{{ route('products.index') }}" class="sidebar-link"> <i class="bi bi-list-ul"></i>
+                        <a href="{{route('bitacora.cancelacion')}}" class="sidebar-link"> <i class="bi bi-list-ul"></i>
                             <span>Bitacora de accesos</span></a>
 
                     </li>
 
                     <li class="submenu-item">
-                        <a href="{{ route('product-categories.index') }}"><i class="bi bi-list-ul"></i>
+                        <a href="{{route('bitacora.cancelacion')}}"><i class="bi bi-list-ul"></i>
                             <span>Bitacora de cancelacion</span></a>
                     </li>
-
+                    <li class="submenu-item">
+                        <a href="{{route('bitacora.ventas')}}"><i class="bi bi-graph-up-arrow"></i>
+                            <span>Bitacora Ventas</span></a>
+                    </li>
 
 
                 </ul>

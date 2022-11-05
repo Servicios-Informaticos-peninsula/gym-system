@@ -15,37 +15,48 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        /* Super-Admin */
+        /* Super-Admin  administrador maestro*/
         User::create([
-            'name' => 'TI',
-            'surnames'=>'Soporte',
-            'username'=>'TI.Soporte',
+            'name' => 'Rodrigo Enrique',
+            'surnames'=>'Diaz Serviran',
+            'username'=>'Rodrigo.Diaz',
             'code_user' => '0001',
-            'email' => 'it@domain.com',
+            'email' => 'diaz-rodrigo@hotmail.com',
             'phone' => '9999708319',
 
             'password' => Hash::make('123456'),
         ])->assignRole(1);
-
         User::create([
-            'name' => 'Administrador',
-            'surnames'=>'administrador',
-            'username'=>'Administrador.administrador',
+            'name' => 'Cosme Alberto',
+            'surnames'=>'Magaña Camara',
+            'username'=>'Cosme.Magaña',
             'code_user' => '0002',
+            'email' => 'cosme.magaña@hotmail.com',
+            'phone' => '9992389045',
+
+            'password' => Hash::make('123456'),
+        ])->assignRole(1);
+        User::create([
+            'name' => 'Pedro Adrian',
+            'surnames'=>'Sanchez Cardenas',
+            'username'=>'Pedro.Sanchez',
+            'code_user' => '0003',
+            'email' => 'pedrosanchezcardenas@gmail.com',
+            'phone' => '9992389045',
+
+            'password' => Hash::make('123456'),
+        ])->assignRole(1);
+            /**administrador  */
+        User::create([
+            'name' => 'David',
+            'surnames'=>'May',
+            'username'=>'David.May',
+            'code_user' => '0004',
             'email' => 'administrador@domain.com',
             'phone' => '0000000000',
 
             'password' => Hash::make('123456'),
         ])->assignRole(2);
-        User::create([
-            'name' => 'Rodrigo Diaz',
-            'surnames'=>'Diaz Serviran',
-            'username'=>'Rodrigo.Diaz',
-            'code_user' => '0003',
-            'email' => 'rodrigo_diaz@domain.com',
-            'phone' => '9992389045',
 
-            'password' => Hash::make('123456'),
-        ])->assignRole(5);
     }
 }

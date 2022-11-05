@@ -13,3 +13,7 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('products/sale', 'SalesController@search')->name('search.products');
     Route::post('products/cashPayment', 'SalesController@cashPayment')->name('cash.payment');
     Route::get('sales/tickets/{id}', 'SalesController@show');
+
+
+    Route::post('cancelacion/index','BitacoraCancelacionController@getCancelacion')->name('cancelacion.index');
+    Route::post('ventas/index','BitacoraCancelacionController@getVentas')->name('ventas.index');
