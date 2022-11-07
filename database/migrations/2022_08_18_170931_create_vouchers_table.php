@@ -17,6 +17,7 @@ class CreateVouchersTable extends Migration
             $table->id();
 
             $table->foreignId('carts_id')->constrained();
+            $table->foreignId('corte_cajas_id')->constrained();
             $table->integer('quantity');
             $table->double('price_total');
             $table->string("vendendor");

@@ -19,6 +19,7 @@
             <div class="border-bottom px-3">
                 <div class="row">
                     <div class="col-md">
+                        <input type="number" value="{{$cConsulta}}" id="countCorte" name="countCorte">
                         <label>Fecha</label>
                         <div class="form-group mb-4">
                             <div class="input-group">
@@ -178,6 +179,7 @@
                                      </td>
                                 </tr> --}}
                                 @include('sales.modales.transferencia')
+                                @include('sales.modales.corte')
                             </table>
                         </div>
 

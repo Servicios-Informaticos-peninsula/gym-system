@@ -36,6 +36,7 @@
 <body>
     <div id="app">
         <div id="sidebar" class="active">
+
             @include('layouts.sidebar')
         </div>
         <div id="main" class="layout-navbar">

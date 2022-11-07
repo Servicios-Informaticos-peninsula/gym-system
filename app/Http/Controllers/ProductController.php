@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Models\Provider;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as DB;
@@ -47,31 +48,63 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        //dd($request->all());
 
         try {
 
             $producto = Product::create([
                 'bar_code' => $request->bar_code,
-                'product_name' => $request->product_name,
+                'name' => $request->product_name,
                 'product_units_id' => $request->product_unit,
                 'description' => $request->product_description,
                 'providers_id' => (is_null($request->providers_id) ? "S/P" : $request->providers_id),
                 'requireInventory' => ($request->requireInventory != null) ? 1 : 0,
                 'category_products_id' => $request->product_category,
             ]);
-            if ($producto->requireInventory == false || $producto->requireInventory == 0) {
+          //  dd($producto->requireInventory != false, $producto->requireInventory != 1 , !isset($producto->requireInventory));
+            // if ($producto->requireInventory != false || $producto->requireInventory != 1 ||isset($producto->requireInventory)) {
+            //     $validator = Validator::make($request->all(), [
+            //         //identificacion
 
-                $inventory = Inventory::create([
-                    'products_id' => $producto->id,
-                    'quantity' => 0,
-                    'minimum_alert' => 0,
-                    'maximun_alert' =>0,
-                    'purchase_price' => 0,
-                    'sales_price' => $request->sales_price,
-                    'asigned_by' => Auth::id(),
-                    'status' => $request->status,
-                ]);
-            }
+
+            //         'sales_price' => 'required',
+            //         'status' => 'required',
+            //     ], [
+            //         //identificacion
+
+            //         'sales_price.required' => 'El campo de precio venta es obligatorio',
+            //         'status.required' => 'El campo de estatus es obligatorio',
+
+
+            //     ]);
+            //     if ($validator->fails()) {
+            //         return redirect()
+            //         ->back()
+            //         ->with('error','Usted dejo la opcion que no necesita inventario, llene los campos faltantes')
+            //         ->withErrors($validator)
+            //         ->withInput();
+
+
+            //     }else{
+            //         $inventory = Inventory::create([
+            //             'products_id' => $producto->id,
+            //             'quantity' => 0,
+            //             'minimum_alert' => 0,
+            //             'maximun_alert' =>0,
+            //             'purchase_price' => 0,
+            //             'sales_price' => $request->sales_price,
+            //             'asigned_by' => Auth::id(),
+            //             'status' => $request->status,
+            //         ]);
+
+
+
+            //         return redirect()->route('record.index')->with('success', '¡Se agrego el nuevo producto de forma exitosa!');
+            //     }
+
+
+
+            // }
 
 
             return redirect()
@@ -82,7 +115,7 @@ class ProductController extends Controller
 
             return redirect()
                 ->back()
-                ->with('error', 'Hubo un problema!');
+                ->with('error', 'Hubo un problema!', $e->getMessage());
         }
     }
 

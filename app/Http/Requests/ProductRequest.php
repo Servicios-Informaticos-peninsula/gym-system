@@ -26,10 +26,11 @@ class ProductRequest extends FormRequest
     {
         return [
             'bar_code' => ['required', 'numeric', 'min:5', Rule::unique('products', 'bar_code')->ignore($this->id)],
-            'product_name' => ['required', 'min:2', Rule::unique('products', 'name')->ignore($this->id)],
+            'product_name' => ['required', 'min:2'],
             'product_unit' => 'required',
             'providers_id' => 'nullable',
             'product_category' => 'required',
+            'requireInventory' => 'nullable',
 
             'product_description' => 'nullable|min:6|max:2000',
 

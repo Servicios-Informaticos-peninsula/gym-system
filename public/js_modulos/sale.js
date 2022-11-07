@@ -6,7 +6,11 @@ $(function ($) {
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
-
+let countCorte = $("#countCorte").val();
+console.log(countCorte);
+if(countCorte == 0){
+    $('#modalCorte').modal('show',{backdrop: 'static', keyboard: false});
+}
     $("#btnBuscarProducto").on('click', function () {
         selectProducto();
     });
