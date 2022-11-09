@@ -366,6 +366,12 @@ class SalesController extends Controller
             ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
             ->get();
 
+            $fecha = DB::table('vouchers')
+            ->where('vouchers.id', $request->id)
+            ->first();
+
+            // dd();
+
             $logo = EscposImage::load("img/logo-ticket.png", false);
 
             $nombreImpresora = "termicaEspacioFem";
@@ -377,7 +383,7 @@ class SalesController extends Controller
             $impresora->text("Ticket de venta\n");
             $impresora->text("Spacio Fems\n");
             $impresora->text("C. 84 97297 Merida, Yuc.\n");
-            // $impresora->text($venta->created_at . "\n");
+            $impresora->text($fecha->created_at . "\n");
 
             $impresora->setEmphasis(false);
             $impresora->text("\n===============================\n");
@@ -386,7 +392,7 @@ class SalesController extends Controller
                 $subtotal = $lst->quantity *$lst->sales_price;
 
                 $impresora->setJustification(Printer::JUSTIFY_LEFT);
-                $impresora->text(sprintf("%.2fx%s\n", $lst->quantity, $lst->name));
+                $impresora->text(sprintf("%.2f x %s\n", $lst->quantity, $lst->name));
                 $impresora->setJustification(Printer::JUSTIFY_RIGHT);
                 $impresora->text('$' . number_format($subtotal, 2) . "\n");
             }
@@ -398,9 +404,10 @@ class SalesController extends Controller
             $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
             $impresora->setJustification(Printer::JUSTIFY_CENTER);
             $impresora->setTextSize(1, 1);
+            $impresora->text("\n");
             $impresora->text("Gracias por su compra\n");
             $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
-            $impresora->text("LUGAR DE EXHIBICION: MERIDA, YUC.\n");
+            $impresora->text("LUGAR DE EXHIBICION: MERIDA,YUC.\n");
             $impresora->text("EMAIL: abi_vid@hotmail.com\n");
             $impresora->text("TELEFONO: 999 242 5792\n");
             $impresora->feed(5);
