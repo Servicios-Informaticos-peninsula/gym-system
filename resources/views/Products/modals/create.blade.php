@@ -6,11 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-<<<<<<< HEAD
-            <form action="{{ route('products.store') }}" method="POST">
-=======
             <form action="{{ route('products.store') }}" method="POST" id="product_form">
->>>>>>> origin/rodrigo_cambios
                 <div class="modal-body">
                     @csrf
                     <div class="row">

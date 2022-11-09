@@ -21,6 +21,7 @@
                     <div class="col-md">
                         <input type="number" value="{{ $cConsulta }}" id="countCorte" name="countCorte" hidden>
                         <input type="number" value="{{ $corteCount }}" id="countVoucher" name="countVoucher" hidden>
+                        <input type="text" value="{{ $excedido }}" id="excedido" name="excedido" >
                         <label>Fecha</label>
                         <div class="form-group mb-4">
                             <div class="input-group">
@@ -192,9 +193,8 @@
 
 
                 </div>
-                <button id="btnCorteFinal" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#modalCorteFinal">
-                <i class="bi bi-x-square-fill"> <span>Cierre de caja</span></i>
+
+
             </button>
             </div>
 
@@ -209,6 +209,7 @@
         let search = '{{ route('search.products') }}';
         let cashPayment = '{{ route('cash.payment') }}';
         let dataCorte = '{{ route('corte.data') }}';
+        let cerrarCaja = '{{ route('cerrar.caja') }}';
         let user = '{{Auth::id()}}'
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>

@@ -7,7 +7,8 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Cierre de caja</h5>
 
             </div>
-            <form action="{{route('corte.inicial')}}" method="post">
+            <input type="number" id="id_corte" name="id_corte" >
+            <form action="" method="post">
                 <div class="modal-body">
 
                     @csrf
@@ -45,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="submit" class="btn btn-primary">Empezar</button>
+                    <button type="button" class="btn btn-primary" id="btnCerrarCorte">Proceder con el cierre de caja</button>
                 </div>
             </form>
         </div>

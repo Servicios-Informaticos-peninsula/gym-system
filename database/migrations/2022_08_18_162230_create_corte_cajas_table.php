@@ -17,12 +17,14 @@ class CreateCorteCajasTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->date('fecha_inicio');
-            $table->date('fecha_final');
+            $table->time('hora_inicio');
+            $table->date('fecha_final')->nullable();
+            $table->time('hora_final')->nullable();
             $table->float('cantidad_inicial');
-            $table->float('cantidad_final');
-            $table->float('total_venta');
+            $table->float('cantidad_final')->nullable();
+            $table->float('total_venta')->nullable();
 
-          $table->float('diferencia');
+          $table->float('diferencia')->nullable();
           $table->boolean('lActivo');
             $table->timestamps();
         });

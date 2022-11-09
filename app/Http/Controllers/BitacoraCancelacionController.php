@@ -28,7 +28,10 @@ class BitacoraCancelacionController extends Controller
     }
     public function indexVentas()
     {
-        return view('bitacoras.ventas');
+
+            return view('bitacoras.ventas');
+
+
     }
 
     public function getVentas()

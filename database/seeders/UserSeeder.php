@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'username'=>'Rodrigo.Diaz',
             'code_user' => '0001',
             'email' => 'diaz-rodrigo@hotmail.com',
-            'phone' => '9999708319',
+            'phone' => '+529999708319',
 
             'password' => Hash::make('123456'),
         ])->assignRole(1);
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'username'=>'Cosme.Magaña',
             'code_user' => '0002',
             'email' => 'cosme.magaña@hotmail.com',
-            'phone' => '9992389045',
+            'phone' => '+529992389045',
 
             'password' => Hash::make('123456'),
         ])->assignRole(1);
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             'username'=>'Pedro.Sanchez',
             'code_user' => '0003',
             'email' => 'pedrosanchezcardenas@gmail.com',
-            'phone' => '9992389045',
+            'phone' => '+529992389045',
 
             'password' => Hash::make('123456'),
         ])->assignRole(1);
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
             'username'=>'David.May',
             'code_user' => '0004',
             'email' => 'administrador@domain.com',
-            'phone' => '0000000000',
+            'phone' => '+529992389045',
 
             'password' => Hash::make('123456'),
         ])->assignRole(2);

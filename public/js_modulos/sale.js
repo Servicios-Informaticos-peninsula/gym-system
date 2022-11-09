@@ -7,13 +7,30 @@ $(function ($) {
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
     let countCorte = $("#countCorte").val();
-
+    let excedido = $("#excedido").val();
+    console.log(excedido);
     if (countCorte == 0) {
         $("#btnCorteFinal").hide();
         $("#modalCorte").modal("show", { backdrop: "static", keyboard: false });
+    } else {
+        if (excedido == 1) {
+            swal.fire({
+                title: "Aviso",
+                text: "No se realizo el cierre de corte, favor de realizarlo para poder continuar.",
+                icon:"info",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                confirmButtonText: 'Proceder',
+                didOpen: () => {
+                    data();
+                    $("#modalCorteFinal").modal("show");
+                },
+            });
+            //$("#modalCorteFinal").modal("show");
+        }
     }
     let countVoucher = $("#countVoucher").val();
-    if(countVoucher <= 0){
+    if (countVoucher <= 0) {
         $("#btnCorteFinal").hide();
     }
     $("input[name=cantidad_final]").change(function () {
@@ -23,55 +40,14 @@ $(function ($) {
         $("#diferencia").val(diferencia);
     });
 
-    console.log(user);
+
 
     $("#btnCorteFinal").on("click", function () {
-        $.ajax({
-            url: dataCorte,
-            type: "post",
-            dataType: "json",
-            data: {
-                usuario: user,
-            },
-            beforeSend: function () {
-                swal.fire({
-                    title: "Informacion de corte de caja",
-                    text: "Consultando la base de informacion.",
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        swal.showLoading();
-                    },
-                });
-            },
-            success: function (r) {
-                NProgress.done();
-                swal.close();
-                console.log(r.data.cantidad_inicial, r);
-                if (r.lSuccess == true) {
-                    $("#fondo_caja").val(r.data.cantidad_inicial);
-                    $("#total_venta").val(r.data.total_ventas);
-                } else {
-                    swal.fire({
-                        icon: "info",
-                        title: "Busqueda fallida",
-                        text: "No fue posible traer datos para hacer el corte de caja",
-
-                        showConfirmButton: true,
-                        confirmButtonClass: "btn btn-primary btn-round",
-                        confirmButtonText: "Aceptar",
-                        buttonsStyling: false,
-                    });
-                    $("#search_product").val("");
-                }
-            },
-            error: function (err) {
-                NProgress.done();
-                swal.close();
-                alert("Problemas con procedimiento.");
-            },
-        });
+      data();
     });
+    $("#btnCerrarCorte").on("click", function () {
+        cerrarCorte();
+      });
     $("#btnBuscarProducto").on("click", function () {
         selectProducto();
     });
@@ -641,6 +617,120 @@ function cobrar() {
 
                     reset();
                 }
+            }
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas con procedimiento.");
+        },
+    });
+}
+function data(){
+    $.ajax({
+        url: dataCorte,
+        type: "post",
+        dataType: "json",
+        data: {
+            usuario: user,
+        },
+        beforeSend: function () {
+            swal.fire({
+                title: "Informacion de corte de caja",
+                text: "Consultando la base de informacion.",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                },
+            });
+        },
+        success: function (r) {
+            NProgress.done();
+            swal.close();
+            console.log(r.data.cantidad_inicial, r);
+            if (r.lSuccess == true) {
+                $("#id_corte").val(r.data.corte_caja_id);
+                $("#fondo_caja").val(r.data.cantidad_inicial);
+                $("#total_venta").val(r.data.total_ventas);
+            } else {
+                swal.fire({
+                    icon: "info",
+                    title: "Busqueda fallida",
+                    text: "No fue posible traer datos para hacer el corte de caja",
+
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-primary btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                });
+                $("#search_product").val("");
+            }
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas con procedimiento.");
+        },
+    });
+}
+function cerrarCorte(){
+    let id = $("#id_corte").val();
+    let fondo_caja =$("#fondo_caja").val();
+    let cantidad_final=$("#cantidad_final").val();
+    let total_venta=$("#total_venta").val();
+    let diferencia=$("#diferencia").val();
+    $.ajax({
+        url: cerrarCaja,
+        type: "post",
+        dataType: "json",
+        data: {
+            id:id,
+           fondo_caja: fondo_caja,
+           cantidad_final:cantidad_final,
+           total_venta:total_venta,
+           diferencia:diferencia
+
+        },
+        beforeSend: function () {
+            swal.fire({
+                title: "Guardando infomacion",
+                text: "Se esta realizando el cierre de caja",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                },
+            });
+        },
+        success: function (r) {
+            NProgress.done();
+            swal.close();
+            console.log(r.data.cantidad_inicial, r);
+            if (r.lSuccess == true) {
+                Swal.fire({
+                    title: 'Se cerro la caja Correctamente',
+
+                    confirmButtonText: 'Aceptar',
+
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        reload();
+                    }
+                  })
+            } else {
+                swal.fire({
+                    icon: "info",
+                    title: "Busqueda fallida",
+                    text: "No fue posible traer datos para hacer el corte de caja",
+
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-primary btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                });
+                $("#search_product").val("");
             }
         },
         error: function (err) {
