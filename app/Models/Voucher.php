@@ -20,6 +20,7 @@ class Voucher extends Model
         'folio_transferencia',
         'cambio' ,
         'estatus',
+        'corte_cajas_id'
 
 
     ];

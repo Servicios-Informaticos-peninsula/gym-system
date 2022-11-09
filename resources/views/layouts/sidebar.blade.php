@@ -101,7 +101,7 @@
                 </a>
             </li>
             <li class="sidebar-item  ">
-                <a href="application-email.html" class="sidebar-link">
+                <a href="{{route('corte.caja')}}" class="sidebar-link">
                     <i class="bi bi-cash"></i>
                     <span>Corte Caja</span>
                 </a>

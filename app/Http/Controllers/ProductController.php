@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Models\Provider;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as DB;
@@ -78,7 +79,7 @@ class ProductController extends Controller
             dd($e);
             return redirect()
                 ->back()
-                ->with('error', 'Hubo un problema!');
+                ->with('error', 'Hubo un problema!', $e->getMessage());
         }
     }
 
