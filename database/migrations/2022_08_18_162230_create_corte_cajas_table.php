@@ -20,7 +20,9 @@ class CreateCorteCajasTable extends Migration
             $table->date('fecha_final');
             $table->float('cantidad_inicial');
             $table->float('cantidad_final');
-          $table->float('ganancia');
+            $table->float('total_venta');
+
+          $table->float('diferencia');
           $table->boolean('lActivo');
             $table->timestamps();
         });

@@ -69,9 +69,12 @@ class SalesController extends Controller
                 $corte = CorteCaja::where('lActivo', true)
                     ->where('user_id', $usuario)
                     ->first();
+
                     if(!is_null( $corte)){
+
                         $idCorte = $corte->id;
                     }
+
                 if ($pro->lmembresia == "true") {
 
                     $membresia = Membership::select('memberships.id as id', 'membership_pays.reference_line as lineReference')

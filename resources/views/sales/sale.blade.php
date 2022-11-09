@@ -19,7 +19,8 @@
             <div class="border-bottom px-3">
                 <div class="row">
                     <div class="col-md">
-                        <input type="number" value="{{$cConsulta}}" id="countCorte" name="countCorte">
+                        <input type="number" value="{{ $cConsulta }}" id="countCorte" name="countCorte" hidden>
+                        <input type="number" value="{{ $corteCount }}" id="countVoucher" name="countVoucher" hidden>
                         <label>Fecha</label>
                         <div class="form-group mb-4">
                             <div class="input-group">
@@ -35,9 +36,9 @@
                         </div>
                     </div>
                     <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
-                    value="{{ $origenMembresias }}" hidden>
-                <input class="form-control" type="date-local" name="referenciaMembresia" readonly id="referenciaMembresia"
-                    value="{{ $referenciaMembresia }}" hidden>
+                        value="{{ $origenMembresias }}" hidden>
+                    <input class="form-control" type="date-local" name="referenciaMembresia" readonly
+                        id="referenciaMembresia" value="{{ $referenciaMembresia }}" hidden>
                     <div class="col-md">
                         <label>Hora</label>
                         <div class="form-group mb-4">
@@ -148,12 +149,14 @@
                             <table class="table table-striped table-hover" style="width:100%" id="total">
                                 <tr>
                                     <th>SubTotal:</th>
-                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price" readonly>
+                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price"
+                                            readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Total:</th>
-                                    <td><input type="text" class="form-control" id="price" name="price" readonly></td>
+                                    <td><input type="text" class="form-control" id="price" name="price"
+                                            readonly></td>
                                 </tr>
                                 <tr>
                                     <th style="background:white;" id="tipo_pago">Tipo Pago</th>
@@ -162,8 +165,8 @@
                                 </tr>
                                 <tr id="cash">
                                     <th>Efectivo</th>
-                                    <td> <button id="modEfectivo" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modalEfectivo">
+                                    <td> <button id="modEfectivo" type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#modalEfectivo">
                                             <i class="bi bi-cash"></i>
                                         </button></td>
                                     @include('sales.modales.efectivo')
@@ -180,14 +183,19 @@
                                 </tr> --}}
                                 @include('sales.modales.transferencia')
                                 @include('sales.modales.corte')
+                                @include('sales.modales.corte_final')
                             </table>
+
                         </div>
 
                     </div>
 
 
                 </div>
-
+                <button id="btnCorteFinal" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#modalCorteFinal">
+                <i class="bi bi-x-square-fill"> <span>Cierre de caja</span></i>
+            </button>
             </div>
 
         </div>
@@ -200,7 +208,8 @@
     <script>
         let search = '{{ route('search.products') }}';
         let cashPayment = '{{ route('cash.payment') }}';
-
+        let dataCorte = '{{ route('corte.data') }}';
+        let user = '{{Auth::id()}}'
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection
