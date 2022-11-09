@@ -26,16 +26,17 @@
                                 <input class="form-control" type="date-local" name="" readonly id=""
                                     value="<?php echo date('Y-m-d'); ?>">
 
-                                <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
-                                    value="{{ $origenMembresias }}">
-                                <input class="form-control" type="date-local" name="referenciaMembresia" readonly id="referenciaMembresia"
-                                    value="{{ $referenciaMembresia }}">
+
 
 
                             </div>
 
                         </div>
                     </div>
+                    <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
+                    value="{{ $origenMembresias }}" hidden>
+                <input class="form-control" type="date-local" name="referenciaMembresia" readonly id="referenciaMembresia"
+                    value="{{ $referenciaMembresia }}" hidden>
                     <div class="col-md">
                         <label>Hora</label>
                         <div class="form-group mb-4">
@@ -151,7 +152,7 @@
                                 </tr>
                                 <tr>
                                     <th>Total:</th>
-                                    <td><input type="text" class="form-control" id="price" name="price"></td>
+                                    <td><input type="text" class="form-control" id="price" name="price" readonly></td>
                                 </tr>
                                 <tr>
                                     <th style="background:white;" id="tipo_pago">Tipo Pago</th>
@@ -167,7 +168,7 @@
                                     @include('sales.modales.efectivo')
 
                                 </tr>
-                                <tr id="transfer">
+                                {{-- <tr id="transfer">
                                     <th style="background:white;">Transferencia</th>
                                     <td style="background:white;">
                                         <button id="modTransferencia" type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -175,7 +176,7 @@
                                             <i class="bi bi-credit-card"></i>
                                         </button>
                                      </td>
-                                </tr>
+                                </tr> --}}
                                 @include('sales.modales.transferencia')
                             </table>
                         </div>

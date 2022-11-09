@@ -16,3 +16,6 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
 
     //Statistics
     Route::post('statistics/chart', 'EstadisticasController@masVendidoChart')->name('masVendido.charts');
+
+    Route::post('cancelacion/index','BitacoraCancelacionController@getCancelacion')->name('cancelacion.index');
+    Route::post('ventas/index','BitacoraCancelacionController@getVentas')->name('ventas.index');

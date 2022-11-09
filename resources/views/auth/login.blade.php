@@ -16,14 +16,17 @@
                         <div class="form-group position-relative has-icon-left">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
                             <div class="position-relative">
+
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
+                                    <i class="bi bi-fingerprint"></i>
                                     <strong>{{ $message }}</strong>
+
                                 </span>
                             @enderror
                                 <div class="form-control-icon">
-                                    <i data-feather="user"></i>
+                                    <i class="bi bi-fingerprint"></i>
                                 </div>
                             </div>
                         </div>

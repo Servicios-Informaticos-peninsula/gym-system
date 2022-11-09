@@ -47,23 +47,22 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-
         try {
             $producto = Product::create([
                 'bar_code' => $request->bar_code,
                 'name' => $request->product_name,
-                'product_units_id' => $request->product_unit,
-                'description' => $request->product_description,
-                'providers_id' => (is_null($request->providers_id) ? "S/P" : $request->providers_id),
-                'requireInventory' => ($request->requireInventory != null) ? 1 : 0,
+                'product_units_id' => $request->product_unit != null ? $request->product_unit : null,
+                'description' => $request->product_description != null ? $request->product_description : null,
+                'providers_id' => $request->providers_id != null ? $request->providers_id : null,
+                'requireInventory' => $request->requireInventory != null ? 1 : 0,
                 'category_products_id' => $request->product_category,
             ]);
-            if ($producto->requireInventory == true || $producto->requireInventory == 1) {
-                $inventory = Inventory::create([
+            if ($producto->requireInventory == false || $producto->requireInventory == 0) {
+                Inventory::create([
                     'products_id' => $producto->id,
                     'quantity' => 0,
                     'minimum_alert' => 0,
-                    'maximun_alert' =>0,
+                    'maximun_alert' => 0,
                     'purchase_price' => 0,
                     'sales_price' => $request->sales_price,
                     'asigned_by' => Auth::id(),
@@ -71,12 +70,12 @@ class ProductController extends Controller
                 ]);
             }
 
+
             return redirect()
                 ->back()
                 ->with('success', 'Registro Éxitoso!');
-
         } catch (Exception $e) {
-
+            dd($e);
             return redirect()
                 ->back()
                 ->with('error', 'Hubo un problema!');

@@ -1,6 +1,8 @@
 let tipoPago = 0;
 let motivo = "";
 $(function ($) {
+    //pruebas js
+
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
@@ -423,16 +425,16 @@ function calcularCambio() {
 
         cambio = Number($("#cantidad_pagada").val()) - Number($("#price_total").val());
 
-            if(cambio<0){
-                swal.fire({
-                    title: "Aviso",
-                    text: "Ingrese  pago valido",
-                    icon: "warning",
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-success btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                });
+        if (cambio < 0) {
+            swal.fire({
+                title: "Aviso",
+                text: "Ingrese  pago valido",
+                type: "warning",
+                showConfirmButton: true,
+                confirmButtonClass: "btn btn-success btn-round",
+                confirmButtonText: "Aceptar",
+                buttonsStyling: false,
+            });
 
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
@@ -503,7 +505,7 @@ function cobrar() {
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
-                text: "Pago en Efectivo",
+                text: "Realizando Operacion",
 
                 icon:'warning',
                 allowEscapeKey: false,
@@ -514,38 +516,71 @@ function cobrar() {
             });
         },
         success: function (r) {
-            console.log(r.voucher.id);
-let id = r.voucher.id;
-            NProgress.done();
-            swal.close();
-
-            if (r.lSuccess) {
-                swal.fire({
-                    title: "Listo",
-                    text: "cobro realizado",
-                    icon: "success",
-                    showConfirmButton: true,
-                    confirmButtonClass: "btn btn-success btn-round",
-                    confirmButtonText: "Aceptar",
-                    buttonsStyling: false,
-                }).then((result) => {
-window.location.reload();
-                })
-                $("#cantidad_pagada").val("");
-                $("#claveo_rastreo").val("");
-                $("#cambio").val("");
-                $("#modalEfectivo").hide();
-                if ($('.modal-backdrop').is(':visible')) {
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                  };
-
-                  window.open("/sales/tickets/" + id + "/", '_blank');
-
-                reset();
+            console.log(r);
+           //console.log(r.voucher.id);
+           NProgress.done();
+           swal.close();
+if(r.cobro == true){
+    let id = r.voucher.id;
 
 
-            }
+    if (r.lSuccess) {
+        swal.fire({
+            title: "Listo",
+            text: "cobro realizado",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        }).then((result) => {
+            window.location.reload();
+        })
+        $("#cantidad_pagada").val("");
+        $("#claveo_rastreo").val("");
+        $("#cambio").val("");
+        $("#modalEfectivo").hide();
+        if ($('.modal-backdrop').is(':visible')) {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+          };
+
+          window.open("/sales/tickets/" + id + "/", '_blank');
+
+        reset();
+
+
+    }
+}else{
+    if (r.lSuccess) {
+        swal.fire({
+            title: "Listo",
+            text: "Cancelacion realizada",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonClass: "btn btn-success btn-round",
+            confirmButtonText: "Aceptar",
+            buttonsStyling: false,
+        }).then((result) => {
+            window.location.reload();
+        })
+        $("#cantidad_pagada").val("");
+        $("#claveo_rastreo").val("");
+        $("#cambio").val("");
+        $("#modalEfectivo").hide();
+        if ($('.modal-backdrop').is(':visible')) {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+          };
+
+          //window.open("/sales/tickets/" + id + "/", '_blank');
+
+        reset();
+
+
+    }
+}
+
 
 
 
@@ -561,32 +596,3 @@ window.location.reload();
 
 }
 
-function ticket(id) {
-
-    $.fancybox.open({
-
-        src: "/sales/tickets/" + id + "/",
-        type: 'iframe',
-        iframe: {
-            css: {
-                height: '100%',
-                width: '90%'
-            }
-        },
-        //baseClass: "fancybox-custom-layout",
-        infobar: true,
-        touch: {
-            vertical: false
-        },
-        buttons: ["close"],
-        animationEffect: "fade",
-        transitionEffect: "fade",
-        preventCaptionOverlap: false,
-        idleTime: false,
-        gutter: 0,
-        // Customize caption area
-        caption: function (instance) {
-            window.print("/sales/tickets/" + id + "/");
-        }
-    });
-}

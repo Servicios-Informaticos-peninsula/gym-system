@@ -29,10 +29,9 @@ class ProductRequest extends FormRequest
             'product_name' => ['required', 'min:2', Rule::unique('products', 'name')->ignore($this->id)],
             'product_unit' => 'required',
             'providers_id' => 'nullable',
-            'product_category' => 'required',
-            'requireInventory' => 'nullable|boolean',
+            'product_category' => 'nullable',
+            'requireInventory' => 'nullable',
             'product_description' => 'nullable|min:6|max:2000',
-
         ];
     }
 }

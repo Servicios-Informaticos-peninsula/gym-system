@@ -58,8 +58,7 @@
                                                     <div class="d-flex justify-content-center">
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editProduct"
+                                                                data-bs-toggle="modal" data-bs-target="#editProduct"
                                                                 title="Editar producto">
 
                                                                 <i class="bi bi-pencil"></i></button>
@@ -99,7 +98,5 @@
     @include('Products.modals.create')
 @endsection
 @section('scripts')
-<script src="{{asset('js_modulos/product.js')}}">
-
-</script>
+    <script src="{{ asset('js_modulos/product.js') }}"></script>
 @endsection

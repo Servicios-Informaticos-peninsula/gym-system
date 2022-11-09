@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBitacoraCancelacionsTable extends Migration
+class CreateSessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateBitacoraCancelacionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bitacora_cancelacions', function (Blueprint $table) {
+        Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->string("motivo");
-            $table->string("userCreator");
-            $table->foreignId('carts_id')->constrained();
-$table->string("cSistema");
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->text('payload');
+            $table->integer('last_activity')->index();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ $table->string("cSistema");
      */
     public function down()
     {
-        Schema::dropIfExists('bitacora_cancelacions');
+        Schema::dropIfExists('sessions');
     }
 }

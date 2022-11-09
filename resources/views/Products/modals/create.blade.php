@@ -4,16 +4,15 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Agregar Producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </button>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST" id="product_form">
+            <form action="{{ route('products.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
                         <div class="col-4">
                             <label class="@error('product_name') border-danger text-danger @enderror">Nombre
-                                Producto</label>
+                                Producto*</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
                                     <span
@@ -25,7 +24,8 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('product_name') is-invalid @enderror"
-                                        type="text" name="product_name" placeholder="Nombre Producto">
+                                        type="text" name="product_name" value="{{ old('product_name') }}"
+                                        placeholder="Nombre Producto">
                                 </div>
                                 @error('product_name')
                                     <strong class="text-danger">{{ $message }}</strong>
@@ -35,7 +35,7 @@
 
                         <div class="col-4">
                             <label class="@error('bar_code') border-danger text-danger @enderror">Código de
-                                Barras</label>
+                                Barras*</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
                                     <span
@@ -57,7 +57,7 @@
 
                         <div class="col-4">
                             <label class="@error('product_unit') border-danger text-danger @enderror">Unidad de
-                                medida</label>
+                                medida*</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
                                     <span
@@ -69,9 +69,12 @@
                                         </svg>
                                     </span>
                                     <select class="form-control" name="product_unit">
-                                        <option value="">SELECIONE UNIDAD</option>
+                                        <option value="">SELECIONE UNIDAD*</option>
                                         @foreach ($productUnits as $productUnit)
-                                            <option value="{{ $productUnit->id }}">{{ $productUnit->name }}</option>
+                                            <option value="{{ $productUnit->id }}"
+                                                {{ old('product_unit') == $productUnit->id ? 'selected' : '' }}>
+                                                {{ $productUnit->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -98,7 +101,10 @@
                                     <select class="form-control" name="providers_id">
                                         <option value="">SELECIONE PROVEDOR</option>
                                         @foreach ($providers as $provider)
-                                            <option value="{{ $provider->id }}">{{ $provider->name }}</option>
+                                            <option value="{{ $provider->id }}"
+                                                {{ old('providers_id') == $provider->id ? 'selected' : '' }}>
+                                                {{ $provider->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -110,7 +116,7 @@
 
                         <div class="col-4">
                             <label
-                                class="@error('product_category') border-danger text-danger @enderror">Categoria</label>
+                                class="@error('product_category') border-danger text-danger @enderror">Categoría</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
                                     <span
@@ -124,7 +130,9 @@
                                     <select class="form-control" name="product_category">
                                         <option value="">SELECIONE UNIDAD</option>
                                         @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}">{{ $productCategory->name }}
+                                            <option value="{{ $productCategory->id }}"
+                                                {{ old('product_category') == $productCategory->id ? 'selected' : '' }}>
+                                                {{ $productCategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -137,10 +145,10 @@
 
                         <div class="col-4">
                             <label class="@error('requireInventory') border-danger text-danger @enderror">¿Este
-                                Producto No Necesita Inventario?</label>
+                                Producto Necesita Inventario?*</label>
                             <div class="form-group mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="requireInventory"
+                                    <input class="form-check-input" type="checkbox" value="1"
                                         name="requireInventory">
                                     <label class="form-check-label" for="requireInventory">
                                         Inventariar
@@ -156,7 +164,7 @@
                         <div class="row">
                             <div class="col-md">
                                 <label class="@error('sales_price') border-danger text-danger @enderror">Precio
-                                    Venta</label>
+                                    Venta*</label>
                                 <div class="form-group mb-4">
                                     <div class="input-group input-group-alternative">
                                         <span
@@ -179,7 +187,7 @@
                             </div>
 
                             <div class="col-md">
-                                <label class="@error('status') border-danger text-danger @enderror">Estado</label>
+                                <label class="@error('status') border-danger text-danger @enderror">Estado*</label>
                                 <div class="form-group mb-4">
                                     <div class="input-group input-group-alternative">
                                         <span
@@ -193,7 +201,7 @@
                                         </span>
                                         <select class="form-control @error('status') is-invalid @enderror"
                                             type="text" name="status" id="status">
-                                           <option> Escoger una opcion</option>
+                                            <option> Escoger una opcion</option>
                                             <option value="Solicitado">Solicitado</option>
                                             <option value="Comprado">Comprado</option>
                                             <option value="En camino">En camino</option>
@@ -205,16 +213,16 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
+
                     <div>
                         <label class="@error('product_description') border-danger text-danger @enderror">Descripción
                             Producto</label>
-                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10"></textarea>
+                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10">{{ old('product_description') }}</textarea>
                     </div>
+
+                    <small class="text-danger">*Campos requeridos</small>
                 </div>
 
                 <div class="modal-footer">
