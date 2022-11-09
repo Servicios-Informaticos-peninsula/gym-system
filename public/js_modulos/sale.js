@@ -611,7 +611,9 @@ function cobrar() {
                         $(".modal-backdrop").remove();
                     }
 
-                    window.open("/sales/tickets/" + id + "/", "_blank");
+                    imprimirTicket(id);
+
+
 
                     reset();
                 }
@@ -649,4 +651,25 @@ function cobrar() {
             alert("Problemas con procedimiento.");
         },
     });
+}
+
+function imprimirTicket(id){
+    console.log("Imprimir");
+    let urlticket = "/sales/tickets/" + id;
+    $.ajax({
+        url: urlticket,
+        type: "get",
+        dataType: "json",
+
+        success: function (r) {
+            console.log(r);
+
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas imprimiendo ticket.");
+        },
+    });
+
 }

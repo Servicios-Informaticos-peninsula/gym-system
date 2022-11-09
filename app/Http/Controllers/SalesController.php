@@ -372,7 +372,7 @@ class SalesController extends Controller
             $connector = new WindowsPrintConnector($nombreImpresora);
             $impresora = new Printer($connector);
             $impresora->setJustification(Printer::JUSTIFY_CENTER);
-            // $impresora->bitImage($logo);
+            $impresora->bitImage($logo);
             $impresora->setEmphasis(true);
             $impresora->text("Ticket de venta\n");
             $impresora->text("Spacio Fems\n");
@@ -406,14 +406,12 @@ class SalesController extends Controller
             $impresora->feed(5);
             $impresora->close();
 
-        return view('sales.pdf.ticket', compact('data', 'cart'));
-        //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
-        //                 ->set_option('dpi', 58)
-        //              ->setPaper('portrait');
+            return response()->json([
+                'lSuccess' => true,
+                'cMensaje' => "ticket Impreso",
+            ]);
 
-        //        return $pdf->stream();
 
-        // // dd($pdf);
 
     }
     /**
