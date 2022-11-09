@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
 use stdClass;
 use Twilio\Rest\Client;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\EscposImage;
 
 class SalesController extends Controller
 {
@@ -116,8 +119,8 @@ class SalesController extends Controller
 
                                 if ($alert->maximun_alert <= $alert->maximun_alert) {
 
-                                    $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
-                                    $this->sendMessage($mensaje, $user->phone);
+                                    // $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
+                                    // $this->sendMessage($mensaje, $user->phone);
                                 }
                             }
                         }
@@ -173,18 +176,20 @@ class SalesController extends Controller
             }
             DB::commit();
             if (isset($voucher)) {
+                // dd('hola');
                 return response()->json([
                     'lSuccess' => true,
                     'cMensaje' => "",
-                    'cobro' => "true",
+                    'cobro' => true,
                     'voucher' => $voucher,
                 ]);
 
             } else {
+
                 return response()->json([
                     'lSuccess' => true,
                     'cMensaje' => "",
-                    'cobro' => "false",
+                    'cobro' => false,
 
                 ]);
             }
@@ -360,6 +365,46 @@ class SalesController extends Controller
             ->where('vouchers.id', $request->id)
             ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
             ->get();
+
+            $logo = EscposImage::load("img/logo-ticket.png", false);
+
+            $nombreImpresora = "termicaEspacioFem";
+            $connector = new WindowsPrintConnector($nombreImpresora);
+            $impresora = new Printer($connector);
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            // $impresora->bitImage($logo);
+            $impresora->setEmphasis(true);
+            $impresora->text("Ticket de venta\n");
+            $impresora->text("Spacio Fems\n");
+            $impresora->text("C. 84 97297 Merida, Yuc.\n");
+            // $impresora->text($venta->created_at . "\n");
+
+            $impresora->setEmphasis(false);
+            $impresora->text("\n===============================\n");
+
+            foreach ($cart as $lst) {
+                $subtotal = $lst->quantity *$lst->sales_price;
+
+                $impresora->setJustification(Printer::JUSTIFY_LEFT);
+                $impresora->text(sprintf("%.2fx%s\n", $lst->quantity, $lst->name));
+                $impresora->setJustification(Printer::JUSTIFY_RIGHT);
+                $impresora->text('$' . number_format($subtotal, 2) . "\n");
+            }
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->text("\n===============================\n");
+            $impresora->setJustification(Printer::JUSTIFY_RIGHT);
+            $impresora->setEmphasis(true);
+            $impresora->text("Total: $" . number_format($data->price_total, 2) . "\n");
+            $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->setTextSize(1, 1);
+            $impresora->text("Gracias por su compra\n");
+            $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
+            $impresora->text("LUGAR DE EXHIBICION: MERIDA, YUC.\n");
+            $impresora->text("EMAIL: abi_vid@hotmail.com\n");
+            $impresora->text("TELEFONO: 999 242 5792\n");
+            $impresora->feed(5);
+            $impresora->close();
 
         return view('sales.pdf.ticket', compact('data', 'cart'));
         //    $pdf = PDF::loadView('sales/pdf/ticket',compact('data','cart'))
