@@ -6,37 +6,95 @@ $(function ($) {
     $.ajaxSetup({
         headers: { "X-CSRF-Token": $("meta[name=csrf-token]").attr("content") },
     });
+    let countCorte = $("#countCorte").val();
 
-    $("#btnBuscarProducto").on('click', function () {
+    if (countCorte == 0) {
+        $("#btnCorteFinal").hide();
+        $("#modalCorte").modal("show", { backdrop: "static", keyboard: false });
+    }
+    let countVoucher = $("#countVoucher").val();
+    if(countVoucher <= 0){
+        $("#btnCorteFinal").hide();
+    }
+    $("input[name=cantidad_final]").change(function () {
+        let cantidad_final = $("#cantidad_final").val();
+        let total_ventas = $("#total_venta").val();
+        let diferencia = cantidad_final - total_ventas;
+        $("#diferencia").val(diferencia);
+    });
+
+    console.log(user);
+
+    $("#btnCorteFinal").on("click", function () {
+        $.ajax({
+            url: dataCorte,
+            type: "post",
+            dataType: "json",
+            data: {
+                usuario: user,
+            },
+            beforeSend: function () {
+                swal.fire({
+                    title: "Informacion de corte de caja",
+                    text: "Consultando la base de informacion.",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        swal.showLoading();
+                    },
+                });
+            },
+            success: function (r) {
+                NProgress.done();
+                swal.close();
+                console.log(r.data.cantidad_inicial, r);
+                if (r.lSuccess == true) {
+                    $("#fondo_caja").val(r.data.cantidad_inicial);
+                    $("#total_venta").val(r.data.total_ventas);
+                } else {
+                    swal.fire({
+                        icon: "info",
+                        title: "Busqueda fallida",
+                        text: "No fue posible traer datos para hacer el corte de caja",
+
+                        showConfirmButton: true,
+                        confirmButtonClass: "btn btn-primary btn-round",
+                        confirmButtonText: "Aceptar",
+                        buttonsStyling: false,
+                    });
+                    $("#search_product").val("");
+                }
+            },
+            error: function (err) {
+                NProgress.done();
+                swal.close();
+                alert("Problemas con procedimiento.");
+            },
+        });
+    });
+    $("#btnBuscarProducto").on("click", function () {
         selectProducto();
     });
     $("#modEfectivo").click(function () {
-
-        $("#folio_trans").val("")
+        $("#folio_trans").val("");
 
         $("#cantidad_pagada").val("");
         $("#cambio").val("");
-
     });
     $("#modTransferencia").click(function () {
         // console.log("click");
 
         $("#claveo_rastreo").val("");
-
-
     });
     $("#btnCobrarE").click(function () {
         tipoPago = 1;
 
         cobrar();
-
     });
     $("#btnCobrarT").click(function () {
-
         tipoPago = 2;
 
         cobrar();
-
     });
 
     if ($("#origenMembresias").val() == true) {
@@ -47,17 +105,15 @@ $(function ($) {
         $("#referenciaMembresia").val("");
 
         selectProducto();
-
     }
 
     const $codigo = document.querySelector("#search_product");
-    $codigo.addEventListener("keydown", evento => {
+    $codigo.addEventListener("keydown", (evento) => {
         if (evento.keyCode === 13) {
             // El lector ya terminó de leer
             const codigoDeBarras = $codigo.value;
             // console.log(codigoDeBarras);
             selectProducto();
-
         }
     });
     $("#cancel_sale").hide();
@@ -66,17 +122,10 @@ $(function ($) {
     $("#tipo_pago").hide();
 
     $("#cantidad_pagada").change(function () {
-
         calcularCambio();
-
-
     });
 
-
-
-
     $("#gridSale").bootstrapTable({
-
         classes: "table-striped",
         uniqueId: "id",
         method: "post",
@@ -89,62 +138,70 @@ $(function ($) {
         },
         pagination: true,
         pageSize: 10,
-        columns: [{
-            field: "id",
-            title: "id",
+        columns: [
+            {
+                field: "id",
+                title: "id",
 
-            visible: false,
-        }, {
-            field: "id_product",
-            title: "IDProducto",
+                visible: false,
+            },
+            {
+                field: "id_product",
+                title: "IDProducto",
 
-            visible: false,
-        }, {
-            field: "lineReference",
-            title: "reference",
+                visible: false,
+            },
+            {
+                field: "lineReference",
+                title: "reference",
 
-            visible: false,
-        }, {
-            field: "name",
-            title: "Producto",
+                visible: false,
+            },
+            {
+                field: "name",
+                title: "Producto",
 
-            visible: true,
-        }, {
-            field: "quantity",
-            title: "Existencia",
+                visible: true,
+            },
+            {
+                field: "quantity",
+                title: "Existencia",
 
-            visible: true,
-        }, {
-            field: "cantidad",
-            title: "Cantidad",
+                visible: true,
+            },
+            {
+                field: "cantidad",
+                title: "Cantidad",
 
-            visible: true,
-        }, {
-            field: "sales_price",
-            title: "Precio",
+                visible: true,
+            },
+            {
+                field: "sales_price",
+                title: "Precio",
 
-            visible: true,
-        }, {
-            field: "cAccion",
-            title: "Opciones",
-            visible: true,
-            formatter: "EditAccionFormatter",
-        }],
-        onLoadSuccess: function (data) { },
+                visible: true,
+            },
+            {
+                field: "cAccion",
+                title: "Opciones",
+                visible: true,
+                formatter: "EditAccionFormatter",
+            },
+        ],
+        onLoadSuccess: function (data) {},
     });
     $("#search_product").focus();
 
-    $("#cancel_sale").on('click', function () {
-
+    $("#cancel_sale").on("click", function () {
         swal.fire({
-            title: '¿Esta Seguro de Cancelar la Compra?',
+            title: "¿Esta Seguro de Cancelar la Compra?",
 
-            icon: 'warning',
+            icon: "warning",
             showDenyButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: "#3085d6",
             denyButtonColor: "#FF8400",
-            confirmButtonText: '¡Si!',
-            denyButtonText: 'Cancelar'
+            confirmButtonText: "¡Si!",
+            denyButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
@@ -153,41 +210,36 @@ $(function ($) {
                     showCancelButton: true,
                     confirmButtonText: "Guardar",
                     cancelButtonText: "Cancelar",
-                    inputValidator: motivo => {
+                    inputValidator: (motivo) => {
                         // Si el valor es válido, debes regresar undefined. Si no, una cadena
                         if (!motivo) {
                             return "Por favor ingrese el motivo";
                         } else {
                             return undefined;
                         }
+                    },
+                }).then((resultado) => {
+                    if (resultado.value) {
+                        motivo = resultado.value;
+                        tipoPago = 3;
+                        cobrar();
                     }
-                }).then(resultado => {
-                        if (resultado.value) {
-                             motivo = resultado.value;
-                             tipoPago = 3;
-                             cobrar();
-                        }
-                    });
+                });
                 // reset();
                 // Swal.fire('Venta Cancelada!', '', 'success');
-
             } else if (result.isDenied) {
-                Swal.fire('Continue con el proceso de venta', '', 'info')
+                Swal.fire("Continue con el proceso de venta", "", "info");
             }
-
         });
-
     });
     // $("#form_sale").validate({
     //     rules: {
 
     //     }
     // });
-
 });
 
 function selectProducto() {
-
     if ($("#search_product").val() == 0) {
         swal.fire({
             title: "Aviso",
@@ -205,7 +257,7 @@ function selectProducto() {
         type: "post",
         dataType: "json",
         data: {
-            producto: $("#search_product").val()
+            producto: $("#search_product").val(),
         },
         beforeSend: function () {
             swal.fire({
@@ -236,29 +288,29 @@ function selectProducto() {
                                 name: product.name,
                                 id_product: product.id_product,
                                 cantidad: product.cantidad,
-                                quantity: product.lmembresia == true ? product.quantity : product.quantity - 1,
+                                quantity:
+                                    product.lmembresia == true
+                                        ? product.quantity
+                                        : product.quantity - 1,
                                 lineReference: product.lineReference,
                                 lmembresia: product.lmembresia,
 
                                 sales_price: product.sales_price,
-
                             },
                         });
-
                     });
-
                 } else {
                     // console.log("lista",table, "producto,",r[0].id_product);
 
                     if (r[0].lmembresia == false) {
-
-
                         let i = 0;
                         let cambio;
 
                         table.forEach(function (lst) {
-
-                            if (lst.id_product == r[0].id_product && lst.lmembresia == r[0].lmembresia) {
+                            if (
+                                lst.id_product == r[0].id_product &&
+                                lst.lmembresia == r[0].lmembresia
+                            ) {
                                 cambio = true;
                                 let cantidad = lst.quantity;
                                 if (cantidad == 0) {
@@ -268,34 +320,33 @@ function selectProducto() {
                                         text: "",
 
                                         showConfirmButton: true,
-                                        confirmButtonClass: "btn btn-primary btn-round",
+                                        confirmButtonClass:
+                                            "btn btn-primary btn-round",
                                         confirmButtonText: "Aceptar",
                                         buttonsStyling: false,
                                     });
-
                                 } else {
-                                    $("#gridSale").bootstrapTable('updateRow', {
-
+                                    $("#gridSale").bootstrapTable("updateRow", {
                                         index: i,
                                         row: {
                                             id_product: lst.id_product,
                                             cantidad: lst.cantidad + 1,
                                             lineReference: lst.lineReference,
-                                            sales_price: ((lst.cantidad + 1) * r[0].sales_price),
+                                            sales_price:
+                                                (lst.cantidad + 1) *
+                                                r[0].sales_price,
                                             quantity: cantidad - 1,
-                                            lmembresia: lst.lmembresia
-                                        }
+                                            lmembresia: lst.lmembresia,
+                                        },
                                     });
                                 }
-
                             }
                             i++;
                         });
 
-
-
                         if (!cambio) {
-                            var num = $("#gridSale").bootstrapTable("getData").length;
+                            var num =
+                                $("#gridSale").bootstrapTable("getData").length;
                             $("#gridSale").bootstrapTable("insertRow", {
                                 index: num + 1,
                                 row: {
@@ -307,27 +358,19 @@ function selectProducto() {
                                     lineReference: r[0].lineReference,
                                     lmembresia: r[0].lmembresia,
 
-
                                     sales_price: r[0].sales_price,
-
                                 },
                             });
-
                         }
-
-
-
                     } else {
-
-
-
-                        var num = $("#gridSale").bootstrapTable("getData").length;
+                        var num =
+                            $("#gridSale").bootstrapTable("getData").length;
                         let incluido = false;
                         r.forEach(function (product) {
                             table.forEach(function (lst) {
-
-
-                                if (product.lineReference == lst.lineReference) {
+                                if (
+                                    product.lineReference == lst.lineReference
+                                ) {
                                     // console.log(product.lineReference,lst.lineReference);
                                     // console.log(product.lineReference == lst.lineReference);
                                     incluido = true;
@@ -337,51 +380,45 @@ function selectProducto() {
                                         text: "",
 
                                         showConfirmButton: true,
-                                        confirmButtonClass: "btn btn-primary btn-round",
+                                        confirmButtonClass:
+                                            "btn btn-primary btn-round",
                                         confirmButtonText: "Aceptar",
                                         buttonsStyling: false,
                                     });
-
-
-
                                 } else {
-
                                     if (!incluido) {
-                                        $("#gridSale").bootstrapTable("insertRow", {
-                                            index: num + 1,
-                                            row: {
-                                                id: num + 1,
-                                                name: product.name,
-                                                id_product: product.id_product,
-                                                cantidad: product.cantidad,
-                                                quantity: product.quantity,
-                                                lineReference: product.lineReference,
-                                                lmembresia: product.lmembresia,
+                                        $("#gridSale").bootstrapTable(
+                                            "insertRow",
+                                            {
+                                                index: num + 1,
+                                                row: {
+                                                    id: num + 1,
+                                                    name: product.name,
+                                                    id_product:
+                                                        product.id_product,
+                                                    cantidad: product.cantidad,
+                                                    quantity: product.quantity,
+                                                    lineReference:
+                                                        product.lineReference,
+                                                    lmembresia:
+                                                        product.lmembresia,
 
-                                                sales_price: product.sales_price,
-
-                                            },
-                                        });
-
+                                                    sales_price:
+                                                        product.sales_price,
+                                                },
+                                            }
+                                        );
                                     }
                                 }
                             });
-
                         });
-
                     }
-
-
-
-
                 }
 
                 let total = $("#gridSale").bootstrapTable("getData");
                 let precioTotal = 0;
                 total.forEach(function (lst) {
-
-
-                    precioTotal = (lst.sales_price + precioTotal);
+                    precioTotal = lst.sales_price + precioTotal;
                 });
                 $("#price").val(precioTotal);
                 $("#price_total").val(precioTotal);
@@ -405,10 +442,6 @@ function selectProducto() {
                 });
                 $("#search_product").val("");
             }
-
-
-
-
         },
         error: function (err) {
             NProgress.done();
@@ -416,14 +449,14 @@ function selectProducto() {
             alert("Problemas con procedimiento.");
         },
     });
-
 }
 function calcularCambio() {
     let cambio = "0";
 
     if ($("#cantidad_pagada").val().length > 0) {
-
-        cambio = Number($("#cantidad_pagada").val()) - Number($("#price_total").val());
+        cambio =
+            Number($("#cantidad_pagada").val()) -
+            Number($("#price_total").val());
 
         if (cambio < 0) {
             swal.fire({
@@ -438,11 +471,38 @@ function calcularCambio() {
 
             $("#cantidad_pagada").val("");
             $("#cambio").val("");
-//
+            //
         } else {
             $("#cambio").val(Number(cambio).toFixed(2));
         }
+    }
+}
 
+function calcularCambio() {
+    let cambio = "0";
+
+    if ($("#cantidad_pagada").val().length > 0) {
+        cambio =
+            Number($("#cantidad_pagada").val()) -
+            Number($("#price_total").val());
+
+        if (cambio < 0) {
+            swal.fire({
+                title: "Aviso",
+                text: "Ingrese  pago valido",
+                type: "warning",
+                showConfirmButton: true,
+                confirmButtonClass: "btn btn-success btn-round",
+                confirmButtonText: "Aceptar",
+                buttonsStyling: false,
+            });
+
+            $("#cantidad_pagada").val("");
+            $("#cambio").val("");
+            //
+        } else {
+            $("#cambio").val(Number(cambio).toFixed(2));
+        }
     }
 }
 function reset() {
@@ -456,7 +516,17 @@ function reset() {
 function EditAccionFormatter(value, row) {
     // console.log(row);
     var html = "";
-    html = '<a href="javascript:void(0);" onclick="eliminarProducto(' + row.id + "," + row.sales_price + ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' + "<script>$('[data-toggle=" + '"' + "tooltip" + '"' + "]').tooltip() </script>";
+    html =
+        '<a href="javascript:void(0);" onclick="eliminarProducto(' +
+        row.id +
+        "," +
+        row.sales_price +
+        ')" class="btn btn-round btn-danger btn-icon btn-sm" rel="tooltip" data-toggle="tooltip" title="Eliminar"><i class="bi bi-x-circle"></i></a>&nbsp;' +
+        "<script>$('[data-toggle=" +
+        '"' +
+        "tooltip" +
+        '"' +
+        "]').tooltip() </script>";
     return html;
 }
 function eliminarProducto(id, price) {
@@ -466,7 +536,7 @@ function eliminarProducto(id, price) {
 
     let total = $("#price").val();
 
-    let precioTotal = (Number(total)) - (Number(price));
+    let precioTotal = Number(total) - Number(price);
     $("#price").val(precioTotal);
     $("#price_total").val(precioTotal);
     $("#sub_price").val(precioTotal);
@@ -480,10 +550,8 @@ function cobrar() {
     let precioTotal = 0;
     let totalproductos = 0;
     total.forEach(function (lst) {
-
-
-        precioTotal = (lst.sales_price + precioTotal);
-        totalproductos = (lst.cantidad + totalproductos);
+        precioTotal = lst.sales_price + precioTotal;
+        totalproductos = lst.cantidad + totalproductos;
     });
 
     $.ajax({
@@ -500,14 +568,13 @@ function cobrar() {
             folioTransferencia: foliop,
             tipoPago: tipoPago,
             motivo: motivo,
-
         },
         beforeSend: function () {
             swal.fire({
                 title: "Procesando",
                 text: "Realizando Operacion",
 
-                icon:'warning',
+                icon: "warning",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 didOpen: () => {
@@ -517,74 +584,64 @@ function cobrar() {
         },
         success: function (r) {
             console.log(r);
-           //console.log(r.voucher.id);
-           NProgress.done();
-           swal.close();
-if(r.cobro == true){
-    let id = r.voucher.id;
+            //console.log(r.voucher.id);
+            NProgress.done();
+            swal.close();
+            if (r.cobro == true) {
+                let id = r.voucher.id;
 
+                if (r.lSuccess) {
+                    swal.fire({
+                        title: "Listo",
+                        text: "cobro realizado",
+                        icon: "success",
+                        showConfirmButton: true,
+                        confirmButtonClass: "btn btn-success btn-round",
+                        confirmButtonText: "Aceptar",
+                        buttonsStyling: false,
+                    }).then((result) => {
+                        window.location.reload();
+                    });
+                    $("#cantidad_pagada").val("");
+                    $("#claveo_rastreo").val("");
+                    $("#cambio").val("");
+                    $("#modalEfectivo").hide();
+                    if ($(".modal-backdrop").is(":visible")) {
+                        $("body").removeClass("modal-open");
+                        $(".modal-backdrop").remove();
+                    }
 
-    if (r.lSuccess) {
-        swal.fire({
-            title: "Listo",
-            text: "cobro realizado",
-            icon: "success",
-            showConfirmButton: true,
-            confirmButtonClass: "btn btn-success btn-round",
-            confirmButtonText: "Aceptar",
-            buttonsStyling: false,
-        }).then((result) => {
-            window.location.reload();
-        })
-        $("#cantidad_pagada").val("");
-        $("#claveo_rastreo").val("");
-        $("#cambio").val("");
-        $("#modalEfectivo").hide();
-        if ($('.modal-backdrop').is(':visible')) {
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-          };
+                    window.open("/sales/tickets/" + id + "/", "_blank");
 
-          window.open("/sales/tickets/" + id + "/", '_blank');
+                    reset();
+                }
+            } else {
+                if (r.lSuccess) {
+                    swal.fire({
+                        title: "Listo",
+                        text: "Cancelacion realizada",
+                        icon: "success",
+                        showConfirmButton: true,
+                        confirmButtonClass: "btn btn-success btn-round",
+                        confirmButtonText: "Aceptar",
+                        buttonsStyling: false,
+                    }).then((result) => {
+                        window.location.reload();
+                    });
+                    $("#cantidad_pagada").val("");
+                    $("#claveo_rastreo").val("");
+                    $("#cambio").val("");
+                    $("#modalEfectivo").hide();
+                    if ($(".modal-backdrop").is(":visible")) {
+                        $("body").removeClass("modal-open");
+                        $(".modal-backdrop").remove();
+                    }
 
-        reset();
+                    //window.open("/sales/tickets/" + id + "/", '_blank');
 
-
-    }
-}else{
-    if (r.lSuccess) {
-        swal.fire({
-            title: "Listo",
-            text: "Cancelacion realizada",
-            icon: "success",
-            showConfirmButton: true,
-            confirmButtonClass: "btn btn-success btn-round",
-            confirmButtonText: "Aceptar",
-            buttonsStyling: false,
-        }).then((result) => {
-            window.location.reload();
-        })
-        $("#cantidad_pagada").val("");
-        $("#claveo_rastreo").val("");
-        $("#cambio").val("");
-        $("#modalEfectivo").hide();
-        if ($('.modal-backdrop').is(':visible')) {
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-          };
-
-          //window.open("/sales/tickets/" + id + "/", '_blank');
-
-        reset();
-
-
-    }
-}
-
-
-
-
-
+                    reset();
+                }
+            }
         },
         error: function (err) {
             NProgress.done();
@@ -592,7 +649,4 @@ if(r.cobro == true){
             alert("Problemas con procedimiento.");
         },
     });
-
-
 }
-

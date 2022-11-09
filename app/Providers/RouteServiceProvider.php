@@ -17,6 +17,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
+
+
     public const HOME = '/punto/venta';
 /**
      * If specified, this namespace is automatically applied to your controller routes.

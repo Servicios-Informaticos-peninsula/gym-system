@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\BitacoraCancelacion;
 use App\Models\Carts;
 use App\Models\Carts_has_products;
+use App\Models\CorteCaja;
 use App\Models\Inventory;
 use App\Models\Membership;
 use App\Models\MembershipPay;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Voucher;
-use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
 use stdClass;
+use Twilio\Rest\Client;
 
 class SalesController extends Controller
 {
@@ -34,6 +35,8 @@ class SalesController extends Controller
         //   dd($request->all());
 
         try {
+            $idCorte = 0;
+            $usuario = Auth::id();
             DB::beginTransaction();
 
             $userID = Auth::user()->id; //se debe guardar el id del  cliente o no pero no se a definido
@@ -63,6 +66,14 @@ class SalesController extends Controller
                 ]);
 
                 // dd($pro->lmembresia);
+                $corte = CorteCaja::where('lActivo', true)
+                    ->where('user_id', $usuario)
+                    ->first();
+
+                    if(!is_null( $corte)){
+
+                        $idCorte = $corte->id;
+                    }
 
                 if ($pro->lmembresia == "true") {
 
@@ -128,6 +139,7 @@ class SalesController extends Controller
                         'cantidad_pagada' => $request->pago,
                         'cambio' => $request->cambio,
                         'estatus' => "P",
+                        'corte_cajas_id'=>$idCorte,
 
                     ]);
                     break;
@@ -142,7 +154,7 @@ class SalesController extends Controller
                         'claveo_rastreo' => $request->referenciaPago,
                         'folio_transferencia' => $request->folioTransferencia,
                         'estatus' => "P",
-
+                        'corte_cajas_id'=>$idCorte,
                     ]);
 
                     break;
@@ -153,6 +165,7 @@ class SalesController extends Controller
                         'userCreator' => $userID,
                         'carts_id' => $cart->id,
                         'cSistema' => "Punto de venta web",
+                        //'corte_cajas_id'=>$idCorte,
 
                     ]);
 
