@@ -13,3 +13,6 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('products/sale', 'SalesController@search')->name('search.products');
     Route::post('products/cashPayment', 'SalesController@cashPayment')->name('cash.payment');
     Route::get('sales/tickets/{id}', 'SalesController@show');
+
+    //Statistics
+    Route::post('statistics/chart', 'EstadisticasController@masVendidoChart')->name('masVendido.charts');
