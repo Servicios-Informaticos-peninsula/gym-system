@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.update', $product->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
@@ -25,8 +25,8 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('product_name') is-invalid @enderror"
-                                        type="text" name="product_name" value="{{ old('product_name') }}"
-                                        placeholder="Nombre Producto">
+                                        type="text" name="product_name"
+                                        value="{{ old('product_name', $product->name) }}" placeholder="Nombre Producto">
                                 </div>
                                 @error('product_name')
                                     <strong class="text-danger">{{ $message }}</strong>
@@ -51,7 +51,7 @@
                                         <option value="">SELECIONE UNIDAD</option>
                                         @foreach ($productUnits as $productUnit)
                                             <option value="{{ $productUnit->id }}"
-                                                {{ old('product_unit') == $productUnit->id ? 'selected' : '' }}>
+                                                {{ old('product_unit', $product->productUnit->id) == $productUnit->id ? 'selected' : '' }}>
                                                 {{ $productUnit->name }}
                                             </option>
                                         @endforeach
@@ -81,7 +81,7 @@
                                         <option value="">SELECIONE PROVEDOR</option>
                                         @foreach ($providers as $provider)
                                             <option value="{{ $provider->id }}"
-                                                {{ old('providers_id') == $provider->id ? 'selected' : '' }}>
+                                                {{ old('providers_id', $product->productProvider->id) == $provider->id ? 'selected' : '' }}>
                                                 {{ $provider->name }}
                                             </option>
                                         @endforeach
@@ -110,7 +110,7 @@
                                         <option value="">SELECIONE UNIDAD</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"
-                                                {{ old('product_category') == $productCategory->id ? 'selected' : '' }}>
+                                                {{ old('product_category', $product->productCategory->id) == $productCategory->id ? 'selected' : '' }}>
                                                 {{ $productCategory->name }}
                                             </option>
                                         @endforeach
@@ -126,7 +126,7 @@
                     <div>
                         <label class="@error('product_description') border-danger text-danger @enderror">Descripción
                             Producto</label>
-                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10">{{ old('product_description') }}</textarea>
+                        <textarea style="resize: none;" name="product_description" class="form-control" rows="5" cols="10">{{ old('product_description', $product->description) }}</textarea>
                     </div>
                 </div>
 
