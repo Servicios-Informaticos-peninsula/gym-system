@@ -52,7 +52,7 @@
 
                                                 <td class="text-bold-500">{{ $inventory->status }}</td>
 
-                                                <td>{{ $inventory->created_at }}</td>
+                                                <td>{{ $inventory->created_at->toDateString() }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">
