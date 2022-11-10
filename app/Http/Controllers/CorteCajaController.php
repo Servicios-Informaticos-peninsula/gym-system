@@ -17,15 +17,17 @@ class CorteCajaController extends Controller
     }
     public function store(Request $request)
     {
-        $carbon = Carbon::now();
+        $carbon = Carbon::now()->format('Y-m-d');
+        $hora = Carbon::now()->format('H:m:s');
         $corte = new CorteCaja();
         $corte->user_id = Auth::id();
         $corte->fecha_inicio = $carbon;
-        $corte->hora_inicio = $carbon;
+        $corte->hora_inicio = $hora;
         $corte->cantidad_inicial = $request->cantidad_inicial;
 
 
         $corte->lActivo = true;
+
         $corte->save();
         return redirect()->back()->with('success', 'Ha registrado su dinero base de manera exitosa!!');
 
