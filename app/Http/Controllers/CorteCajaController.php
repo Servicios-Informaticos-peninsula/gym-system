@@ -21,10 +21,10 @@ class CorteCajaController extends Controller
         $corte = new CorteCaja();
         $corte->user_id = Auth::id();
         $corte->fecha_inicio = $carbon;
-        $corte->fecha_final = $carbon;
+        $corte->hora_inicio = $carbon;
         $corte->cantidad_inicial = $request->cantidad_inicial;
-        $corte->cantidad_final = 0;
-        $corte->ganancia = 0;
+
+
         $corte->lActivo = true;
         $corte->save();
         return redirect()->back()->with('success', 'Ha registrado su dinero base de manera exitosa!!');
