@@ -13,7 +13,7 @@ $(function ($) {
         $("#btnCorteFinal").hide();
         $("#modalCorte").modal("show", { backdrop: "static", keyboard: false });
     } else {
-        if (excedido == 1) {
+        if (excedido == 1 || excedido == true) {
             swal.fire({
                 title: "Aviso",
                 text: "No se realizo el cierre de corte, favor de realizarlo para poder continuar.",
