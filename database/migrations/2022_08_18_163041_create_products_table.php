@@ -17,11 +17,11 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('bar_code')->unique();
             $table->string('name')->unique();
-            $table->foreignId('product_units_id')->constrained();
             $table->text('description')->nullable();
-            $table->foreignId('providers_id')->constrained();
+            $table->foreignId('product_units_id')->constrained();
+            $table->foreignId('providers_id')->nullable()->constrained();
+            $table->foreignId('category_products_id')->nullable()->constrained();
             $table->boolean('requireInventory')->default(false);
-            $table->foreignId('category_products_id')->constrained();
             $table->timestamps();
         });
     }
