@@ -1,4 +1,5 @@
-<div class="modal fade" id="addProduct" tabindex="-1"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addProduct" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,7 +117,7 @@
 
                         <div class="col-4">
                             <label
-                                class="@error('product_category') border-danger text-danger @enderror">Categoría</label>
+                                class="@error('product_category') border-danger text-danger @enderror">Categoria</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
                                     <span
