@@ -587,7 +587,9 @@ function cobrar() {
                         $(".modal-backdrop").remove();
                     }
 
-                    window.open("/sales/tickets/" + id + "/", "_blank");
+                    imprimirTicket(id);
+
+
 
                     reset();
                 }
@@ -666,6 +668,20 @@ function data(){
                 });
                 $("#search_product").val("");
             }
+        }
+    });
+}
+function imprimirTicket(id){
+    console.log("Imprimir");
+    let urlticket = "/sales/tickets/" + id;
+    $.ajax({
+        url: urlticket,
+        type: "get",
+        dataType: "json",
+
+        success: function (r) {
+            console.log(r);
+
         },
         error: function (err) {
             NProgress.done();
@@ -739,4 +755,8 @@ function cerrarCorte(){
             alert("Problemas con procedimiento.");
         },
     });
+            //alert("Problemas imprimiendo ticket.");
+
+
+
 }

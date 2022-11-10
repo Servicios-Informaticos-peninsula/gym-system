@@ -14,6 +14,8 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('products/cashPayment', 'SalesController@cashPayment')->name('cash.payment');
     Route::get('sales/tickets/{id}', 'SalesController@show');
 
+    //Statistics
+    Route::post('statistics/chart', 'EstadisticasController@masVendidoChart')->name('masVendido.charts');
 
     Route::post('cancelacion/index','BitacoraCancelacionController@getCancelacion')->name('cancelacion.index');
     Route::post('ventas/index','BitacoraCancelacionController@getVentas')->name('ventas.index');
