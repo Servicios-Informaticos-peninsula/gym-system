@@ -21,11 +21,11 @@ class UserSeeder extends Seeder
             'surnames'=>'Diaz Serviran',
             'username'=>'Rodrigo.Diaz',
             'code_user' => '0001',
-            'email' => 'diaz-rodrigo@hotmail.com',
-            'phone' => '+529999708319',
-
+            'email' => 'it@domain.com',
+            'phone' => '9999708319',
             'password' => Hash::make('123456'),
         ])->assignRole(1);
+
         User::create([
             'name' => 'Cosme Alberto',
             'surnames'=>'Magaña Camara',
@@ -33,9 +33,9 @@ class UserSeeder extends Seeder
             'code_user' => '0002',
             'email' => 'cosme.magaña@hotmail.com',
             'phone' => '+529992389045',
-
             'password' => Hash::make('123456'),
         ])->assignRole(1);
+
         User::create([
             'name' => 'Pedro Adrian',
             'surnames'=>'Sanchez Cardenas',
@@ -43,9 +43,9 @@ class UserSeeder extends Seeder
             'code_user' => '0003',
             'email' => 'pedrosanchezcardenas@gmail.com',
             'phone' => '+529992389045',
-
             'password' => Hash::make('123456'),
         ])->assignRole(1);
+
             /**administrador  */
         User::create([
             'name' => 'David',
@@ -54,7 +54,6 @@ class UserSeeder extends Seeder
             'code_user' => '0004',
             'email' => 'administrador@domain.com',
             'phone' => '+529992389045',
-
             'password' => Hash::make('123456'),
         ])->assignRole(2);
 

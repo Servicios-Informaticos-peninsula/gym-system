@@ -27,7 +27,7 @@
                     <div class="card mb-4">
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped align-items-center mb-0 text-center">
+                                <table class="table table-responsive table-bordered table-striped align-items-center mb-0 text-center">
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
@@ -48,11 +48,23 @@
 
                                                 <td class="text-bold-500">{{ $product->productUnit->name }}</td>
 
-                                                <td class="text-bold-500">{{ $product->productProvider->name }}</td>
+                                                <td class="text-bold-500">
+                                                    @if ($product->productProvider != null)
+                                                        <span>{{ $product->productProvider->name }}</span>
+                                                    @else
+                                                        <span class="text-danger">N/A</span>
+                                                    @endif
+                                                </td>
 
-                                                <td class="text-bold-500">{{ $product->productCategory->name }}</td>
+                                                <td class="text-bold-500">
+                                                    @if ($product->productCategory != null)
+                                                        <span>{{ $product->productCategory->name }}</span>
+                                                    @else
+                                                        <span class="text-danger">N/A</span>
+                                                    @endif
+                                                </td>
 
-                                                <td>{{ $product->created_at }}</td>
+                                                <td>{{ $product->created_at->toDateString() }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">
