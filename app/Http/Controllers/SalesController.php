@@ -81,17 +81,20 @@ class SalesController extends Controller
                 if ($pro->lmembresia == "true") {
 
                     $membresia = Membership::select('memberships.id as id', 'membership_pays.reference_line as lineReference')
-                        ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                        ->join('membership_types','membership.membership_types_id','=','membership_types.id')
+                    ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+
                         ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
                         ->where('membership_pays.reference_line', $pro->lineReference)
                         ->first();
-
+dd($membresia);
                     // dd($membresia->lineReference);
 
                     //asignacion de carrito a membresia de usuario y cambio de estado de pago
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
                             'carts_id' => $cart->id,
+                            'estatus_membresia'=>0,
                         ]);
 
                     MembershipPay::where('reference_line', $membresia->lineReference)
