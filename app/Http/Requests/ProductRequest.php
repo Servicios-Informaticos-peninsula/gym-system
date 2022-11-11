@@ -30,8 +30,10 @@ class ProductRequest extends FormRequest
             'product_unit' => 'required',
             'providers_id' => 'nullable',
             'product_category' => 'nullable',
-            'requireInventory' => 'nullable',
             'product_description' => 'nullable|min:6|max:2000',
+            'requireInventory' => 'nullable',
+            'sales_price' => 'required_without:requireInventory',
+            'status' => 'required_without:requireInventory'
         ];
     }
 }
