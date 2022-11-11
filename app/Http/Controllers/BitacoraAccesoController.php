@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BitacoraAcceso;
+use App\Models\Session;
 use Illuminate\Http\Request;
 
 class BitacoraAccesoController extends Controller
@@ -12,9 +13,16 @@ class BitacoraAccesoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
+    {return view('bitacoras.acceso');
+    }
+    public function getAcceso(Request $request)
     {
-        //
+
+        $bitacoraAcceso = Session::join('users','sessions.user_id','=','users.id')
+        ->select('users.name','sessions.user_agent','sessions.ip_address','sessions.payload','sessions.last_activity')->get();
+
+        return $bitacoraAcceso;
     }
 
     /**

@@ -94,12 +94,12 @@
                     </ul>
                 </li> --}}
 
-            <li class="sidebar-item">
+            {{-- <li class="sidebar-item">
                 <a href="{{ route('home') }}" class="sidebar-link">
                     <i class="bi bi-speedometer"></i>
                     <span>Panel</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="sidebar-item  ">
                 <a href="{{route('corte.caja')}}" class="sidebar-link">
                     <i class="bi bi-cash"></i>
@@ -364,7 +364,7 @@
                 <ul class="submenu" style="display: none;">
                     <li class="submenu-item">
 
-                        <a href="{{route('bitacora.cancelacion')}}" class="sidebar-link"> <i class="bi bi-list-ul"></i>
+                        <a href="{{route('index.acceso')}}" class="sidebar-link"> <i class="bi bi-list-ul"></i>
                             <span>Bitacora de accesos</span></a>
 
                     </li>

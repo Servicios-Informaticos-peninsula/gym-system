@@ -94,7 +94,8 @@ dd($membresia);
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
                             'carts_id' => $cart->id,
-                            'estatus_membresia'=>0,
+
+                            'estatus_membresia'=>true
                         ]);
 
                     MembershipPay::where('reference_line', $membresia->lineReference)
