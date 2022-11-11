@@ -110,7 +110,7 @@ class UserController extends Controller
                     'username' => $name[0] . "." . $surnames[0] . $dia . $mes . $anio,
                     'code_user' => 0,
                     'email' => $request->get('email'),
-                    'phone' => $request->get('phone'),
+                    'phone' =>"+52". $request->get('phone'),
                     'contact_phone' => $request->contact_phone,
                     'ocupation' => $request->get('ocupation'),
                     'born' => $request->get('born'),

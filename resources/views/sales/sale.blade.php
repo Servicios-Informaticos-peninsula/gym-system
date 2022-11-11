@@ -21,7 +21,7 @@
                     <div class="col-md">
                         <input type="number" value="{{ $cConsulta }}" id="countCorte" name="countCorte" hidden>
                         <input type="number" value="{{ $corteCount }}" id="countVoucher" name="countVoucher" hidden>
-                        <input type="text" value="{{ $excedido }}" id="excedido" name="excedido" >
+                        <input type="text" value="{{ $excedido }}" id="excedido" name="excedido" hidden>
                         <label>Fecha</label>
                         <div class="form-group mb-4">
                             <div class="input-group">

@@ -92,6 +92,7 @@ class SalesController extends Controller
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
                             'carts_id' => $cart->id,
+                            'estatus_membresia'=>true
                         ]);
 
                     MembershipPay::where('reference_line', $membresia->lineReference)

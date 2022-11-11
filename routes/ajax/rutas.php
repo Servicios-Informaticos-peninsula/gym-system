@@ -21,3 +21,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('ventas/index','BitacoraCancelacionController@getVentas')->name('ventas.index');
     Route::post('corte/datos','CorteCajaController@getData')->name('corte.data');
     Route::post('cerrar/caja','CorteCajaController@update')->name('cerrar.caja');
+    Route::post('bitacora/acceso','BitacoraAccesoController@getAcceso')->name('bitacora.acceso');
