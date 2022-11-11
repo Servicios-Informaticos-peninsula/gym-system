@@ -146,11 +146,11 @@
 
                         <div class="col-4">
                             <label class="@error('requireInventory') border-danger text-danger @enderror">¿Este
-                                Producto Necesita Inventario?*</label>
+                                Producto Necesita Inventario?</label>
                             <div class="form-group mb-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="1"
-                                        name="requireInventory">
+                                        name="requireInventory" id="requireInventory">
                                     <label class="form-check-label" for="requireInventory">
                                         Inventariar
                                     </label>
@@ -161,9 +161,10 @@
                             </div>
                         </div>
                     </div>
+
                     <div id="inventory">
                         <div class="row">
-                            <div class="col-md">
+                            <div class="col-6">
                                 <label class="@error('sales_price') border-danger text-danger @enderror">Precio
                                     Venta*</label>
                                 <div class="form-group mb-4">
@@ -178,7 +179,7 @@
                                             </svg>
                                         </span>
                                         <input class="form-control @error('sales_price') is-invalid @enderror"
-                                            id="sales_price" type="text" name="sales_price"
+                                            id="sales_price" value="{{ old('sales_price') }}" type="text" name="sales_price"
                                             placeholder="Precio Venta">
                                     </div>
                                     @error('sales_price')
@@ -187,7 +188,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md">
+                            <div class="col-6">
                                 <label class="@error('status') border-danger text-danger @enderror">Estado*</label>
                                 <div class="form-group mb-4">
                                     <div class="input-group input-group-alternative">
@@ -202,7 +203,7 @@
                                         </span>
                                         <select class="form-control @error('status') is-invalid @enderror"
                                             type="text" name="status" id="status">
-                                            <option> Escoger una opcion</option>
+                                            <option value=""> Escoger una opcion</option>
                                             <option value="Solicitado">Solicitado</option>
                                             <option value="Comprado">Comprado</option>
                                             <option value="En camino">En camino</option>
