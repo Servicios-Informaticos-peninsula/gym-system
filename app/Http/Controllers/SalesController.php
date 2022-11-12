@@ -22,7 +22,7 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
 use stdClass;
 use Twilio\Rest\Client;
-
+use PDF;
 class SalesController extends Controller
 {
     /**
@@ -432,6 +432,40 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function verTicket($id){
+
+        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+        ->join('users', 'carts.clients_id', '=', 'users.id')
+       ->where('vouchers.carts_id', $id)
+
+        ->first();
+
+    $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+        ->join('users', 'carts.clients_id', '=', 'users.id')
+        ->where('vouchers.carts_id', $id)
+        ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+        ->get();
+
+    $fecha = DB::table('vouchers')
+   ->where('vouchers.carts_id', $id)
+        ->first();
+        $pdf = PDF::loadView('sales/pdf/ticket', compact('data', 'cart', 'fecha'))
+        ->setPaper('A4', 'portrait');
+    $pdf->output();
+
+
+
+
+    $filename = "ticket.pdf";
+    return $pdf->stream($filename);
+
+    }
     public function edit($id)
     {
         //
