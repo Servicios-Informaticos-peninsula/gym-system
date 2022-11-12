@@ -23,7 +23,7 @@ class MembershipController extends Controller
      */
     public function index()
     {
-        $Membership = Membership::orderBy('id','asc')->paginate(10);
+        $Membership = Membership::orderBy('id', 'asc')->paginate(10);
         $membership_types = MembershipType::all();
         $clients = User::role('Cliente')->get();
 
@@ -32,6 +32,31 @@ class MembershipController extends Controller
         return view('Membership.index', compact('Membership', 'membership_types', 'clients'));
     }
 
+    public function validacionMembresia(Request $request)
+    {
+        try {
+            $validacion = Membership::join('users', 'memberships.users_id', '=', 'users.id')
+                ->where('users.code_user', $request->code_user)
+                ->where('memberships.estatus_membresia', 1)
+
+                ->first();
+                if(is_null($validacion)){
+                    throw new Exception("Usted no cuenta con una membresia o ya esta caducada, compre una nueva");
+                }
+
+            return response()->json([
+                'lSuccess' => true,
+                'validacion' => $validacion,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'lSuccess' => false,
+                'cMensaje' => $th->getMessage(),
+            ]);
+        }
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -89,10 +114,10 @@ class MembershipController extends Controller
             DB::commit();
 
             $origenMembresias = true;
-            $referenciaMembresia=$pay->reference_line;
+            $referenciaMembresia = $pay->reference_line;
             // dd();
             //return redirect()->back()->with('success', 'Registro Éxitoso!');
-            return redirect()->route('sales.point2',compact('origenMembresias','referenciaMembresia'));
+            return redirect()->route('sales.point2', compact('origenMembresias', 'referenciaMembresia'));
             // return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
 
         } catch (Exception $e) {

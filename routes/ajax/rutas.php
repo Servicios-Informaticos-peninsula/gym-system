@@ -23,3 +23,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('cerrar/caja','CorteCajaController@update')->name('cerrar.caja');
     Route::post('bitacora/acceso','BitacoraAccesoController@getAcceso')->name('bitacora.acceso');
     Route::post('enviar/ticket','SalesController@enviarTicket')->name('enviar.ticket');
+    Route::post('validar/membresia','MembershipController@validacionMembresia')->name('validacion.memnbresia');

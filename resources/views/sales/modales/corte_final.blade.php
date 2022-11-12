@@ -7,7 +7,7 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Cierre de caja</h5>
 
             </div>
-            <input type="number" id="id_corte" name="id_corte" >
+            <input type="number" id="id_corte" name="id_corte" readonly hidden>
             <form action="" method="post">
                 <div class="modal-body">
 

@@ -215,6 +215,10 @@ $(function ($) {
         });
     });
 
+    $("#btnMembresia").on('click',function(){
+        validarMembresia();
+    });
+
 });
 
 function selectProducto() {
@@ -714,48 +718,8 @@ function imprimirTicket(id) {
         },
     });
 }
-function imprimirTicket(id) {
-    let urlticket = "/sales/tickets/" + id;
-    $.ajax({
-        url: urlticket,
-        type: "get",
-        dataType: "json",
 
-        success: function (r) {
-            console.log(r);
-        },
-        error: function (err) {
-            NProgress.done();
-            swal.close();
-            alert("Problemas con procedimiento.");
-        },
-    });
-}
 
-function inputTicket(id) {
-    console.log(id);
-    Swal.fire({
-        title: "Ingrese el número del usuario:",
-        input: "number",
-        showCancelButton: true,
-        confirmButtonText: "Guardar",
-        cancelButtonText: "Cancelar",
-        inputValidator: (numero) => {
-            // Si el valor es válido, debes regresar undefined. Si no, una cadena
-            if (!numero) {
-                return "Por favor ingrese el numero";
-            } else {
-                return undefined;
-            }
-        },
-    }).then((resultado) => {
-        if (resultado.value) {
-            motivo = resultado.value;
-            enviarTicket(id, motivo);
-
-        }
-    });
-}
 function enviarTicket() {
     $.ajax({
         url: pdfTicket,
@@ -865,6 +829,74 @@ function cerrarCorte() {
                     buttonsStyling: false,
                 });
                 $("#search_product").val("");
+            }
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas con procedimiento.");
+        },
+    });
+    //alert("Problemas imprimiendo ticket.");
+}
+function validarMembresia() {
+    let code_user = $("#user_code").val();
+
+    $.ajax({
+        url: validar,
+        type: "post",
+        dataType: "json",
+        data: {
+            code_user: code_user,
+
+        },
+        beforeSend: function () {
+            swal.fire({
+                title: "Buscando",
+                text: "se esta validando informacion",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                },
+            });
+        },
+        success: function (r) {
+            NProgress.done();
+            swal.close();
+
+            if (r.lSuccess == true) {
+
+                swal.fire({
+                    icon: "info",
+                    title: "Busqueda fallida",
+                    text: "Bienvenido su membresia sigue activa y funcional",
+
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-primary btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    window.location.reload();
+                    }
+                  });
+            } else {
+                swal.fire({
+                    icon: "info",
+                    title: "Busqueda fallida",
+                    text: r.cMensaje,
+
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-primary btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                  });
+
             }
         },
         error: function (err) {

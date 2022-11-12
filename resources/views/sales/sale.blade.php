@@ -186,6 +186,7 @@
                                 @include('sales.modales.corte')
                                 @include('sales.modales.corte_final')
                                 @include('sales.modales.impresion')
+                                @include('sales.modales.membresia')
                             </table>
 
                         </div>
@@ -194,10 +195,19 @@
 
 
                 </div>
+<div class="row">
+    <div class="col-md">
+        <button id="btnCorteFinal" type="button" class="btn btn-primary"
+        data-bs-toggle="modal" data-bs-target="#modalCorteFinal">
+        <i class="bi bi-x-circle-fill">Corte Final</i>
+    </div>
+    <div class="col-md">
+        <button  type="button" class="btn btn-primary"
+        data-bs-toggle="modal" data-bs-target="#modalMembresia">
+        <i class="bi bi-person-square">Validar Membresia Usuario</i>
+    </div>
+</div>
 
-                <button id="btnCorteFinal" type="button" class="btn btn-primary"
-                data-bs-toggle="modal" data-bs-target="#modalCorteFinal">
-                <i class="bi bi-x-circle-fill">Corte Final</i>
             </button>
             </div>
 
@@ -215,6 +225,7 @@
         let cerrarCaja = '{{ route('cerrar.caja') }}';
         let user = '{{ Auth::id() }}';
         let pdfTicket = '{{ route('enviar.ticket') }}'
+        let validar = '{{route('validacion.memnbresia')}}';
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection
