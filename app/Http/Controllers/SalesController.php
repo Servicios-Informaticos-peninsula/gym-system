@@ -154,20 +154,20 @@ class SalesController extends Controller
 
                     ]);
 
-                // case 2:
-                //     $voucher = Voucher::create([
-                //         'carts_id' => $cart->id,
-                //         'quantity' => $request->totalproductos,
-                //         'price_total' => $request->precioTotal,
-                //         'vendendor' => $userID,
-                //         'tipo_pago' => "TRANSFERENCIA",
-                //         'claveo_rastreo' => $request->referenciaPago,
-                //         'folio_transferencia' => $request->folioTransferencia,
-                //         'estatus' => "P",
-                //         'corte_cajas_id' => $idCorte,
-                //     ]);
+                case 2:
+                    $voucher = Voucher::create([
+                        'carts_id' => $cart->id,
+                        'quantity' => $request->totalproductos,
+                        'price_total' => $request->precioTotal,
+                        'vendendor' => $userID,
+                        'tipo_pago' => "TRANSFERENCIA",
+                        'claveo_rastreo' => $request->referenciaPago,
+                        'folio_transferencia' => $request->folioTransferencia,
+                        'estatus' => "P",
+                        'corte_cajas_id' => $idCorte,
+                    ]);
 
-                //     break;
+                    break;
                 case 3:
 
                     BitacoraCancelacion::create([
