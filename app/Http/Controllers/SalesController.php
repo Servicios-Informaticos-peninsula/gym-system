@@ -12,14 +12,15 @@ use App\Models\MembershipPay;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Voucher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB as DB;
-use stdClass;
-use Twilio\Rest\Client;
+use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
-use Mike42\Escpos\EscposImage;
+use stdClass;
+use Twilio\Rest\Client;
 
 class SalesController extends Controller
 {
@@ -73,29 +74,31 @@ class SalesController extends Controller
                     ->where('user_id', $usuario)
                     ->first();
 
-                    if(!is_null( $corte)){
+                if (!is_null($corte)) {
 
-                        $idCorte = $corte->id;
-                    }
+                    $idCorte = $corte->id;
+                }
 
                 if ($pro->lmembresia == "true") {
 
-                    $membresia = Membership::select('memberships.id as id', 'membership_pays.reference_line as lineReference')
-                        ->join('membership_types','membership.membership_types_id','=','membership_types.id')
-                    ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
+                    $membresia = Membership::join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
+                        ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
 
                         ->join('membership_pays', 'membership_membership_pays.membership_pays_id', '=', 'membership_pays.id')
                         ->where('membership_pays.reference_line', $pro->lineReference)
+                        ->select('memberships.id as id', 'membership_pays.reference_line as lineReference', 'membership_types.days as days')
                         ->first();
-dd($membresia);
-                    // dd($membresia->lineReference);
+
+                    $expiration_date = Carbon::now()->addDay($membresia->days);
+                    //dd($expiration_date);
 
                     //asignacion de carrito a membresia de usuario y cambio de estado de pago
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
                             'carts_id' => $cart->id,
+                            'expiration_date' => $expiration_date,
+                            'estatus_membresia' => 1,
 
-                            'estatus_membresia'=>true
                         ]);
 
                     MembershipPay::where('reference_line', $membresia->lineReference)
@@ -146,9 +149,15 @@ dd($membresia);
                         'cantidad_pagada' => $request->pago,
                         'cambio' => $request->cambio,
                         'estatus' => "P",
-                        'corte_cajas_id'=>$idCorte,
+                        'corte_cajas_id' => $idCorte,
 
                     ]);
+                    Membership::where('memberships.id', $membresia->id)
+                        ->update([
+                            'carts_id' => $cart->id,
+
+                        ]);
+
                     break;
 
                 case 2:
@@ -161,7 +170,7 @@ dd($membresia);
                         'claveo_rastreo' => $request->referenciaPago,
                         'folio_transferencia' => $request->folioTransferencia,
                         'estatus' => "P",
-                        'corte_cajas_id'=>$idCorte,
+                        'corte_cajas_id' => $idCorte,
                     ]);
 
                     break;
@@ -353,6 +362,7 @@ dd($membresia);
 
     public function show(Request $request)
     {
+        dd($request->all);
         $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
             ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
             ->join('products', 'carts_has_products.products_id', '=', 'products.id')
@@ -370,59 +380,57 @@ dd($membresia);
             ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
             ->get();
 
-            $fecha = DB::table('vouchers')
+        $fecha = DB::table('vouchers')
             ->where('vouchers.id', $request->id)
             ->first();
 
-            // dd();
+        // dd();
 
-            $logo = EscposImage::load("img/logo-ticket.png", false);
+        $logo = EscposImage::load("img/logo-ticket.png", false);
 
-            $nombreImpresora = "termicaEspacioFem";
-            $connector = new WindowsPrintConnector($nombreImpresora);
-            $impresora = new Printer($connector);
-            $impresora->setJustification(Printer::JUSTIFY_CENTER);
-            $impresora->bitImage($logo);
-            $impresora->setEmphasis(true);
-            $impresora->text("Ticket de venta\n");
-            $impresora->text("Spacio Fems\n");
-            $impresora->text("C. 84 97297 Merida, Yuc.\n");
-            $impresora->text($fecha->created_at . "\n");
+        $nombreImpresora = "termicaEspacioFem";
+        $connector = new WindowsPrintConnector($nombreImpresora);
+        $impresora = new Printer($connector);
+        $impresora->setJustification(Printer::JUSTIFY_CENTER);
+        $impresora->bitImage($logo);
+        $impresora->setEmphasis(true);
+        $impresora->text("Ticket de venta\n");
+        $impresora->text("Spacio Fems\n");
+        $impresora->text("C. 84 97297 Merida, Yuc.\n");
+        $impresora->text($fecha->created_at . "\n");
 
-            $impresora->setEmphasis(false);
-            $impresora->text("\n===============================\n");
+        $impresora->setEmphasis(false);
+        $impresora->text("\n===============================\n");
 
-            foreach ($cart as $lst) {
-                $subtotal = $lst->quantity *$lst->sales_price;
+        foreach ($cart as $lst) {
+            $subtotal = $lst->quantity * $lst->sales_price;
 
-                $impresora->setJustification(Printer::JUSTIFY_LEFT);
-                $impresora->text(sprintf("%.2f x %s\n", $lst->quantity, $lst->name));
-                $impresora->setJustification(Printer::JUSTIFY_RIGHT);
-                $impresora->text('$' . number_format($subtotal, 2) . "\n");
-            }
-            $impresora->setJustification(Printer::JUSTIFY_CENTER);
-            $impresora->text("\n===============================\n");
+            $impresora->setJustification(Printer::JUSTIFY_LEFT);
+            $impresora->text(sprintf("%.2f x %s\n", $lst->quantity, $lst->name));
             $impresora->setJustification(Printer::JUSTIFY_RIGHT);
-            $impresora->setEmphasis(true);
-            $impresora->text("Total: $" . number_format($data->price_total, 2) . "\n");
-            $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
-            $impresora->setJustification(Printer::JUSTIFY_CENTER);
-            $impresora->setTextSize(1, 1);
-            $impresora->text("\n");
-            $impresora->text("Gracias por su compra\n");
-            $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
-            $impresora->text("LUGAR DE EXHIBICION: MERIDA,YUC.\n");
-            $impresora->text("EMAIL: abi_vid@hotmail.com\n");
-            $impresora->text("TELEFONO: 999 242 5792\n");
-            $impresora->feed(5);
-            $impresora->close();
+            $impresora->text('$' . number_format($subtotal, 2) . "\n");
+        }
+        $impresora->setJustification(Printer::JUSTIFY_CENTER);
+        $impresora->text("\n===============================\n");
+        $impresora->setJustification(Printer::JUSTIFY_RIGHT);
+        $impresora->setEmphasis(true);
+        $impresora->text("Total: $" . number_format($data->price_total, 2) . "\n");
+        $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
+        $impresora->setJustification(Printer::JUSTIFY_CENTER);
+        $impresora->setTextSize(1, 1);
+        $impresora->text("\n");
+        $impresora->text("Gracias por su compra\n");
+        $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
+        $impresora->text("LUGAR DE EXHIBICION: MERIDA,YUC.\n");
+        $impresora->text("EMAIL: abi_vid@hotmail.com\n");
+        $impresora->text("TELEFONO: 999 242 5792\n");
+        $impresora->feed(5);
+        $impresora->close();
 
-            return response()->json([
-                'lSuccess' => true,
-                'cMensaje' => "ticket Impreso",
-            ]);
-
-
+        return response()->json([
+            'lSuccess' => true,
+            'cMensaje' => "ticket Impreso",
+        ]);
 
     }
     /**

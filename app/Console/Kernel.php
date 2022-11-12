@@ -19,10 +19,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->call(function () {
-            $carbon= Carbon::now()->format('Y-m-d');
-            DB::table('memberships')->where($carbon, ">","expiration_date")->update([
-                'estatus_membresia' => 0,
-            ]);
+            $this->restaMembresias();
         })->daily();
     }
 
@@ -33,8 +30,15 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+    }
+    protected function restaMembresias()
+    {
+        $carbon = Carbon::now()->format('Y-m-d');
+        DB::table('memberships')->where($carbon, ">", "expiration_date")->update([
+            'estatus_membresia' => 0,
+        ]);
     }
 }
