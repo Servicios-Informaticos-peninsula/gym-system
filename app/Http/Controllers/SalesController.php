@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BitacoraCancelacion;
 use App\Models\Carts;
 use App\Models\Carts_has_products;
+use App\Models\Configurations;
 use App\Models\CorteCaja;
 use App\Models\Inventory;
 use App\Models\Membership;
@@ -69,7 +70,6 @@ class SalesController extends Controller
 
                 ]);
 
-                // dd($pro->lmembresia);
                 $corte = CorteCaja::where('lActivo', true)
                     ->where('user_id', $usuario)
                     ->first();
@@ -88,8 +88,11 @@ class SalesController extends Controller
                         ->where('membership_pays.reference_line', $pro->lineReference)
                         ->select('memberships.id as id', 'membership_pays.reference_line as lineReference', 'membership_types.days as days')
                         ->first();
-
-                    $expiration_date = Carbon::now()->addDay($membresia->days);
+                    if ($membresia->days == 1) {
+                        $expiration_date = Carbon::now();
+                    } else {
+                        $expiration_date = Carbon::now()->addDay($membresia->days);
+                    }
 
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
@@ -122,14 +125,14 @@ class SalesController extends Controller
                             $user = User::role('Admininistrador')->first();
                             if (!is_null($alert->maximun_alert)) {
 
-                                if ($alert->maximun_alert <= $alert->maximun_alert) {
+                                if ($alert->cantdad <= $alert->maximun_alert) {
 
-                                    // $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
-                                    // $this->sendMessage($mensaje, $user->phone);
+                                    $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
+                                    $this->sendMessage($mensaje, $user->phone);
                                 }
                             }
                         }
-                        // dd($requireInventory->requireInventory);
+
                     }
 
                 }
@@ -151,20 +154,20 @@ class SalesController extends Controller
 
                     ]);
 
-                case 2:
-                    $voucher = Voucher::create([
-                        'carts_id' => $cart->id,
-                        'quantity' => $request->totalproductos,
-                        'price_total' => $request->precioTotal,
-                        'vendendor' => $userID,
-                        'tipo_pago' => "TRANSFERENCIA",
-                        'claveo_rastreo' => $request->referenciaPago,
-                        'folio_transferencia' => $request->folioTransferencia,
-                        'estatus' => "P",
-                        'corte_cajas_id' => $idCorte,
-                    ]);
+                // case 2:
+                //     $voucher = Voucher::create([
+                //         'carts_id' => $cart->id,
+                //         'quantity' => $request->totalproductos,
+                //         'price_total' => $request->precioTotal,
+                //         'vendendor' => $userID,
+                //         'tipo_pago' => "TRANSFERENCIA",
+                //         'claveo_rastreo' => $request->referenciaPago,
+                //         'folio_transferencia' => $request->folioTransferencia,
+                //         'estatus' => "P",
+                //         'corte_cajas_id' => $idCorte,
+                //     ]);
 
-                    break;
+                //     break;
                 case 3:
 
                     BitacoraCancelacion::create([
@@ -332,6 +335,7 @@ class SalesController extends Controller
 
     public function show(Request $request)
     {
+
         try {
             $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
                 ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
@@ -355,9 +359,9 @@ class SalesController extends Controller
                 ->first();
 
             $logo = EscposImage::load("img/logo-ticket.png", false);
-// $impresora =  Configurations::getConfiguracion("IMPRESORATICKETS");
+            $impresora = Configurations::getConfiguracion("IMPRESORATICKETS");
             // dump($impresora);
-            $nombreImpresora = "Tickets";
+            $nombreImpresora = $impresora;
             $connector = new WindowsPrintConnector($nombreImpresora);
             $impresora = new Printer($connector);
             $impresora->setJustification(Printer::JUSTIFY_CENTER);
@@ -394,6 +398,7 @@ class SalesController extends Controller
             $impresora->text("EMAIL: abi_vid@hotmail.com\n");
             $impresora->text("TELEFONO: 999 242 5792\n");
             $impresora->feed(5);
+            $impresora->pulse();
             $impresora->close();
 
             return response()->json([
@@ -401,13 +406,25 @@ class SalesController extends Controller
                 'cMensaje' => "ticket Impreso",
             ]);
         } catch (\Throwable $th) {
-            dd($th);
+
             return response()->json([
                 'lSuccess' => false,
                 'cMensaje' => "error",
             ]);
         }
 
+    }
+
+    public function enviarTicket()
+    {
+        $impresora = Configurations::getConfiguracion("IMPRESORATICKETS");
+        // dump($impresora);
+        $nombreImpresora = $impresora;
+        $connector = new WindowsPrintConnector($nombreImpresora);
+        $impresora = new Printer($connector);
+
+        $impresora->pulse();
+        $impresora->close();
     }
     /**
      * Show the form for editing the specified resource.

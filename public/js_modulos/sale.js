@@ -1,5 +1,7 @@
 let tipoPago = 0;
 let motivo = "";
+let option = 0;
+var myModal;
 $(function ($) {
     //pruebas js
 
@@ -17,10 +19,10 @@ $(function ($) {
             swal.fire({
                 title: "Aviso",
                 text: "No se realizo el cierre de corte, favor de realizarlo para poder continuar.",
-                icon:"info",
+                icon: "info",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                confirmButtonText: 'Proceder',
+                confirmButtonText: "Proceder",
                 didOpen: () => {
                     data();
                     $("#modalCorteFinal").modal("show");
@@ -30,8 +32,14 @@ $(function ($) {
         }
     }
     let countVoucher = $("#countVoucher").val();
-    if (countVoucher <= 0) {
+    console.log(countVoucher);
+    if (countVoucher > 0) {
+        $("#btnCorteFinal").show();
+
+    }else{
+
         $("#btnCorteFinal").hide();
+
     }
     $("input[name=cantidad_final]").change(function () {
         let cantidad_final = $("#cantidad_final").val();
@@ -40,14 +48,12 @@ $(function ($) {
         $("#diferencia").val(diferencia);
     });
 
-
-
     $("#btnCorteFinal").on("click", function () {
-      data();
+        data();
     });
     $("#btnCerrarCorte").on("click", function () {
         cerrarCorte();
-      });
+    });
     $("#btnBuscarProducto").on("click", function () {
         selectProducto();
     });
@@ -208,11 +214,7 @@ $(function ($) {
             }
         });
     });
-    // $("#form_sale").validate({
-    //     rules: {
 
-    //     }
-    // });
 });
 
 function selectProducto() {
@@ -454,33 +456,33 @@ function calcularCambio() {
     }
 }
 
-function calcularCambio() {
-    let cambio = "0";
+// function calcularCambio() {
+//     let cambio = "0";
 
-    if ($("#cantidad_pagada").val().length > 0) {
-        cambio =
-            Number($("#cantidad_pagada").val()) -
-            Number($("#price_total").val());
+//     if ($("#cantidad_pagada").val().length > 0) {
+//         cambio =
+//             Number($("#cantidad_pagada").val()) -
+//             Number($("#price_total").val());
 
-        if (cambio < 0) {
-            swal.fire({
-                title: "Aviso",
-                text: "Ingrese  pago valido",
-                type: "warning",
-                showConfirmButton: true,
-                confirmButtonClass: "btn btn-success btn-round",
-                confirmButtonText: "Aceptar",
-                buttonsStyling: false,
-            });
+//         if (cambio < 0) {
+//             swal.fire({
+//                 title: "Aviso",
+//                 text: "Ingrese  pago valido",
+//                 type: "warning",
+//                 showConfirmButton: true,
+//                 confirmButtonClass: "btn btn-success btn-round",
+//                 confirmButtonText: "Aceptar",
+//                 buttonsStyling: false,
+//             });
 
-            $("#cantidad_pagada").val("");
-            $("#cambio").val("");
-            //
-        } else {
-            $("#cambio").val(Number(cambio).toFixed(2));
-        }
-    }
-}
+//             $("#cantidad_pagada").val("");
+//             $("#cambio").val("");
+//             //
+//         } else {
+//             $("#cambio").val(Number(cambio).toFixed(2));
+//         }
+//     }
+// }
 function reset() {
     $("#gridSale").bootstrapTable("removeAll");
     $("#gridSale").bootstrapTable("refresh");
@@ -576,8 +578,11 @@ function cobrar() {
                         confirmButtonText: "Aceptar",
                         buttonsStyling: false,
                     }).then((result) => {
-                        window.location.reload();
+                        opcion(id);
+
+                        // window.location.reload();
                     });
+
                     $("#cantidad_pagada").val("");
                     $("#claveo_rastreo").val("");
                     $("#cambio").val("");
@@ -586,11 +591,9 @@ function cobrar() {
                         $("body").removeClass("modal-open");
                         $(".modal-backdrop").remove();
                     }
-
-                    imprimirTicket(id);
-
-
-
+                    opcion(id);
+                    // imprimirTicket(id);
+                    //imprimirTicket(id);
                     reset();
                 }
             } else {
@@ -628,7 +631,7 @@ function cobrar() {
         },
     });
 }
-function data(){
+function data() {
     $.ajax({
         url: dataCorte,
         type: "post",
@@ -668,10 +671,32 @@ function data(){
                 });
                 $("#search_product").val("");
             }
+        },
+    });
+}
+
+function opcion(id) {
+    Swal.fire({
+        title: "Opcion",
+        text: "Escoge una opcion de tickets",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Imprimir ticket",
+        cancelButtonText: "Sin Ticket",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("entrando", id);
+            imprimirTicket(id);
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            enviarTicket();
         }
     });
 }
-function imprimirTicket(id){
+function imprimirTicket(id) {
     console.log("Imprimir");
     let urlticket = "/sales/tickets/" + id;
     $.ajax({
@@ -681,7 +706,6 @@ function imprimirTicket(id){
 
         success: function (r) {
             console.log(r);
-
         },
         error: function (err) {
             NProgress.done();
@@ -690,24 +714,54 @@ function imprimirTicket(id){
         },
     });
 }
-function cerrarCorte(){
-    let id = $("#id_corte").val();
-    let fondo_caja =$("#fondo_caja").val();
-    let cantidad_final=$("#cantidad_final").val();
-    let total_venta=$("#total_venta").val();
-    let diferencia=$("#diferencia").val();
+function imprimirTicket(id) {
+    let urlticket = "/sales/tickets/" + id;
     $.ajax({
-        url: cerrarCaja,
+        url: urlticket,
+        type: "get",
+        dataType: "json",
+
+        success: function (r) {
+            console.log(r);
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas con procedimiento.");
+        },
+    });
+}
+
+function inputTicket(id) {
+    console.log(id);
+    Swal.fire({
+        title: "Ingrese el número del usuario:",
+        input: "number",
+        showCancelButton: true,
+        confirmButtonText: "Guardar",
+        cancelButtonText: "Cancelar",
+        inputValidator: (numero) => {
+            // Si el valor es válido, debes regresar undefined. Si no, una cadena
+            if (!numero) {
+                return "Por favor ingrese el numero";
+            } else {
+                return undefined;
+            }
+        },
+    }).then((resultado) => {
+        if (resultado.value) {
+            motivo = resultado.value;
+            enviarTicket(id, motivo);
+
+        }
+    });
+}
+function enviarTicket() {
+    $.ajax({
+        url: pdfTicket,
         type: "post",
         dataType: "json",
-        data: {
-            id:id,
-           fondo_caja: fondo_caja,
-           cantidad_final:cantidad_final,
-           total_venta:total_venta,
-           diferencia:diferencia
 
-        },
         beforeSend: function () {
             swal.fire({
                 title: "Guardando infomacion",
@@ -725,16 +779,15 @@ function cerrarCorte(){
             console.log(r.data.cantidad_inicial, r);
             if (r.lSuccess == true) {
                 Swal.fire({
-                    title: 'Se cerro la caja Correctamente',
+                    title: "Se cerro la caja Correctamente",
 
-                    confirmButtonText: 'Aceptar',
-
-                  }).then((result) => {
+                    confirmButtonText: "Aceptar",
+                }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         reload();
                     }
-                  })
+                });
             } else {
                 swal.fire({
                     icon: "info",
@@ -755,8 +808,70 @@ function cerrarCorte(){
             alert("Problemas con procedimiento.");
         },
     });
-            //alert("Problemas imprimiendo ticket.");
 
+}
+function cerrarCorte() {
+    let id = $("#id_corte").val();
+    let fondo_caja = $("#fondo_caja").val();
+    let cantidad_final = $("#cantidad_final").val();
+    let total_venta = $("#total_venta").val();
+    let diferencia = $("#diferencia").val();
+    $.ajax({
+        url: cerrarCaja,
+        type: "post",
+        dataType: "json",
+        data: {
+            id: id,
+            fondo_caja: fondo_caja,
+            cantidad_final: cantidad_final,
+            total_venta: total_venta,
+            diferencia: diferencia,
+        },
+        beforeSend: function () {
+            swal.fire({
+                title: "Guardando infomacion",
+                text: "Se esta realizando el cierre de caja",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                },
+            });
+        },
+        success: function (r) {
+            NProgress.done();
+            swal.close();
+            console.log(r.data.cantidad_inicial, r);
+            if (r.lSuccess == true) {
+                Swal.fire({
+                    title: "Se cerro la caja Correctamente",
 
+                    confirmButtonText: "Aceptar",
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        reload();
+                    }
+                });
+            } else {
+                swal.fire({
+                    icon: "info",
+                    title: "Busqueda fallida",
+                    text: "No fue posible traer datos para hacer el corte de caja",
 
+                    showConfirmButton: true,
+                    confirmButtonClass: "btn btn-primary btn-round",
+                    confirmButtonText: "Aceptar",
+                    buttonsStyling: false,
+                });
+                $("#search_product").val("");
+            }
+        },
+        error: function (err) {
+            NProgress.done();
+            swal.close();
+            alert("Problemas con procedimiento.");
+        },
+    });
+    //alert("Problemas imprimiendo ticket.");
 }

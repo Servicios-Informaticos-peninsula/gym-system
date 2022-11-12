@@ -13,7 +13,10 @@ class CorteCajaController extends Controller
 {
     public function index()
     {
-        return view('corte_caja.index');
+        $corte_caja = CorteCaja::orderBy('corte_cajas.id')
+        ->join('users','corte_cajas.user_id','=','users.id')->get();
+
+        return view('corte_caja.index',compact('corte_caja'));
     }
     public function store(Request $request)
     {
@@ -67,6 +70,7 @@ class CorteCajaController extends Controller
     public function update(Request $request)
     {
 
+
         try {
             $validator = Validator::make($request->all(), [
                 'fondo_caja' => 'required',
@@ -93,7 +97,7 @@ class CorteCajaController extends Controller
                 $fecha_final = Carbon::now()->format('Y-m-d');
                 $hora_final = Carbon::now()->format('H:m:s');
 
-                $corte = CorteCaja::where('id', $request->id)->update(array(
+                 CorteCaja::where('id', $request->id)->update(array(
                     'fecha_final' => $fecha_final,
                     'hora_final' => $hora_final,
                     'cantidad_final' => $request->cantidad_final,

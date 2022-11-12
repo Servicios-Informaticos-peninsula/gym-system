@@ -27,53 +27,38 @@
                                             <th>Hora Corte inicial</th>
                                             <th>Hora Corte final</th>
                                             <th>Total Ventas</th>
-                                            <th>Acciones</th>
+                                            <th>Diferencia</th>
+                                            <th>Estatus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($products as $product)
+                                         @foreach ($corte_caja as $row)
                                             <tr>
-                                                <td class="text-bold-500">
-                                                    {{ $product->name }}<br>
-                                                    <span>Código Barras: <strong>{{ $product->bar_code }}</strong></span>
-                                                </td>
 
-                                                <td class="text-bold-500">{{ $product->productUnit->name }}</td>
+                                                <td class="text-bold-500">{{$row->name}}</td>
+                                                <td class="text-bold-500">$ {{$row->cantidad_inicial }}</td>
 
-                                                <td class="text-bold-500">{{ $product->productProvider->name }}</td>
+                                                <td class="text-bold-500">$ {{$row->cantidad_final }}</td>
 
-                                                <td class="text-bold-500">{{ $product->productCategory->name }}</td>
+                                                <td class="text-bold-500">{{ $row->fecha_inicio }} {{ $row->hora_inicio}}</td>
 
-                                                <td>{{ $product->created_at }}</td>
+                                                <td>{{ $row->fecha_final }} {{ $row->hora_final}}</td>
+                                                <td>{{ $row->total_venta }} </td>
+                                                <td>{{ $row->diferencia}} </td>
+                                                @if ( $row->lActivo == 1)
 
-                                                <td class="text-bold-500" style="width: 150px;">
-                                                    <div class="d-flex justify-content-center">
-                                                        <div class="pe-1">
-                                                            <button type="button" class="btn btn-icon btn-primary"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editProduct"
-                                                                title="Editar producto">
+                                                <td>Activo </td>
+                                                @else
+                                                <td>Inactivo</td>
+                                                @endif
 
-                                                                <i class="bi bi-pencil"></i></button>
 
-                                                            @include('Products.modals.edit')
-                                                        </div>
 
-                                                        <div>
-                                                            <form action="{{ route('products.destroy', $product->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-icon btn-danger"
-                                                                    title="Eliminar producto">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div>
+
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

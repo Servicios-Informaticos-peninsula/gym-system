@@ -22,3 +22,4 @@ Route::controller('RecordController')->prefix('usuarios/')->group(function () {
     Route::post('corte/datos','CorteCajaController@getData')->name('corte.data');
     Route::post('cerrar/caja','CorteCajaController@update')->name('cerrar.caja');
     Route::post('bitacora/acceso','BitacoraAccesoController@getAcceso')->name('bitacora.acceso');
+    Route::post('enviar/ticket','SalesController@enviarTicket')->name('enviar.ticket');

@@ -36,10 +36,12 @@ class HomeController extends Controller
             $cConsulta = CorteCaja::where('user_id', $user)
                 ->where('lActivo', true)
                 ->count();
+
             if ($cConsulta > 0) {
                 $cConsulta = CorteCaja::where('user_id', $user)
                     ->where('lActivo', true)
                     ->first();
+
                 if ($carbon > $cConsulta->fecha_inicio) {
 
                     $excedido = true;
@@ -77,6 +79,7 @@ class HomeController extends Controller
             $cConsulta = CorteCaja::where('user_id', $user)
                 ->where('lActivo', true)
                 ->count();
+
             if ($cConsulta > 0) {
                 $cConsulta = CorteCaja::where('user_id', $user)
                     ->where('lActivo', true)

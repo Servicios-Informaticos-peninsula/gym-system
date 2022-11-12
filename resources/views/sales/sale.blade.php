@@ -185,6 +185,7 @@
                                 @include('sales.modales.transferencia')
                                 @include('sales.modales.corte')
                                 @include('sales.modales.corte_final')
+                                @include('sales.modales.impresion')
                             </table>
 
                         </div>
@@ -194,7 +195,9 @@
 
                 </div>
 
-
+                <button id="btnCorteFinal" type="button" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#modalCorteFinal">
+                <i class="bi bi-x-circle-fill">Corte Final</i>
             </button>
             </div>
 
@@ -210,7 +213,8 @@
         let cashPayment = '{{ route('cash.payment') }}';
         let dataCorte = '{{ route('corte.data') }}';
         let cerrarCaja = '{{ route('cerrar.caja') }}';
-        let user = '{{Auth::id()}}'
+        let user = '{{ Auth::id() }}';
+        let pdfTicket = '{{ route('enviar.ticket') }}'
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection
