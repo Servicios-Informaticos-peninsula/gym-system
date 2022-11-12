@@ -21,6 +21,7 @@ class CreateSellsTable extends Migration
             $table->double('change');
             $table->foreignId('asigned_by')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

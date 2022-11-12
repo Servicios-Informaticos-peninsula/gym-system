@@ -18,6 +18,7 @@ class CreateProductPedidosTable extends Migration
             $table->foreignId('products_id')->constrained();
             $table->foreignId('pedidos_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

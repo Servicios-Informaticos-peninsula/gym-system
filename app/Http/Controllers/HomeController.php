@@ -63,7 +63,7 @@ class HomeController extends Controller
 
             return view('sales.sale', compact('origenMembresias', 'referenciaMembresia', 'cConsulta', 'corteCount', 'excedido'));
         } catch (\Throwable $th) {
-            return redirect()->back()->with($th);
+            return redirect()->back();
         }
 
     }

@@ -20,6 +20,7 @@ class CreatePedidosTable extends Migration
             $table->string('estatus');
             $table->foreignId('users_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

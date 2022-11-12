@@ -90,9 +90,7 @@ class SalesController extends Controller
                         ->first();
 
                     $expiration_date = Carbon::now()->addDay($membresia->days);
-                    //dd($expiration_date);
 
-                    //asignacion de carrito a membresia de usuario y cambio de estado de pago
                     Membership::where('memberships.id', $membresia->id)
                         ->update([
                             'carts_id' => $cart->id,
@@ -152,13 +150,6 @@ class SalesController extends Controller
                         'corte_cajas_id' => $idCorte,
 
                     ]);
-                    Membership::where('memberships.id', $membresia->id)
-                        ->update([
-                            'carts_id' => $cart->id,
-
-                        ]);
-
-                    break;
 
                 case 2:
                     $voucher = Voucher::create([
@@ -338,99 +329,84 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show(Request $request)
-    // {
-
-    //     $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-    //         ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-    //         ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-    //         ->join('users', 'carts.clients_id', '=', 'users.id')
-    //         ->where('vouchers.id', $request->id)
-
-    //         ->get();
-
-    //     $pdf = PDF::loadView('sales/pdf/ticket', compact('cart'))
-    //         ->setPaper('A4', 'portrait');
-    //     $pdf->output();
-
-    //     $pdf->render();
-
-    //     return $pdf->stream();
-    //     // dd($pdf);
-
-    // }
 
     public function show(Request $request)
     {
-        dd($request->all);
-        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-            ->join('users', 'carts.clients_id', '=', 'users.id')
-            ->where('vouchers.id', $request->id)
+        try {
+            $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+                ->join('users', 'carts.clients_id', '=', 'users.id')
+                ->where('vouchers.id', $request->id)
 
-            ->first();
-        $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-            ->join('users', 'carts.clients_id', '=', 'users.id')
-            ->where('vouchers.id', $request->id)
-            ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
-            ->get();
+                ->first();
+            $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+                ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+                ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+                ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+                ->join('users', 'carts.clients_id', '=', 'users.id')
+                ->where('vouchers.id', $request->id)
+                ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+                ->get();
 
-        $fecha = DB::table('vouchers')
-            ->where('vouchers.id', $request->id)
-            ->first();
+            $fecha = DB::table('vouchers')
+                ->where('vouchers.id', $request->id)
+                ->first();
 
-        // dd();
+            $logo = EscposImage::load("img/logo-ticket.png", false);
+// $impresora =  Configurations::getConfiguracion("IMPRESORATICKETS");
+            // dump($impresora);
+            $nombreImpresora = "Tickets";
+            $connector = new WindowsPrintConnector($nombreImpresora);
+            $impresora = new Printer($connector);
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->bitImage($logo);
+            $impresora->setEmphasis(true);
+            $impresora->text("Ticket de venta\n");
+            $impresora->text("Spacio Fems\n");
+            $impresora->text("C. 84 97297 Merida, Yuc.\n");
+            $impresora->text($fecha->created_at . "\n");
 
-        $logo = EscposImage::load("img/logo-ticket.png", false);
+            $impresora->setEmphasis(false);
+            $impresora->text("\n===============================\n");
 
-        $nombreImpresora = "termicaEspacioFem";
-        $connector = new WindowsPrintConnector($nombreImpresora);
-        $impresora = new Printer($connector);
-        $impresora->setJustification(Printer::JUSTIFY_CENTER);
-        $impresora->bitImage($logo);
-        $impresora->setEmphasis(true);
-        $impresora->text("Ticket de venta\n");
-        $impresora->text("Spacio Fems\n");
-        $impresora->text("C. 84 97297 Merida, Yuc.\n");
-        $impresora->text($fecha->created_at . "\n");
+            foreach ($cart as $lst) {
+                $subtotal = $lst->quantity * $lst->sales_price;
 
-        $impresora->setEmphasis(false);
-        $impresora->text("\n===============================\n");
-
-        foreach ($cart as $lst) {
-            $subtotal = $lst->quantity * $lst->sales_price;
-
-            $impresora->setJustification(Printer::JUSTIFY_LEFT);
-            $impresora->text(sprintf("%.2f x %s\n", $lst->quantity, $lst->name));
+                $impresora->setJustification(Printer::JUSTIFY_LEFT);
+                $impresora->text(sprintf("%.2f x %s\n", $lst->quantity, $lst->name));
+                $impresora->setJustification(Printer::JUSTIFY_RIGHT);
+                $impresora->text('$' . number_format($subtotal, 2) . "\n");
+            }
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->text("\n===============================\n");
             $impresora->setJustification(Printer::JUSTIFY_RIGHT);
-            $impresora->text('$' . number_format($subtotal, 2) . "\n");
-        }
-        $impresora->setJustification(Printer::JUSTIFY_CENTER);
-        $impresora->text("\n===============================\n");
-        $impresora->setJustification(Printer::JUSTIFY_RIGHT);
-        $impresora->setEmphasis(true);
-        $impresora->text("Total: $" . number_format($data->price_total, 2) . "\n");
-        $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
-        $impresora->setJustification(Printer::JUSTIFY_CENTER);
-        $impresora->setTextSize(1, 1);
-        $impresora->text("\n");
-        $impresora->text("Gracias por su compra\n");
-        $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
-        $impresora->text("LUGAR DE EXHIBICION: MERIDA,YUC.\n");
-        $impresora->text("EMAIL: abi_vid@hotmail.com\n");
-        $impresora->text("TELEFONO: 999 242 5792\n");
-        $impresora->feed(5);
-        $impresora->close();
+            $impresora->setEmphasis(true);
+            $impresora->text("Total: $" . number_format($data->price_total, 2) . "\n");
+            $impresora->text("Cambio: $" . number_format($data->cambio, 2) . "\n");
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->setTextSize(1, 1);
+            $impresora->text("\n");
+            $impresora->text("Gracias por su compra\n");
+            $impresora->text("PAGO EN UNA SOLA EXHIBICION\n");
+            $impresora->text("LUGAR DE EXHIBICION: MERIDA,YUC.\n");
+            $impresora->text("EMAIL: abi_vid@hotmail.com\n");
+            $impresora->text("TELEFONO: 999 242 5792\n");
+            $impresora->feed(5);
+            $impresora->close();
 
-        return response()->json([
-            'lSuccess' => true,
-            'cMensaje' => "ticket Impreso",
-        ]);
+            return response()->json([
+                'lSuccess' => true,
+                'cMensaje' => "ticket Impreso",
+            ]);
+        } catch (\Throwable $th) {
+            dd($th);
+            return response()->json([
+                'lSuccess' => false,
+                'cMensaje' => "error",
+            ]);
+        }
 
     }
     /**

@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_products_id')->nullable()->constrained();
             $table->boolean('requireInventory')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

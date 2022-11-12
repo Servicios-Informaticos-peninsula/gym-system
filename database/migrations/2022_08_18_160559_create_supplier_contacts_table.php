@@ -19,6 +19,7 @@ class CreateSupplierContactsTable extends Migration
             $table->string('phone_1');
             $table->string('phone_2')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

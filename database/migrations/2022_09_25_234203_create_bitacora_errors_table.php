@@ -18,6 +18,7 @@ class CreateBitacoraErrorsTable extends Migration
             $table->string('error');
             $table->string('modulo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,6 +20,7 @@ class CreateBitacoraCancelacionsTable extends Migration
             $table->foreignId('carts_id')->constrained();
 $table->string("cSistema");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

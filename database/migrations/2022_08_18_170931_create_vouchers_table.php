@@ -28,6 +28,7 @@ class CreateVouchersTable extends Migration
             $table->double('cambio')->nullable();
             $table->string('estatus');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,7 @@ class CreateExercisesTable extends Migration
             $table->integer('reps');
             $table->integer('labs');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

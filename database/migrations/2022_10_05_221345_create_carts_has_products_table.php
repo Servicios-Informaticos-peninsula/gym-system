@@ -20,6 +20,7 @@ class CreateCartsHasProductsTable extends Migration
             $table->integer('quantity');
             $table->boolean('lMembresia');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

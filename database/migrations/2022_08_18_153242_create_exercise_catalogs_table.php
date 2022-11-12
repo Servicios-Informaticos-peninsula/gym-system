@@ -18,6 +18,7 @@ class CreateExerciseCatalogsTable extends Migration
             $table->string('name', 100);
             $table->integer('difficulty');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

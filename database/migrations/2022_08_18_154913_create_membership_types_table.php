@@ -21,6 +21,7 @@ class CreateMembershipTypesTable extends Migration
             $table->integer('days');
             $table->softDeletes();
             $table->timestamps();
+
         });
     }
 

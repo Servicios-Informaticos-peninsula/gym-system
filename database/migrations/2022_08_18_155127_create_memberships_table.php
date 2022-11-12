@@ -30,7 +30,7 @@ class CreateMembershipsTable extends Migration
             // $table->foreignId('memberships_id')->constrained();
 
 
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

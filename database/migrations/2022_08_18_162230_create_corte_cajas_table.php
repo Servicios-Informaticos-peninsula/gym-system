@@ -27,6 +27,7 @@ class CreateCorteCajasTable extends Migration
           $table->float('diferencia')->nullable();
           $table->boolean('lActivo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
