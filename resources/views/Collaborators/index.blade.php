@@ -100,6 +100,3 @@
     {{-- section modales --}}
     @include('Products.modals.create')
 @endsection
-@section('scripts')
-    <script src="{{ asset('js_modulos/product.js') }}"></script>
-@endsection
