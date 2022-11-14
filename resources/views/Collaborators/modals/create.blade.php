@@ -1,13 +1,13 @@
-<div class="modal fade" id="addProduct" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+<div class="modal fade" id="addCollaborator" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Producto</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Agregar Colaborador</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST" id="product_form">
+            <form action="{{ route('Collaborators.store') }}" method="POST" id="product_form">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
