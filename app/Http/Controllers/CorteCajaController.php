@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class CorteCajaController extends Controller
 {
@@ -69,7 +70,7 @@ class CorteCajaController extends Controller
     }
     public function update(Request $request)
     {
-
+DB::beginTransaction();
 
         try {
             $validator = Validator::make($request->all(), [
@@ -106,13 +107,22 @@ class CorteCajaController extends Controller
                     'lActivo' => false,
 
                 ));
-
-                return redirect()->back()->with('success', '¡Se cerro la caja de manera exitosa de forma exitosa!');
+DB::commit();
+               return response()->json(
+               [
+                'lSuccess'=>true,
+                'cMensaje'=>"Se ha cerrado correctamente la caja"
+               ]);
             }
 
         } catch (\Throwable $th) {
+            DB::rollback();
 
-            return back()->with('error', 'Hubo un error al agregar los datos. Verifique los datos.');
+            return response()->json(
+                [
+                 'lSuccess'=>false,
+                 'cMensaje'=>$th->getMessage()
+                ]);
         }
 
     }
