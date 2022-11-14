@@ -379,7 +379,7 @@ try {
             $filename = 'expediente' . '_' . $explode[0] . '_' . $expediente->numero_control . '.pdf';
             return $pdf->stream($filename);
         } catch (\Throwable $th) {
-            dd($th);
+           echo ("No se puede visualizar el archivo")
         }
     }
     /**
