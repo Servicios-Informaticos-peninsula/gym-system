@@ -10,7 +10,7 @@
                 <form action="{{ route('workers.store') }}" method="POST" name="user-add" id="user-add">
                     @csrf
 
-                    <div class="col-md-12">
+                    <div class="row">
                         <label for=""><b>Nombre Colaborador *</b> </label>
                         <div class="row">
                             <div class="col-md">
@@ -26,6 +26,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md">
                                 <label for="">Apellidos (*)</label>
                                 <div class="form-group">
@@ -42,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="row">
                         <div class="row">
                             <div class="col-md">
                                 <label for="">N&uacute;mero de Telefono *</label>
@@ -59,6 +60,7 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-md">
                                 <label for="">N&uacute;mero de Emergencia *</label>
                                 <div class="form-group">
@@ -76,7 +78,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+
+                    <div class="row">
                         <div class="row">
                             <div class="col-md">
                                 <label for="">Ocupacion *</label>
@@ -91,6 +94,7 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-md">
                                 <label for="">Fecha Nacimiento*</label>
                                 <div class="form-group">

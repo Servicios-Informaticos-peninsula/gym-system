@@ -87,16 +87,12 @@ Route::patch('perfil/actualizar', ['as' => 'perfil.update', 'uses' => 'UserContr
 
             Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
             Route::resource('inventory', InventoryController::class);
-
             Route::resource('workers', WorkersController::class);
+
             Route::get('bitacora/cancelacion', 'BitacoraCancelacionController@index')->name('bitacora.cancelacion');
             Route::get('bitacora/ventas', 'BitacoraCancelacionController@indexVentas')->name('bitacora.ventas');
             Route::post('corte/caja/inicial', 'CorteCajaController@store')->name('corte.inicial');
             Route::get('corte/caja', 'CorteCajaController@index')->name('corte.caja');
             require __DIR__ . '/ajax/rutas.php';
-
-
-
-
 
 });

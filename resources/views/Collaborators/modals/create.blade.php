@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('Collaborators.store') }}" method="POST" id="product_form">
+            <form action="{{ route('workers.store') }}" method="POST" id="product_form">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
