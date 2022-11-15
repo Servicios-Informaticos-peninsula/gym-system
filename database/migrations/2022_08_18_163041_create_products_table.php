@@ -16,12 +16,14 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('bar_code')->unique();
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
             $table->foreignId('product_units_id')->constrained();
-            $table->text('description');
-            $table->foreignId('providers_id')->constrained();
-            $table->foreignId('category_products_id')->constrained();
+            $table->foreignId('providers_id')->nullable()->constrained();
+            $table->foreignId('category_products_id')->nullable()->constrained();
+            $table->boolean('requireInventory')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

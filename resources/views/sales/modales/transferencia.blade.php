@@ -14,14 +14,17 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <div class="col-md">
-                                    <label for="">Folio Transferencia</label>
+                                    <label for="">Clave de Rastreo</label>
                                     <input type="text" name="claveo_rastreo" id="claveo_rastreo" class="form-control">
                                 </div>
+
+                            </div>
+                            <div class="form-group">
                                 <div class="col-md">
                                     <label for="">Folio Transferencia</label>
-                                    <input type="text" name="folio_transferencia" id="folio_transferencia" class="form-control">
-
+                                    <input type="text" name="folio_trans" id="folio_trans" class="form-control">
                                 </div>
+
                             </div>
 
                         </div>
@@ -32,7 +35,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Cobrar</button>
+                <button id="btnCobrarT" type="button" class="btn btn-primary">Cobrar</button>
             </div>
         </div>
     </div>

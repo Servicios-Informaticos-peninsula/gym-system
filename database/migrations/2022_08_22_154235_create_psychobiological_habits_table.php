@@ -35,6 +35,7 @@ class CreatePsychobiologicalHabitsTable extends Migration
             $table->string('cristal')->nullable();
             $table->foreignId('records_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

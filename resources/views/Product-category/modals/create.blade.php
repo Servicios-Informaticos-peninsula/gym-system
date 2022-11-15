@@ -25,7 +25,8 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('category_name') is-invalid @enderror"
-                                        type="text" name="category_name" placeholder="Nombre Categoría">
+                                        type="text" name="category_name" value="{{ old('category_name') }}"
+                                        placeholder="Nombre Categoría">
                                 </div>
                                 @error('category_name')
                                     <strong class="text-danger">{{ $message }}</strong>
@@ -49,7 +50,7 @@
 
 
                                     <textarea style="resize: none;" class="form-control @error('category_description') is-invalid @enderror"
-                                        name="category_description" placeholder="Valor" cols="10" rows="8"></textarea>
+                                        name="category_description" placeholder="Valor" cols="10" rows="8">{{ old('category_description') }}</textarea>
                                 </div>
                                 @error('category_description')
                                     <strong class="text-danger">{{ $message }}</strong>

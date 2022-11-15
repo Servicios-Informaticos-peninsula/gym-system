@@ -21,6 +21,7 @@ class CreatePersonalitationDialiesTable extends Migration
             $table->boolean('repeat')->default(true);
             $table->foreignId('repeat_catalogs_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

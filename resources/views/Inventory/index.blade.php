@@ -34,6 +34,8 @@
                                             <th>Cantidad</th>
                                             <th>Alerta Minima</th>
                                             <th>Alerta Maxima</th>
+                                            <th>Precio Compra</th>
+                                            <th>Precio Venta</th>
                                             <th>Estado</th>
                                             <th>Fecha</th>
                                             <th>Acciones</th>
@@ -50,9 +52,13 @@
 
                                                 <td class="text-bold-500">{{ $inventory->maximun_alert }}</td>
 
+                                                <td class="text-bold-500">{{ $inventory->purchase_price }}</td>
+
+                                                <td class="text-bold-500">{{ $inventory->sales_price }}</td>
+
                                                 <td class="text-bold-500">{{ $inventory->status }}</td>
 
-                                                <td>{{ $inventory->created_at }}</td>
+                                                <td>{{ $inventory->created_at->toDateString() }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">

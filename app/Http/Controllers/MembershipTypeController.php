@@ -55,6 +55,7 @@ class MembershipTypeController extends Controller
             'days.required' => 'El campo dias de membresias es obligatorio',
 
         ]);
+
         if ($validator->fails()) {
             $error = $validator->errors()->all();
 
@@ -70,17 +71,19 @@ class MembershipTypeController extends Controller
         } else {
             try {
 
-                $membership = MembershipType::create([
-                    'name' => $request->get('name'),
-                    'price' => $request->get('price'),
-                    'category' => $request->category,
-                    'days'=>$request->days
-                ]);
-                // $membership = new MembershipType();
-                // $membership->name = $request->get('name');
-                // $membership->price = $request->price;
-                // $membership->category = $request->get('category');
-                // $membership->save();
+                // $membership = MembershipType::create([
+                //     'name' => $request->get('name'),
+                //     'price' => $request->get('price'),
+                //     'category' => $request->category,
+                //     'days'=>$request->days
+                // ]);
+
+                $membership = new MembershipType();
+                $membership->name = $request->get('name');
+                $membership->price = $request->price;
+                $membership->category = $request->get('category');
+                $membership->days = $request->get('days');
+                $membership->save();
                 // MembershipType::create([
                 //     'name' => $request->name,
                 //     'price' => $request->price,

@@ -44,23 +44,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate( [
-        //         'name' => 'required',
-        //         'surnames' => 'required',
-        //         'email' => 'required',
-        //         'phone' => 'required',
-        //         'contact_phone' => 'required',
-        //     ],   [
-        //         //identificacion
-
-        //         'name.required' => 'El campo de fecha de la entrevista es obligatorio',
-        //         'surnames.required' => 'El campo de ocupacion es obligatorio',
-
-        //         'email.required' => 'El campo de fecha de nacimiento es obligatorio',
-        //         'phone.required' => 'El campo de edad es obligatorio',
-        //         'contact_phone.required' => 'El campo de nombre es obligatorio',
-
-        //     ]);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required', 'string', 'max:255',
@@ -92,7 +75,7 @@ class UserController extends Controller
                     ->withInput();
             }
 
-            // dd($encode);
+
 
         } else {
             try {
@@ -110,7 +93,7 @@ class UserController extends Controller
                     'username' => $name[0] . "." . $surnames[0] . $dia . $mes . $anio,
                     'code_user' => 0,
                     'email' => $request->get('email'),
-                    'phone' => $request->get('phone'),
+                    'phone' =>"+52". $request->get('phone'),
                     'contact_phone' => $request->contact_phone,
                     'ocupation' => $request->get('ocupation'),
                     'born' => $request->get('born'),

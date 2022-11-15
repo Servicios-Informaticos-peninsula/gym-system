@@ -18,6 +18,7 @@ class CreateBitacoraAccesosTable extends Migration
             $table->string('ip_access');
             $table->string('nickname');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

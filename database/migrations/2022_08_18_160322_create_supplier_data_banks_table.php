@@ -20,6 +20,7 @@ class CreateSupplierDataBanksTable extends Migration
             $table->string('accound_clabe');
             $table->foreignId('asigned_by')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

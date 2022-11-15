@@ -19,6 +19,7 @@ class CreateMembershipPaysTable extends Migration
             $table->string('estatus')->default('PE');
 
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

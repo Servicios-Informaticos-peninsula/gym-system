@@ -25,6 +25,7 @@ class CreateInventoriesTable extends Migration
             $table->foreignId('products_id')->constrained();
             $table->enum('status', ['Solicitado', 'Comprado', 'Empaquetado', 'En camino', 'Disponible'])->default('Solicitado');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,9 @@
             <div class="border-bottom px-3">
                 <div class="row">
                     <div class="col-md">
+                        <input type="number" value="{{ $cConsulta }}" id="countCorte" name="countCorte" hidden>
+                        <input type="number" value="{{ $corteCount }}" id="countVoucher" name="countVoucher" hidden>
+                        <input type="text" value="{{ $excedido }}" id="excedido" name="excedido" hidden>
                         <label>Fecha</label>
                         <div class="form-group mb-4">
                             <div class="input-group">
@@ -26,10 +29,17 @@
                                 <input class="form-control" type="date-local" name="" readonly id=""
                                     value="<?php echo date('Y-m-d'); ?>">
 
+
+
+
                             </div>
 
                         </div>
                     </div>
+                    <input class="form-control" type="date-local" name="origenMembresias" readonly id="origenMembresias"
+                        value="{{ $origenMembresias }}" hidden>
+                    <input class="form-control" type="date-local" name="referenciaMembresia" readonly
+                        id="referenciaMembresia" value="{{ $referenciaMembresia }}" hidden>
                     <div class="col-md">
                         <label>Hora</label>
                         <div class="form-group mb-4">
@@ -140,12 +150,14 @@
                             <table class="table table-striped table-hover" style="width:100%" id="total">
                                 <tr>
                                     <th>SubTotal:</th>
-                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price" readonly>
+                                    <td><input type="text" class="form-control" id="sub_price" name="sub_price"
+                                            readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Total:</th>
-                                    <td><input type="text" class="form-control" id="price" name="price"></td>
+                                    <td><input type="text" class="form-control" id="price" name="price"
+                                            readonly></td>
                                 </tr>
                                 <tr>
                                     <th style="background:white;" id="tipo_pago">Tipo Pago</th>
@@ -154,31 +166,49 @@
                                 </tr>
                                 <tr id="cash">
                                     <th>Efectivo</th>
-                                    <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modalEfectivo">
+                                    <td> <button id="modEfectivo" type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#modalEfectivo">
                                             <i class="bi bi-cash"></i>
                                         </button></td>
                                     @include('sales.modales.efectivo')
 
                                 </tr>
-                                <tr id="transfer">
+                                {{-- <tr id="transfer">
                                     <th style="background:white;">Transferencia</th>
                                     <td style="background:white;">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button id="modTransferencia" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalTransferencia">
                                             <i class="bi bi-credit-card"></i>
                                         </button>
                                      </td>
-                                </tr>
+                                </tr> --}}
                                 @include('sales.modales.transferencia')
+                                @include('sales.modales.corte')
+                                @include('sales.modales.corte_final')
+                                @include('sales.modales.impresion')
+                                @include('sales.modales.membresia')
                             </table>
+
                         </div>
 
                     </div>
 
 
                 </div>
+<div class="row">
+    <div class="col-md">
+        <button id="btnCorteFinal" type="button" class="btn btn-primary"
+        data-bs-toggle="modal" data-bs-target="#modalCorteFinal">
+        <i class="bi bi-x-circle-fill">Corte Final</i>
+    </div>
+    <div class="col-md">
+        <button  type="button" class="btn btn-primary"
+        data-bs-toggle="modal" data-bs-target="#modalMembresia">
+        <i class="bi bi-person-square">Validar Membresia Usuario</i>
+    </div>
+</div>
 
+            </button>
             </div>
 
         </div>
@@ -189,7 +219,13 @@
 
 @section('scripts')
     <script>
-        let search = '{{ route('search.products') }}'
+        let search = '{{ route('search.products') }}';
+        let cashPayment = '{{ route('cash.payment') }}';
+        let dataCorte = '{{ route('corte.data') }}';
+        let cerrarCaja = '{{ route('cerrar.caja') }}';
+        let user = '{{ Auth::id() }}';
+        let pdfTicket = '{{ route('enviar.ticket') }}'
+        let validar = '{{route('validacion.memnbresia')}}';
     </script>
     <script src="{{ asset('js_modulos/sale.js') }}"></script>
 @endsection

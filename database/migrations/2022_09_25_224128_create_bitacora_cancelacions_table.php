@@ -16,8 +16,11 @@ class CreateBitacoraCancelacionsTable extends Migration
         Schema::create('bitacora_cancelacions', function (Blueprint $table) {
             $table->id();
             $table->string("motivo");
-            $table->foreignId('pedidos_id')->constrained();
+            $table->string("userCreator");
+            $table->foreignId('carts_id')->constrained();
+$table->string("cSistema");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

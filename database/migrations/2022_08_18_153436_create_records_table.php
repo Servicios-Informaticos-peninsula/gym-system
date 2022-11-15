@@ -75,6 +75,7 @@ class CreateRecordsTable extends Migration
             $table->foreignId('exercises_id')->nullable()->constrained();//
 
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }

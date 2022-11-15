@@ -4,17 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MembershipPay extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = [
         'reference_line',
         'estatus',
 
     ];
-    public function Membership()
-    {
-        return $this->belongsToMany(Membership::class, 'membership_membership_pays', )->withPivot();
-    }
+
 }

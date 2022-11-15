@@ -32,6 +32,7 @@ class CreateWeightControlsTable extends Migration
             $table->string('pierna_izq');
             $table->foreignId('records_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

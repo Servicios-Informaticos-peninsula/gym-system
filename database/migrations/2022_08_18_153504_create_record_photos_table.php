@@ -18,6 +18,7 @@ class CreateRecordPhotosTable extends Migration
             $table->text('path');
             $table->timestamps();
             $table->foreignId('records_id')->nullable()->constrained();
+            $table->softDeletes();
         });
     }
 

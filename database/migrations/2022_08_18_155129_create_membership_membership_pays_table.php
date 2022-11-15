@@ -18,6 +18,7 @@ class CreateMembershipMembershipPaysTable extends Migration
             $table->foreignId('memberships_id')->constrained();
             $table->foreignId('membership_pays_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

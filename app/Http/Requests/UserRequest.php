@@ -24,13 +24,11 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-
-                'name' => [ 'required','string', 'max:255'],
-                'email' => [ 'string', 'email', 'max:255', 'unique:users'],
-              'password' => [ 'string', 'min:8', 'confirmed'],
-                'phone' => ['required', 'max:10'],
-                'code_user'=>[ 'min:8'],
-
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'password' => ['string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'max:10'],
+            'code_user' => ['min:8'],
         ];
     }
     public function messages()
@@ -39,7 +37,6 @@ class UserRequest extends FormRequest
             'name.required' => 'El campo nombre del cliente es obligatorio',
             //'code_user.required' => 'El campo numero de telefono es obligatorio',
             'phone.required' => 'El campo numero de telefono es obligatorio',
-
         ];
     }
 }

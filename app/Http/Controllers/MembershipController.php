@@ -8,9 +8,11 @@ use App\Models\MemberShipMembershipPay;
 use App\Models\MembershipPay;
 use App\Models\MembershipType;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as DB;
 
 class MembershipController extends Controller
 {
@@ -21,13 +23,40 @@ class MembershipController extends Controller
      */
     public function index()
     {
-        $membership = Membership::paginate(10);
+        $Membership = Membership::orderBy('id', 'asc')->paginate(10);
         $membership_types = MembershipType::all();
         $clients = User::role('Cliente')->get();
 
-        return view('Membership.index', compact('membership', 'membership_types', 'clients'));
+        // dd($membership_types);
+
+        return view('Membership.index', compact('Membership', 'membership_types', 'clients'));
     }
 
+    public function validacionMembresia(Request $request)
+    {
+        try {
+            $validacion = Membership::join('users', 'memberships.users_id', '=', 'users.id')
+                ->where('users.code_user', $request->code_user)
+                ->where('memberships.estatus_membresia', 1)
+
+                ->first();
+                if(is_null($validacion)){
+                    throw new Exception("Usted no cuenta con una membresia o ya esta caducada, compre una nueva");
+                }
+
+            return response()->json([
+                'lSuccess' => true,
+                'validacion' => $validacion,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'lSuccess' => false,
+                'cMensaje' => $th->getMessage(),
+            ]);
+        }
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -48,28 +77,51 @@ class MembershipController extends Controller
     {
 
         try {
-
             $reference = mt_rand(00000000001, 9999999990);
+
+            DB::beginTransaction();
 
             $Membership = Membership::create([
                 'users_id' => $request->users_id,
-                'init_date' => $request->init_date,
+                'init_date' => Carbon::now()->format('Y-m-d'),
                 'membership_types_id' => $request->membership_type,
                 'carts_id' => '',
                 'asigned_by' => Auth::id(),
             ]);
 
+            $type = MembershipType::where('id', $Membership->membership_types_id)->first();
+            $fecha_inicio = $Membership->init_date;
+            $dias = (int) $type->days;
+            $fecha_vencimiento = date('Y-m-d', strtotime($fecha_inicio . ' +' . $dias . ' days'));
+            Membership::where('id', $Membership->id)
+                ->update(
+                    ['expiration_date' => $fecha_vencimiento]
+
+                );
             $pay = MembershipPay::create([
-                'reference_line' => $Membership->id . $reference."M",
+                'reference_line' => $Membership->id . $reference . "M",
+            ]);
+
+            $pay_membership = MemberShipMembershipPay::create([
+                'memberships_id' => $Membership->id,
+                'membership_pays_id' => $pay->id,
             ]);
 
             // $pivot = MemberShipMembershipPay::create([
             //     'memberships_id' => $Membership->id,
             //     'membership_pays_id' => $pay->id,
             // ]);
+            DB::commit();
 
-            return redirect()->back()->with('success', 'Registro Éxitoso!');
+            $origenMembresias = true;
+            $referenciaMembresia = $pay->reference_line;
+            // dd();
+            //return redirect()->back()->with('success', 'Registro Éxitoso!');
+            return redirect()->route('sales.point2', compact('origenMembresias', 'referenciaMembresia'));
+            // return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
+
         } catch (Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->with('error', 'Surgio un problema, Intenta de nuevo!');
         }

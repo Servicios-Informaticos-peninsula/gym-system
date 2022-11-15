@@ -64,7 +64,7 @@ $(function ($) {
 
 
     // /**Ocultar otro cirugias */
-    var otro = $("#otro");
+    var otro = $("#requireInventory");
     var especifique = $("#especifique");
     especifique.hide();
     otro.change(function () {

@@ -4,17 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['bar_code', 'name', 'product_units_id', 'description', 'providers_id', 'category_products_id'];
+    protected $fillable = ['bar_code', 'name', 'product_units_id', 'description', 'providers_id', 'requireInventory', 'category_products_id'];
 
     /*
      * Get all of the Units for the Product
