@@ -3,7 +3,6 @@
 @section('content')
     @include('mensajes.mensajes')
 
-
     <div class="container-fluid">
         <header class="card px-2 py-4">
             <div class="d-flex justify-content-between align-items-center">
