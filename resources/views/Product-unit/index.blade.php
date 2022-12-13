@@ -43,7 +43,7 @@
 
                                                 <td class="text-bold-500">{{ $productUnit->value }}</td>
 
-                                                <td>{{ $productUnit->created_at }}</td>
+                                                <td>{{ $productUnit->created_at->toDateString() }}</td>
 
                                                 <td class="text-bold-500" style="width: 150px;">
                                                     <div class="d-flex justify-content-center">
@@ -53,8 +53,7 @@
                                                                 title="Editar Unidad de medida">
 
                                                                 <i class="bi bi-pencil"></i></button>
-
-                                                            @include('Product-unit.modals.edit')
+                                                                @include('Product-unit.modals.edit')
                                                         </div>
 
                                                         <div>

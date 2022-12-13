@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Unidad de medida Productos</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Agregar Unidad de Medida Productos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     @csrf
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="@error('unit_product') border-danger text-danger @enderror">Nombre
                                 Unidad de medida</label>
                             <div class="form-group mb-4">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="@error('unit_value') border-danger text-danger @enderror">Valor</label>
                             <div class="form-group mb-4">
                                 <div class="input-group input-group-alternative">
