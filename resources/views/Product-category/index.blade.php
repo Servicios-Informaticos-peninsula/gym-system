@@ -53,6 +53,7 @@
                                                                 title="Editar Unidad de medida">
 
                                                                 <i class="bi bi-pencil"></i></button>
+                                                                @include('Product-category.modals.edit', $productCategory)
                                                         </div>
 
                                                         <div>
@@ -85,5 +86,4 @@
     </div>
     {{-- section modales --}}
     @include('Product-category.modals.create')
-    @include('Product-category.modals.edit')
 @endsection
