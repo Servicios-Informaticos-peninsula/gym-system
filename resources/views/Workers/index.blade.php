@@ -19,7 +19,6 @@
                     <span class="btn-inner--text">Agregar Colaborador</span>
                 </button>
             </div>
-
         </header>
 
         <div class="card px-2 mt-4 py-4">
@@ -49,7 +48,7 @@
                                                         <td class="text-bold-500">{{ $worker->name }}</td>
                                                         <td class="text-bold-500">{{ $worker->surnames }}</td>
                                                         <td class="text-bold-500">{{ $worker->username }}</td>
-                                                        <td>{{ $worker->phone }}</td>
+                                                        <td class="text-bold-500">{{ $worker->phone }}</td>
                                                         <td class="text-bold-500">{{ $worker->email }}</td>
                                                         <td class="text-bold-500">
                                                             <div class="row">

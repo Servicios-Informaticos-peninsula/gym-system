@@ -62,7 +62,7 @@ class WorkersController extends Controller
                 'password' => Hash::make('123456'),
             ]);
 
-            $user->assignRole('cliente');
+            $user->assignRole('Empleado');
             $user_code = User::where('id', $user->id)->first();
 
             $us = User::where('id', $user_code->id)
