@@ -729,7 +729,7 @@ function enviarTicket() {
         beforeSend: function () {
             swal.fire({
                 title: "Guardando infomacion",
-                text: "Se esta realizando el cierre de caja",
+                text: "Se esta enviando abriendo el cajon",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
                 didOpen: () => {
@@ -740,23 +740,23 @@ function enviarTicket() {
         success: function (r) {
             NProgress.done();
             swal.close();
-            console.log(r.data.cantidad_inicial, r);
+            console.log(r);
             if (r.lSuccess == true) {
                 Swal.fire({
-                    title: "Se cerro la caja Correctamente",
+                    title: "Se abrio el cajon Correctamente",
 
                     confirmButtonText: "Aceptar",
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        reload();
+                       window.location.reload();
                     }
                 });
             } else {
                 swal.fire({
                     icon: "info",
                     title: "Busqueda fallida",
-                    text: "No fue posible traer datos para hacer el corte de caja",
+                    text: "No fue posible abrir el cajon",
 
                     showConfirmButton: true,
                     confirmButtonClass: "btn btn-primary btn-round",
@@ -805,16 +805,16 @@ function cerrarCorte() {
         success: function (r) {
             NProgress.done();
             swal.close();
-            console.log(r.data.cantidad_inicial, r);
+            console.log(r);
             if (r.lSuccess == true) {
                 Swal.fire({
                     title: "Se cerro la caja Correctamente",
-
+icon:"success",
                     confirmButtonText: "Aceptar",
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        reload();
+                        window.location.reload();
                     }
                 });
             } else {
