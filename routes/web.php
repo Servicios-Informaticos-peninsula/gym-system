@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/acceso/usuarios', function () {
-    return view('auth.login');
-});
+// Route::get('/acceso/usuarios', function () {
+//     return view('auth.login');
+// });
 
 Auth::routes(['register' => false, 'login' => true, 'password/confirm' => false, 'password/reset' => false]);
 
@@ -31,8 +31,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 Route::get('perfil/actualizar', ['as' => 'perfil.edit', 'uses' => 'UserController@edit_user']);
 Route::patch('perfil/actualizar', ['as' => 'perfil.update', 'uses' => 'UserController@update_user']);
-
-
 
             Route::get('/punto/venta', [App\Http\Controllers\HomeController::class, 'index'])->name('sales.point');
             Route::get('/punto/venta/2', [App\Http\Controllers\HomeController::class, 'index2'])->name('sales.point2');

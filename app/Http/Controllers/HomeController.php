@@ -28,6 +28,8 @@ class HomeController extends Controller
     public function index()
     {
         try {
+            $ip = request()->ip();
+            var_dump($ip);
             $origenMembresias = false;
             $referenciaMembresia = "";
             $carbon = Carbon::now()->format('Y-m-d');
@@ -63,7 +65,7 @@ class HomeController extends Controller
                 ->select('corte_cajas.lActivo', 'corte_cajas.user_id', 'corte_cajas.cantidad_inicial', 'vouchers.price_total')
                 ->count();
 
-            return view('sales.sale', compact('origenMembresias', 'referenciaMembresia', 'cConsulta', 'corteCount', 'excedido'));
+            return view('sales.sale', compact('origenMembresias', 'referenciaMembresia', 'cConsulta', 'corteCount', 'excedido','ip'));
         } catch (\Throwable $th) {
             return redirect()->back();
         }
@@ -71,6 +73,7 @@ class HomeController extends Controller
     }
     public function index2(Request $request)
     {
+        $ip = request()->ip();
         $carbon = Carbon::now()->format('Y-m-d');
         $user = Auth::id();
         $origenMembresias = $request->origenMembresias;
@@ -104,7 +107,7 @@ class HomeController extends Controller
             ->where('corte_cajas.lActivo', true)
             ->select('corte_cajas.lActivo', 'corte_cajas.user_id', 'corte_cajas.cantidad_inicial', 'vouchers.price_total')
             ->count();
-        return view('sales.sale', compact('origenMembresias', 'referenciaMembresia', 'cConsulta', 'corteCount','excedido'));
+        return view('sales.sale', compact('origenMembresias', 'referenciaMembresia', 'cConsulta', 'corteCount','excedido','ip'));
     }
     public function home()
     {

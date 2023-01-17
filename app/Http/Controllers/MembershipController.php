@@ -77,6 +77,7 @@ class MembershipController extends Controller
     {
 
         try {
+            $ip = request()->ip();
             $reference = mt_rand(00000000001, 9999999990);
 
             DB::beginTransaction();
@@ -117,12 +118,12 @@ class MembershipController extends Controller
             $referenciaMembresia = $pay->reference_line;
             // dd();
             //return redirect()->back()->with('success', 'Registro Éxitoso!');
-            return redirect()->route('sales.point2', compact('origenMembresias', 'referenciaMembresia'));
+            return redirect()->route('sales.point2', compact('origenMembresias', 'referenciaMembresia','ip'));
             // return view('sales.sale', compact('origenMembresias','referenciaMembresia'));
 
         } catch (Exception $e) {
             DB::rollback();
-            dd($e);
+
             return redirect()->back()->with('error', 'Surgio un problema, Intenta de nuevo!');
         }
     }
