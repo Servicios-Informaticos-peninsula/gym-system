@@ -20,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::role('Cliente')->withTrashed()
+        $user = User::role('Cliente')
+            ->withTrashed()
             ->paginate(10);
         return view('user.index', compact('user'));
     }
@@ -43,28 +44,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required', 'string', 'max:255',
-            'surnames' => 'required', 'string', 'max:255',
-            'email' => 'required|unique:users|string',
-            'phone' => 'required|max:10',
-            'contact_phone' => 'required|max:10',
-            'ocupation' => 'required',
-            'born' => 'required',
-        ], [
-            'name.required' => 'El campo de nombre es obligatorio',
-            'name.string' => 'El campo de nombre debe ser texto',
-            'surnames.required' => 'El campo de apellidos es obligatorio',
-            'email.required' => 'El campo de email es obligatorio',
-            'email.unique' => 'El campo de email es unico',
-            'phone.required' => 'El campo de telefono es obligatorio',
-            'contact_phone.required' => 'El campo de número de contacto es obligatorio',
-            'ocupation.required' => 'El campo de ocupacion es obligatorio',
-            'born.required' => 'El campo de fecha de nacimiento es obligatorio',
-
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'string',
+                'max:255',
+                'surnames' => 'required',
+                'string',
+                'max:255',
+                'email' => 'required|unique:users|string',
+                'phone' => 'required|max:10',
+                'contact_phone' => 'required|max:10',
+                'ocupation' => 'required',
+                'born' => 'required',
+            ],
+            [
+                'name.required' => 'El campo de nombre es obligatorio',
+                'name.string' => 'El campo de nombre debe ser texto',
+                'surnames.required' => 'El campo de apellidos es obligatorio',
+                'email.required' => 'El campo de email es obligatorio',
+                'email.unique' => 'El campo de email es unico',
+                'phone.required' => 'El campo de telefono es obligatorio',
+                'contact_phone.required' => 'El campo de número de contacto es obligatorio',
+                'ocupation.required' => 'El campo de ocupacion es obligatorio',
+                'born.required' => 'El campo de fecha de nacimiento es obligatorio',
+            ],
+        );
         if ($validator->fails()) {
             $error = $validator->errors()->all();
 
@@ -74,9 +80,6 @@ class UserController extends Controller
                     ->with('error', $validador)
                     ->withInput();
             }
-
-
-
         } else {
             try {
                 $anio = Carbon::parse($request->get('born'))->format('Y');
@@ -85,15 +88,15 @@ class UserController extends Controller
                 $anio_actual = Carbon::now()->format('Y');
                 $age = $anio_actual - $anio;
 
-                $name = explode(" ", $request->name);
-                $surnames = explode(" ", $request->surnames);
+                $name = explode(' ', $request->name);
+                $surnames = explode(' ', $request->surnames);
                 $user = User::create([
                     'name' => $request->get('name'),
                     'surnames' => $request->get('surnames'),
-                    'username' => $name[0] . "." . $surnames[0] . $dia . $mes . $anio,
+                    'username' => $name[0] . '.' . $surnames[0] . $dia . $mes . $anio,
                     'code_user' => 0,
                     'email' => $request->get('email'),
-                    'phone' =>"+52". $request->get('phone'),
+                    'phone' => '+52' . $request->get('phone'),
                     'contact_phone' => $request->contact_phone,
                     'ocupation' => $request->get('ocupation'),
                     'born' => $request->get('born'),
@@ -104,10 +107,9 @@ class UserController extends Controller
                 $user->assignRole('cliente');
                 $user_code = User::where('id', $user->id)->first();
 
-                $us = User::where('id', $user_code->id)
-                    ->update([
-                        'code_user' => "000" . $user_code->id,
-                    ]);
+                $us = User::where('id', $user_code->id)->update([
+                    'code_user' => '000' . $user_code->id,
+                ]);
 
                 return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
             } catch (\Throwable $th) {
@@ -116,7 +118,6 @@ class UserController extends Controller
                     ->with('error', $th->getMessage())
                     ->withInput();
             }
-
         }
 
         // } catch (\Throwable $th) {
@@ -132,7 +133,6 @@ class UserController extends Controller
         //     ->withInput();
         //     // return back()->with('success', '¡Se agrego el usuario de forma exitosa!');
         // }
-
     }
 
     /**
@@ -168,7 +168,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
             $user = User::findOrFail($id);
             $user->name = $request->name;
             $user->code_user = $request->code_user;
@@ -180,7 +179,6 @@ class UserController extends Controller
             //  dd($user);
             $user->update();
             return back()->with('updated', '¡Se actualizo el usuario de forma exitosa!');
-
         } catch (\Throwable $th) {
             dd($th);
             return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
@@ -210,8 +208,9 @@ class UserController extends Controller
     {
         $usuario = User::find(Auth::User()->id);
         if (empty($usuario)) {
-
-            return redirect()->back()->with('error','Problemas al cargar su Perfil');
+            return redirect()
+                ->back()
+                ->with('error', 'Problemas al cargar su Perfil');
         }
         return view('auth.edit')->with('usuario', $usuario);
     }
@@ -220,25 +219,25 @@ class UserController extends Controller
     {
         $usuario = User::find(Auth::User()->id);
         if (empty($usuario)) {
-            return redirect()->back()->with('error','Problemas al cargar su Perfil');
-
+            return redirect()
+                ->back()
+                ->with('error', 'Problemas al cargar su Perfil');
         }
         //dd($usuario->password);
-       // $decrypt =Crypt::encrypt($usuario->password);
+        // $decrypt =Crypt::encrypt($usuario->password);
 
         //dd($request->all());
         $usuario->name = $request->name;
         $usuario->surnames = $request->surnames;
         $usuario->username = $request->username;
-        $usuario->code_user= $request->code_user;
+        $usuario->code_user = $request->code_user;
         $usuario->email = $request->email;
         $usuario->phone = $request->phone;
         $usuario->contact_phone = $request->contact_phone;
-        if(!is_null($request->password)){
+        if (!is_null($request->password)) {
             $usuario->password = bcrypt($request->password);
-
-        }else{
-            $usuario->password =$usuario->password;
+        } else {
+            $usuario->password = $usuario->password;
         }
 
         $usuario->ocupation = $request->ocupation;
@@ -246,6 +245,6 @@ class UserController extends Controller
         $usuario->born = $request->born;
 
         $usuario->update();
-        return back()->with('success','El perfil se actualizo con exito');
+        return back()->with('success', 'El perfil se actualizo con exito');
     }
 }

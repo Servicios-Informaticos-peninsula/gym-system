@@ -42,9 +42,8 @@ class InventoryController extends Controller
      */
     public function store(InventoryRequest $request)
     {
-
         try {
-          $inventory= Inventory::create([
+            $inventory = Inventory::create([
                 'products_id' => $request->product,
                 'quantity' => $request->quantity,
                 'minimum_alert' => $request->minimum_alert,
@@ -52,9 +51,9 @@ class InventoryController extends Controller
                 'purchase_price' => $request->purchase_price,
                 'sales_price' => $request->sales_price,
                 'asigned_by' => Auth::id(),
-                'status' => $request->product_status
+                'status' => $request->product_status,
             ]);
-           // dd( $inventory);
+            // dd( $inventory);
             return redirect()
                 ->back()
                 ->with('success', 'Registro Éxitoso!');
@@ -76,12 +75,16 @@ class InventoryController extends Controller
     {
         try {
             Inventory::find($id)->update([
-                'status' => $request->product_status
+                'status' => $request->product_status,
             ]);
 
-            return redirect()->back()->with('success', 'Registro Éxitoso!');
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e);
+            return redirect()
+                ->back()
+                ->with('error', $e);
         }
     }
 
@@ -125,7 +128,7 @@ class InventoryController extends Controller
                 'purchase_price' => $request->purchase_price,
                 'sales_price' => $request->seles_price,
                 'asigned_by' => Auth::id(),
-                'status' => $request->product_status
+                'status' => $request->product_status,
             ]);
 
             return redirect()
@@ -149,9 +152,13 @@ class InventoryController extends Controller
         try {
             Inventory::find($id)->delete();
 
-            return redirect()->back()->with('success', 'Registro Éxitoso!');
+            return redirect()
+                ->back()
+                ->with('success', 'Registro Éxitoso!');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', $e);
+            return redirect()
+                ->back()
+                ->with('error', $e);
         }
     }
 }

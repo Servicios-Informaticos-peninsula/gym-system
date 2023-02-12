@@ -26,7 +26,8 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('category_name') is-invalid @enderror"
-                                        type="text" name="category_name" value="{{ old('category_name', $productCategory->name) }}"
+                                        type="text" name="category_name"
+                                        value="{{ old('category_name', $productCategory->name) }}"
                                         placeholder="Nombre Categoría">
                                 </div>
                                 @error('category_name')

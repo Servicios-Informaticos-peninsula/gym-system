@@ -46,12 +46,12 @@ class WorkersController extends Controller
             $anio_actual = Carbon::now()->format('Y');
             $age = $anio_actual - $anio;
 
-            $name = explode(" ", $request->name);
-            $surnames = explode(" ", $request->surnames);
+            $name = explode(' ', $request->name);
+            $surnames = explode(' ', $request->surnames);
             $user = User::create([
                 'name' => $request->get('name'),
                 'surnames' => $request->get('surnames'),
-                'username' => $name[0] . "." . $surnames[0] . $dia . $mes . $anio,
+                'username' => $name[0] . '.' . $surnames[0] . $dia . $mes . $anio,
                 'code_user' => 0,
                 'email' => $request->get('email'),
                 'phone' => $request->get('phone'),
@@ -65,10 +65,9 @@ class WorkersController extends Controller
             $user->assignRole('cliente');
             $user_code = User::where('id', $user->id)->first();
 
-            $us = User::where('id', $user_code->id)
-                ->update([
-                    'code_user' => "000" . $user_code->id,
-                ]);
+            $us = User::where('id', $user_code->id)->update([
+                'code_user' => '000' . $user_code->id,
+            ]);
 
             return back()->with('success', '¡Se agrego al colaborador de forma exitosa!');
         } catch (Exception $e) {

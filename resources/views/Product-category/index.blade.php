@@ -49,7 +49,8 @@
                                                     <div class="d-flex justify-content-center">
                                                         <div class="pe-1">
                                                             <button type="button" class="btn btn-icon btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#editProduct-category"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editProduct-category"
                                                                 title="Editar Unidad de medida">
 
                                                                 <i class="bi bi-pencil"></i></button>
@@ -58,7 +59,8 @@
                                                         </div>
 
                                                         <div>
-                                                            <form action="{{ route('product-categories.destroy', $productCategory->id) }}"
+                                                            <form
+                                                                action="{{ route('product-categories.destroy', $productCategory->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')

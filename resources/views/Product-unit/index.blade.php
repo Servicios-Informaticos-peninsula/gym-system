@@ -58,7 +58,8 @@
                                                         </div>
 
                                                         <div>
-                                                            <form action="{{ route('product-units.destroy', $productUnit->id) }}"
+                                                            <form
+                                                                action="{{ route('product-units.destroy', $productUnit->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')

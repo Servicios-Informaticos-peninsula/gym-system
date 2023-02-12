@@ -14,13 +14,15 @@ class BitacoraAccesoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {return view('bitacoras.acceso');
+    {
+        return view('bitacoras.acceso');
     }
+
     public function getAcceso(Request $request)
     {
-
-        $bitacoraAcceso = Session::join('users','sessions.user_id','=','users.id')
-        ->select('users.name','sessions.user_agent','sessions.ip_address','sessions.payload','sessions.last_activity')->get();
+        $bitacoraAcceso = Session::join('users', 'sessions.user_id', '=', 'users.id')
+            ->select('users.name', 'sessions.user_agent', 'sessions.ip_address', 'sessions.payload', 'sessions.last_activity')
+            ->get();
 
         return $bitacoraAcceso;
     }

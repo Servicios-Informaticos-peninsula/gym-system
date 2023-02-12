@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class BitacorasController extends Controller
 {
-    public function cancelacion(){
-
+    public function cancelacion()
+    {
     }
 }
