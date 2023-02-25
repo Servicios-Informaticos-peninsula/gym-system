@@ -43,11 +43,13 @@ class CorteCajaController extends Controller
         $cantidad_ventas = 0;
         $array = array();
 
-        $corte = Voucher::join('corte_cajas', 'vouchers.corte_cajas_id', '=', 'corte_cajas.id')
-            ->where('corte_cajas.user_id', $request->usuario)
-            ->where('corte_cajas.lActivo', true)
+        $corte = Voucher::
+        join('corte_cajas', 'vouchers.corte_cajas_id', '=', 'corte_cajas.id')
+           ->where('corte_cajas.user_id', $request->usuario)
+        ->where('corte_cajas.lActivo', 1)
             ->select('corte_cajas.lActivo', 'corte_cajas.id', 'corte_cajas.user_id', 'corte_cajas.cantidad_inicial', 'vouchers.price_total')
             ->get();
+
         foreach ($corte as $caja) {
 
             $cantidad_ventas = $cantidad_ventas + $caja->price_total;

@@ -179,8 +179,8 @@
                                             </svg>
                                         </span>
                                         <input class="form-control @error('sales_price') is-invalid @enderror"
-                                            id="sales_price" value="{{ old('sales_price') }}" type="text" name="sales_price"
-                                            placeholder="Precio Venta">
+                                            id="sales_price" value="{{ old('sales_price') }}" type="text"
+                                            name="sales_price" placeholder="Precio Venta">
                                     </div>
                                     @error('sales_price')
                                         <strong class="text-danger">{{ $message }}</strong>

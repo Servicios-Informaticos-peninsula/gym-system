@@ -97,7 +97,8 @@
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative mb-4">
                                         <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                        <input class="form-control" type="date" name="born" id="born" value="{{old('born')}}">
+                                        <input class="form-control" type="date" name="born" id="born"
+                                            value="{{ old('born') }}">
                                     </div>
                                 </div>
                             </div>

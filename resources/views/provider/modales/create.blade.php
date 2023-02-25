@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('provider.store')}}" method="POST">
+                <form action="{{ route('provider.store') }}" method="POST">
                     @csrf
 
                     <div class="col-md-12">
@@ -25,7 +25,10 @@
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                <input class="form-control" type="number" name="number_phone" id="number_phone" maxlength="12" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  min="0">
+                                <input class="form-control" type="number" name="number_phone" id="number_phone"
+                                    maxlength="12"
+                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                    min="0">
                             </div>
                         </div>
                     </div>
@@ -35,7 +38,8 @@
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                <input class="form-control" type="text" id="rfc" name="rfc" maxlength="13" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                <input class="form-control" type="text" id="rfc" name="rfc" maxlength="13"
+                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                             </div>
                         </div>
                     </div>

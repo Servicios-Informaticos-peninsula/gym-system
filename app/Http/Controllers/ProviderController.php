@@ -43,13 +43,12 @@ class ProviderController extends Controller
             }
 
             if (is_null($request->rfc)) {
-                $provider->rfc = "S/N";
+                $provider->rfc = 'S/N';
             } else {
                 $provider->rfc = $request->rfc;
             }
             $provider->save();
             return back()->with('success', '¡Se agrego el proveedor de forma exitosa!');
-
         } catch (\Throwable $th) {
             //dd($th);
             return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
@@ -94,7 +93,6 @@ class ProviderController extends Controller
             $provider->rfc = $request->rfc;
             $provider->update();
             return back()->with('updated', '¡Se modifico el proveedor de forma exitosa!');
-
         } catch (\Throwable $th) {
             //dd($th);
             return back()->with('error', 'Hubo un error al agregar los datos. Contacta a soporte del sistema.');
