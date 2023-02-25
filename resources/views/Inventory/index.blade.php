@@ -85,7 +85,7 @@
                                                         </div>
 
                                                         <div>
-                                                            <form action="{{ route('inventory.destroy', $inventory->id) }}"
+                                                            <form action="{{ route('inventario.destroy', $inventory->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')
