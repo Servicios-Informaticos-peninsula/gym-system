@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
     Route::controller('ProviderController')
-        ->prefix('proveedores/')
+        ->prefix('Proveedores')
         ->group(function () {
             Route::get('lista', 'index')->name('provider.index');
             Route::post('registro', 'store')->name('provider.store');
@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         });
 
     Route::controller('UserController')
-        ->prefix('clientes/')
+        ->prefix('Clientes')
         ->group(function () {
             Route::get('lista', 'index')->name('user.index');
             Route::post('registro', 'store')->name('user.store');
@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         });
 
     Route::controller('EstadisticasController')
-        ->prefix('Estadisticas/')
+        ->prefix('Estadisticas')
         ->group(function () {
             Route::get('lista', 'index')->name('bestSellers.index');
             // Route::post('registro', 'store')->name('user.store');
@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         });
 
     Route::controller('RecordController')
-        ->prefix('expediente/')
+        ->prefix('Expediente')
         ->group(function () {
             Route::get('lista', 'index')->name('record.index');
             Route::get('crear', 'create')->name('record.create');
@@ -82,14 +82,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('product-units', ProductUnitController::class);
     Route::resource('product-categories', ProductCategoryController::class);
 
-    Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventory.status');
-    Route::resource('inventory', InventoryController::class);
+    Route::get('inventory/updateStatus/{id}', 'InventoryController@updateStatus')->name('inventario.status');
+    Route::resource('inventario', InventoryController::class);
 
-    Route::resource('workers', WorkersController::class);
+    Route::resource('colaboradores', CollaboratorsController::class);
+
     Route::get('bitacora/cancelacion', 'BitacoraCancelacionController@index')->name('bitacora.cancelacion');
     Route::get('bitacora/ventas', 'BitacoraCancelacionController@indexVentas')->name('bitacora.ventas');
     Route::post('corte/caja/inicial', 'CorteCajaController@store')->name('corte.inicial');
     Route::get('corte/caja', 'CorteCajaController@index')->name('corte.caja');
     Route::get('index/acceso', 'BitacoraAccesoController@index')->name('index.acceso');
+
     require __DIR__ . '/ajax/rutas.php';
 });
