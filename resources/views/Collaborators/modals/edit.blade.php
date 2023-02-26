@@ -2,12 +2,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Ediatar Colaborador</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Editar Colaborador</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
 
-            <form action="{{ route('Collaborator.update', $product->id) }}" method="POST">
+            <form action="{{ route('Colaboradores.update', $product->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">

@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('inventory.store') }}" method="POST">
+            <form action="{{ route('inventario.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">

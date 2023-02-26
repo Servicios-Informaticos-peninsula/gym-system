@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('inventory.status', $inventory->id) }}" method="POST">
+            <form action="{{ route('inventario.status', $inventory->id) }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     @method('PUT')
