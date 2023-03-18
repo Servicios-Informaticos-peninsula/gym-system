@@ -7,17 +7,17 @@ use App\Models\Voucher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CorteCajaController extends Controller
 {
     public function index()
     {
         $corte_caja = CorteCaja::orderBy('corte_cajas.id')
-        ->join('users','corte_cajas.user_id','=','users.id')->get();
+            ->join('users', 'corte_cajas.user_id', '=', 'users.id')->get();
 
-        return view('corte_caja.index',compact('corte_caja'));
+        return view('corte_caja.index', compact('corte_caja'));
     }
     public function store(Request $request)
     {
@@ -28,7 +28,6 @@ class CorteCajaController extends Controller
         $corte->fecha_inicio = $carbon;
         $corte->hora_inicio = $hora;
         $corte->cantidad_inicial = $request->cantidad_inicial;
-
 
         $corte->lActivo = true;
 
@@ -43,36 +42,62 @@ class CorteCajaController extends Controller
         $cantidad_ventas = 0;
         $array = array();
 
-        $corte = Voucher::
-        join('corte_cajas', 'vouchers.corte_cajas_id', '=', 'corte_cajas.id')
-           ->where('corte_cajas.user_id', $request->usuario)
-        ->where('corte_cajas.lActivo', 1)
+        $corte = Voucher::join('corte_cajas', 'vouchers.corte_cajas_id', '=', 'corte_cajas.id')
+            ->where('corte_cajas.user_id', $request->usuario)
+            ->where('corte_cajas.lActivo', 1)
             ->select('corte_cajas.lActivo', 'corte_cajas.id', 'corte_cajas.user_id', 'corte_cajas.cantidad_inicial', 'vouchers.price_total')
             ->get();
 
-        foreach ($corte as $caja) {
+        if (sizeof($corte) > 0) {
+            foreach ($corte as $caja) {
 
-            $cantidad_ventas = $cantidad_ventas + $caja->price_total;
+                $cantidad_ventas = $cantidad_ventas + $caja->price_total;
+            }
+
+            $array =
+                (
+                [
+                    'user_id' => $caja->user_id,
+                    'cantidad_inicial' => $caja->cantidad_inicial,
+                    'total_ventas' => $cantidad_ventas,
+                    'corte_caja_id' => $caja->id,
+                ]
+            );
+
+            return response()->json([
+                'data' => $array,
+                'lSuccess' => true,
+            ]);
+        } else {
+            $corte = CorteCaja::where('user_id', $request->usuario)
+            ->where('lActivo', 1)
+            ->select('lActivo', 'id', 'user_id', 'cantidad_inicial')
+            ->get();
+            foreach ($corte as $caja) {
+
+                $cantidad_ventas = $cantidad_ventas + $caja->price_total;
+            }
+
+            $array =
+                (
+                [
+                    'user_id' => $caja->user_id,
+                    'cantidad_inicial' => $caja->cantidad_inicial,
+                    'total_ventas' => 0,
+                    'corte_caja_id' => $caja->id,
+                ]
+            );
+            return response()->json([
+                'data' => $array,
+                'iKey' => 78,
+                'lSuccess' => true,
+            ]);
         }
 
-        $array =
-            (
-            [
-                'user_id' => $caja->user_id,
-                'cantidad_inicial' => $caja->cantidad_inicial,
-                'total_ventas' => $cantidad_ventas,
-                'corte_caja_id' => $caja->id,
-            ]
-        );
-
-        return response()->json([
-            'data' => $array,
-            'lSuccess' => true,
-        ]);
     }
     public function update(Request $request)
     {
-DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $validator = Validator::make($request->all(), [
@@ -100,7 +125,7 @@ DB::beginTransaction();
                 $fecha_final = Carbon::now()->format('Y-m-d');
                 $hora_final = Carbon::now()->format('H:m:s');
 
-                 CorteCaja::where('id', $request->id)->update(array(
+                CorteCaja::where('id', $request->id)->update(array(
                     'fecha_final' => $fecha_final,
                     'hora_final' => $hora_final,
                     'cantidad_final' => $request->cantidad_final,
@@ -109,12 +134,12 @@ DB::beginTransaction();
                     'lActivo' => false,
 
                 ));
-DB::commit();
-               return response()->json(
-               [
-                'lSuccess'=>true,
-                'cMensaje'=>"Se ha cerrado correctamente la caja"
-               ]);
+                DB::commit();
+                return response()->json(
+                    [
+                        'lSuccess' => true,
+                        'cMensaje' => "Se ha cerrado correctamente la caja",
+                    ]);
             }
 
         } catch (\Throwable $th) {
@@ -122,8 +147,8 @@ DB::commit();
 
             return response()->json(
                 [
-                 'lSuccess'=>false,
-                 'cMensaje'=>$th->getMessage()
+                    'lSuccess' => false,
+                    'cMensaje' => $th->getMessage(),
                 ]);
         }
 

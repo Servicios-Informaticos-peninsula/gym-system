@@ -35,11 +35,8 @@ $(function ($) {
     console.log(countVoucher);
     if (countVoucher > 0) {
         $("#btnCorteFinal").show();
-
-    }else{
-
+    } else {
         $("#btnCorteFinal").hide();
-
     }
     $("input[name=cantidad_final]").change(function () {
         let cantidad_final = $("#cantidad_final").val();
@@ -215,10 +212,9 @@ $(function ($) {
         });
     });
 
-    $("#btnMembresia").on('click',function(){
+    $("#btnMembresia").on("click", function () {
         validarMembresia();
     });
-
 });
 
 function selectProducto() {
@@ -659,6 +655,7 @@ function data() {
             swal.close();
             console.log(r.data.cantidad_inicial, r);
             if (r.lSuccess == true) {
+
                 $("#id_corte").val(r.data.corte_caja_id);
                 $("#fondo_caja").val(r.data.cantidad_inicial);
                 $("#total_venta").val(r.data.total_ventas);
@@ -719,7 +716,6 @@ function imprimirTicket(id) {
     });
 }
 
-
 function enviarTicket() {
     $.ajax({
         url: pdfTicket,
@@ -749,7 +745,7 @@ function enviarTicket() {
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                       window.location.reload();
+                        window.location.reload();
                     }
                 });
             } else {
@@ -772,7 +768,6 @@ function enviarTicket() {
             alert("Problemas con procedimiento.");
         },
     });
-
 }
 function cerrarCorte() {
     let id = $("#id_corte").val();
@@ -809,7 +804,7 @@ function cerrarCorte() {
             if (r.lSuccess == true) {
                 Swal.fire({
                     title: "Se cerro la caja Correctamente",
-icon:"success",
+                    icon: "success",
                     confirmButtonText: "Aceptar",
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
@@ -848,7 +843,6 @@ function validarMembresia() {
         dataType: "json",
         data: {
             code_user: code_user,
-
         },
         beforeSend: function () {
             swal.fire({
@@ -866,7 +860,6 @@ function validarMembresia() {
             swal.close();
 
             if (r.lSuccess == true) {
-
                 swal.fire({
                     icon: "info",
                     title: "Busqueda fallida",
@@ -878,9 +871,9 @@ function validarMembresia() {
                     buttonsStyling: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                    window.location.reload();
+                        window.location.reload();
                     }
-                  });
+                });
             } else {
                 swal.fire({
                     icon: "info",
@@ -895,8 +888,7 @@ function validarMembresia() {
                     if (result.isConfirmed) {
                         window.location.reload();
                     }
-                  });
-
+                });
             }
         },
         error: function (err) {
