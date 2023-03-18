@@ -32,7 +32,6 @@ class SalesController extends Controller
      */
     public function index(Request $request)
     {
-
     }
 
     public function cashPayment(Request $request)
@@ -53,7 +52,6 @@ class SalesController extends Controller
             $cart = Carts::create([
                 'clients_id' => $userID,
                 'numero_venta' => $numVenta + 1,
-
             ]);
 
             $productos = $request->productos;
@@ -67,7 +65,6 @@ class SalesController extends Controller
                     'products_id' => $pro->id_product,
                     'quantity' => $pro->cantidad,
                     'lMembresia' => $pro->lmembresia == 1 ? true : false,
-
                 ]);
 
                 $corte = CorteCaja::where('lActivo', true)
@@ -75,12 +72,10 @@ class SalesController extends Controller
                     ->first();
 
                 if (!is_null($corte)) {
-
                     $idCorte = $corte->id;
                 }
 
-                if ($pro->lmembresia == "true") {
-
+                if ($pro->lmembresia == 'true') {
                     $membresia = Membership::join('membership_types', 'memberships.membership_types_id', '=', 'membership_types.id')
                         ->join('membership_membership_pays', 'memberships.id', '=', 'membership_membership_pays.memberships_id')
 
@@ -94,49 +89,37 @@ class SalesController extends Controller
                         $expiration_date = Carbon::now()->addDay($membresia->days);
                     }
 
-                    Membership::where('memberships.id', $membresia->id)
-                        ->update([
-                            'carts_id' => $cart->id,
-                            'expiration_date' => $expiration_date,
-                            'estatus_membresia' => 1,
+                    Membership::where('memberships.id', $membresia->id)->update([
+                        'carts_id' => $cart->id,
+                        'expiration_date' => $expiration_date,
+                        'estatus_membresia' => 1,
+                    ]);
 
-                        ]);
-
-                    MembershipPay::where('reference_line', $membresia->lineReference)
-                        ->update([
-                            'estatus' => 'P',
-                        ]);
-
+                    MembershipPay::where('reference_line', $membresia->lineReference)->update([
+                        'estatus' => 'P',
+                    ]);
                 } else {
-
                     $requireInventory = Product::where('id', $pro->id_product)->first();
 
                     if ($requireInventory->requireInventory) {
                         $cantidad = Inventory::where('products_id', $pro->id_product)->first();
-                        $inventory = Inventory::where('products_id', $pro->id_product)
-                            ->update([
-                                'quantity' => ($cantidad->quantity) - ($pro->cantidad),
-                            ]);
+                        $inventory = Inventory::where('products_id', $pro->id_product)->update([
+                            'quantity' => $cantidad->quantity - $pro->cantidad,
+                        ]);
                         if ($inventory) {
-
                             $alert = Inventory::where('products_id', $pro->id_product)
                                 ->join('products', 'inventories.products_id', '=', 'products.id')
                                 ->first();
                             $user = User::role('Admininistrador')->first();
                             if (!is_null($alert->maximun_alert)) {
-
                                 if ($alert->cantdad <= $alert->maximun_alert) {
-
-                                    $mensaje = "La cantidad del producto " . $alert->name . " es de " . $alert->quantity;
+                                    $mensaje = 'La cantidad del producto ' . $alert->name . ' es de ' . $alert->quantity;
                                     $this->sendMessage($mensaje, $user->phone);
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
 
             switch ($request->tipoPago) {
@@ -146,12 +129,11 @@ class SalesController extends Controller
                         'quantity' => $request->totalproductos,
                         'price_total' => $request->precioTotal,
                         'vendendor' => $userID,
-                        'tipo_pago' => "EFECTIVO",
+                        'tipo_pago' => 'EFECTIVO',
                         'cantidad_pagada' => $request->pago,
                         'cambio' => $request->cambio,
-                        'estatus' => "P",
+                        'estatus' => 'P',
                         'corte_cajas_id' => $idCorte,
-
                     ]);
 
                 case 2:
@@ -160,23 +142,21 @@ class SalesController extends Controller
                         'quantity' => $request->totalproductos,
                         'price_total' => $request->precioTotal,
                         'vendendor' => $userID,
-                        'tipo_pago' => "TRANSFERENCIA",
+                        'tipo_pago' => 'TRANSFERENCIA',
                         'claveo_rastreo' => $request->referenciaPago,
                         'folio_transferencia' => $request->folioTransferencia,
-                        'estatus' => "P",
+                        'estatus' => 'P',
                         'corte_cajas_id' => $idCorte,
                     ]);
 
                     break;
                 case 3:
-
                     BitacoraCancelacion::create([
                         'motivo' => $request->motivo,
                         'userCreator' => $userID,
                         'carts_id' => $cart->id,
-                        'cSistema' => "Punto de venta web",
+                        'cSistema' => 'Punto de venta web',
                         //'corte_cajas_id'=>$idCorte,
-
                     ]);
 
                     break;
@@ -186,21 +166,17 @@ class SalesController extends Controller
                 // dd('hola');
                 return response()->json([
                     'lSuccess' => true,
-                    'cMensaje' => "",
+                    'cMensaje' => '',
                     'cobro' => true,
                     'voucher' => $voucher,
                 ]);
-
             } else {
-
                 return response()->json([
                     'lSuccess' => true,
-                    'cMensaje' => "",
+                    'cMensaje' => '',
                     'cobro' => false,
-
                 ]);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([
@@ -208,13 +184,11 @@ class SalesController extends Controller
                 'cMensaje' => $th->getMessage(),
             ]);
         }
-
     }
 
     public function search(Request $request)
     {
         try {
-
             $gridProductos = [];
 
             $producto = Inventory::join('products', 'inventories.products_id', '=', 'products.id')
@@ -231,10 +205,8 @@ class SalesController extends Controller
             //declaracion negativa
 
             if (sizeof($producto) > 0) {
-
                 foreach ($producto as $pro) {
-
-                    $list = new stdClass; //?
+                    $list = new stdClass(); //?
 
                     $list->name = $pro->name;
                     $list->id_product = $pro->id;
@@ -242,16 +214,13 @@ class SalesController extends Controller
                     $list->sales_price = $pro->sales_price;
                     $list->quantity = $pro->quantity;
                     $list->lmembresia = false;
-                    $list->lineReference = "noaplica";
+                    $list->lineReference = 'noaplica';
 
                     $gridProductos[] = $list;
-
                 }
 
                 return $gridProductos;
-
             } else {
-
                 // $membresiaRef =  MembershipPay::where('reference_line',$request->producto)
                 // ->first();
 
@@ -269,26 +238,22 @@ class SalesController extends Controller
                 //dd($membresia);
 
                 foreach ($membresia as $memb) {
-
-                    $list = new stdClass;
+                    $list = new stdClass();
 
                     $list->name = $memb->name;
                     $list->id_product = $memb->id;
                     $list->cantidad = 1;
                     $list->sales_price = $memb->price;
-                    $list->quantity = "no aplica";
+                    $list->quantity = 'no aplica';
                     $list->lmembresia = true;
                     $list->lineReference = $memb->lineReference;
                     $gridProductos[] = $list;
-
                 }
 
                 // dd($gridProductos);
 
                 return $gridProductos;
-
             }
-
         } catch (\Throwable $th) {
             return response()->json([
                 'lSuccess' => false,
@@ -303,12 +268,11 @@ class SalesController extends Controller
      */
     private function sendMessage($message, $recipients)
     {
-        $account_sid = getenv("TWILIO_SID");
-        $auth_token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_number = getenv("TWILIO_NUMBER");
+        $account_sid = getenv('TWILIO_SID');
+        $auth_token = getenv('TWILIO_AUTH_TOKEN');
+        $twilio_number = getenv('TWILIO_NUMBER');
         $client = new Client($account_sid, $auth_token);
-        $client->messages->create($recipients,
-            ['from' => $twilio_number, 'body' => $message]);
+        $client->messages->create($recipients, ['from' => $twilio_number, 'body' => $message]);
     }
     public function create()
     {
@@ -323,7 +287,6 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     /**
@@ -335,9 +298,9 @@ class SalesController extends Controller
 
     public function show(Request $request)
     {
-
         try {
-            $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            $data = DB::table('vouchers')
+                ->join('carts', 'vouchers.carts_id', '=', 'carts.id')
                 ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
                 ->join('products', 'carts_has_products.products_id', '=', 'products.id')
                 ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
@@ -345,7 +308,8 @@ class SalesController extends Controller
                 ->where('vouchers.id', $request->id)
 
                 ->first();
-            $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            $cart = DB::table('vouchers')
+                ->join('carts', 'vouchers.carts_id', '=', 'carts.id')
                 ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
                 ->join('products', 'carts_has_products.products_id', '=', 'products.id')
                 ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
@@ -358,8 +322,8 @@ class SalesController extends Controller
                 ->where('vouchers.id', $request->id)
                 ->first();
 
-            $logo = EscposImage::load("img/logo-ticket.png", false);
-            $impresora = Configurations::getConfiguracion("IMPRESORATICKETS");
+            $logo = EscposImage::load('img/logo-ticket.png', false);
+            $impresora = Configurations::getConfiguracion('IMPRESORATICKETS');
             // dump($impresora);
             $nombreImpresora = $impresora;
             $connector = new WindowsPrintConnector($nombreImpresora);
@@ -403,21 +367,19 @@ class SalesController extends Controller
 
             return response()->json([
                 'lSuccess' => true,
-                'cMensaje' => "ticket Impreso",
+                'cMensaje' => 'ticket Impreso',
             ]);
         } catch (\Throwable $th) {
-
             return response()->json([
                 'lSuccess' => false,
-                'cMensaje' => "error",
+                'cMensaje' => 'error',
             ]);
         }
-
     }
 
     public function enviarTicket()
     {
-        $impresora = Configurations::getConfiguracion("IMPRESORATICKETS");
+        $impresora = Configurations::getConfiguracion('IMPRESORATICKETS');
         // dump($impresora);
         $nombreImpresora = $impresora;
         $connector = new WindowsPrintConnector($nombreImpresora);
@@ -432,39 +394,57 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function verTicket($id){
-
-        $data = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-        ->join('users', 'carts.clients_id', '=', 'users.id')
-       ->where('vouchers.carts_id', $id)
-
-        ->first();
-
-                $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
-        ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
-        ->join('products', 'carts_has_products.products_id', '=', 'products.id')
-        ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
-        ->join('users', 'carts.clients_id', '=', 'users.id')
-        ->where('vouchers.carts_id', $id)
-        ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
-        ->get();
-
-                $fecha = DB::table('vouchers')
+    public function verTicket($id)
+    {
+        $data = DB::table('vouchers')
+            ->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
             ->where('vouchers.carts_id', $id)
-        ->first();
-              $pdf = PDF::loadView('sales/pdf/ticket', compact('data', 'cart', 'fecha'))
-                 ->setPaper('A4', 'portrait');
-         $pdf->output();
+
+            ->first();
+
+        $cart = DB::table('vouchers')
+            ->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+            ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+            ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+            ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+            ->join('users', 'carts.clients_id', '=', 'users.id')
+            ->where('vouchers.carts_id', $id)
+            ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+            ->get();
+
+        //         $cart = DB::table('vouchers')->join('carts', 'vouchers.carts_id', '=', 'carts.id')
+        // ->leftjoin('carts_has_products', 'carts.id', '=', 'carts_has_products.carts_id')
+        // ->join('products', 'carts_has_products.products_id', '=', 'products.id')
+        // ->leftjoin('inventories', 'products.id', '=', 'inventories.products_id')
+        // ->join('users', 'carts.clients_id', '=', 'users.id')
+        // ->where('vouchers.carts_id', $id)
+        // ->select('products.name', 'carts_has_products.quantity', 'inventories.sales_price')
+        // ->get();
+
+        //         $fecha = DB::table('vouchers')
+        //     ->where('vouchers.carts_id', $id)
+        // ->first();
+        //       $pdf = PDF::loadView('sales/pdf/ticket', compact('data', 'cart', 'fecha'))
+        //          ->setPaper('A4', 'portrait');
+        //  $pdf->output();
 
 
 
 
-                $filename = "ticket.pdf";
-         return $pdf->stream($filename);
+        //         $filename = "ticket.pdf";
+        //  return $pdf->stream($filename);
+        $fecha = DB::table('vouchers')
+            ->where('vouchers.carts_id', $id)
+            ->first();
+        $pdf = PDF::loadView('sales/pdf/ticket', compact('data', 'cart', 'fecha'))->setPaper('A4', 'portrait');
+        $pdf->output();
 
+        $filename = 'ticket.pdf';
+        return $pdf->stream($filename);
     }
     public function edit($id)
     {
@@ -492,6 +472,5 @@ class SalesController extends Controller
     public function destroy($id)
     {
         //
-
     }
 }

@@ -8,6 +8,7 @@
             </div>
 
             <form action="{{ route('product-units.update', $productUnit->id) }}" method="POST">
+                @method('put')
                 <div class="modal-body">
                     @csrf
                     <div class="row">
@@ -48,7 +49,7 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('unit_value') is-invalid @enderror" type="text"
-                                        name="unit_value" value="{{ old('unit_value', $productUnit->name) }}" placeholder="Valor">
+                                        name="unit_value" value="{{ old('unit_value', $productUnit->value) }}" placeholder="Valor">
                                 </div>
                                 @error('unit_value')
                                     <strong class="text-danger">{{ $message }}</strong>

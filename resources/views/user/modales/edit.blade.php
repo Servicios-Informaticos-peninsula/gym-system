@@ -38,8 +38,7 @@
                         <div class="form-group">
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                <input class="form-control" type="number" name="phone" id="phone"
-                                    maxlength="10"
+                                <input class="form-control" type="number" name="phone" id="phone" maxlength="10"
                                     oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                     min="0" value="{{ $row->phone }}">
                             </div>
@@ -52,7 +51,6 @@
                             <div class="input-group input-group-alternative mb-4">
                                 <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
                                 <input class="form-control" type="text" id="email" name="email"
-
                                     value="{{ $row->email }}">
                             </div>
                         </div>

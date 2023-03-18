@@ -31,7 +31,7 @@ class HomeController extends Controller
             $ip = request()->ip();
             var_dump($ip);
             $origenMembresias = false;
-            $referenciaMembresia = "";
+            $referenciaMembresia = '';
             $carbon = Carbon::now()->format('Y-m-d');
             $user = Auth::id();
             $excedido = false;
@@ -45,14 +45,12 @@ class HomeController extends Controller
                     ->first();
 
                 if ($carbon > $cConsulta->fecha_inicio) {
-
                     $excedido = true;
                     $cConsulta = CorteCaja::where('fecha_inicio', $cConsulta->fecha_inicio)
-                    ->where('lActivo',true)
+                        ->where('lActivo', true)
                         ->where('user_id', $user)
                         ->count();
                 } else {
-
                     $cConsulta = CorteCaja::where('fecha_inicio', $carbon)
                         ->where('user_id', $user)
                         ->count();
@@ -69,7 +67,6 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back();
         }
-
     }
     public function index2(Request $request)
     {
@@ -79,28 +76,26 @@ class HomeController extends Controller
         $origenMembresias = $request->origenMembresias;
         $referenciaMembresia = $request->referenciaMembresia;
         $excedido = false;
+        $cConsulta = CorteCaja::where('user_id', $user)
+            ->where('lActivo', true)
+            ->count();
+
+        if ($cConsulta > 0) {
             $cConsulta = CorteCaja::where('user_id', $user)
                 ->where('lActivo', true)
-                ->count();
-
-            if ($cConsulta > 0) {
-                $cConsulta = CorteCaja::where('user_id', $user)
+                ->first();
+            if ($carbon > $cConsulta->fecha_inicio) {
+                $excedido = true;
+                $cConsulta = CorteCaja::where('fecha_inicio', $cConsulta->fecha_inicio)
                     ->where('lActivo', true)
-                    ->first();
-                if ($carbon > $cConsulta->fecha_inicio) {
-
-                    $excedido = true;
-                    $cConsulta = CorteCaja::where('fecha_inicio', $cConsulta->fecha_inicio)
-                    ->where('lActivo',true)
-                        ->where('user_id', $user)
-                        ->count();
-                } else {
-
-                    $cConsulta = CorteCaja::where('fecha_inicio', $carbon)
-                        ->where('user_id', $user)
-                        ->count();
-                }
+                    ->where('user_id', $user)
+                    ->count();
+            } else {
+                $cConsulta = CorteCaja::where('fecha_inicio', $carbon)
+                    ->where('user_id', $user)
+                    ->count();
             }
+        }
 
         $corteCount = Voucher::join('corte_cajas', 'vouchers.corte_cajas_id', '=', 'corte_cajas.id')
             ->where('corte_cajas.user_id', $user)

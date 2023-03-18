@@ -24,10 +24,11 @@ class WorkersRequests extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['string', 'email', 'max:255', 'unique:users'],
-            'password' => ['string', 'min:8', 'confirmed'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
+            'born' => ['required', 'date'],
             'phone' => ['required', 'max:10'],
+            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'password' => ['string', 'min:8'],
             'code_user' => ['min:8'],
         ];
     }

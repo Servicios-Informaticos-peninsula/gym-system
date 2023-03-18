@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('mensajes.mensajes')
+    @include('mensajes.mensajes')
 
     <div class="container-fluid">
         <header class="card px-2 py-4">
@@ -39,33 +39,42 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($proveedores as $row )
-                                                <tr>
+                                                @foreach ($proveedores as $row)
+                                                    <tr>
 
-                                                    <td class="text-bold-500">{{$row->name}}</td>
-                                                    <td>{{$row->number_phone}}</td>
-                                                    <td class="text-bold-500">{{$row->rfc}}</td>
-                                                    <td class="text-bold-500">  <div class="row">
-                                                        <div class="col-md-6">
-                                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProveedor-{{$row->id}}" title="Editar Proveedor">
-
-
-                                                                <i class="bi bi-pencil"></i></a>
-                                                        </div>
-                                                        @include('provider.modales.edit')
-                                                        <div class="col-md-6">
-                                                            <form action="{{route('provider.destroy',$row->id)}}" method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-icon btn-danger" title="Eliminar Proveedor"><i class="bi bi-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-
-                                                    </div></td>
+                                                        <td class="text-bold-500">{{ $row->name }}</td>
+                                                        <td>{{ $row->number_phone }}</td>
+                                                        <td class="text-bold-500">{{ $row->rfc }}</td>
+                                                        <td class="text-bold-500">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editProveedor-{{ $row->id }}"
+                                                                        title="Editar Proveedor">
 
 
-                                                </tr>
+                                                                        <i class="bi bi-pencil"></i></a>
+                                                                </div>
+                                                                @include('provider.modales.edit')
+                                                                <div class="col-md-6">
+                                                                    <form action="{{ route('provider.destroy', $row->id) }}"
+                                                                        method="post">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-icon btn-danger"
+                                                                            title="Eliminar Proveedor"><i
+                                                                                class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+
+
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -75,7 +84,7 @@
 
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                {{$proveedores->links('vendor.pagination.bootstrap-4')}}
+                                {{ $proveedores->links('vendor.pagination.bootstrap-4') }}
                             </div>
 
                         </div>
